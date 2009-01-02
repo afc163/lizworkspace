@@ -1,0 +1,22 @@
+Zipf定律
+1932年,哈佛大学的语言学专家Zipf在研究英文单词出现的频率时,发现如果把单词出现的频率按由大到小的顺序排列,则每个单词出现的频率与它的名次的常数次幂存在简单的反比关系，这种分布就称为Zipf定律,它表明在英语单词中,只有极少数的词被经常使用,而绝大多数词很少被使用.实际上,包括汉语在内的许多国家的语言都有这种特点。
+
+早在上个世纪30年代，就有人（Zipf）对此作出了研究，并给出了量化的表达——齐普夫定律（Zipf's Law）：一个词在一个有相当长度的语篇中的等级序号（该词在按出现次数排列的词表中的位置，他称之为rank，简称r）与该词的出现次数（他称为 frequency，简称f）的乘积几乎是一个常数（constant，简称C）。用公式表示，就是 r × f = C 。
+
+Zipf定律是文献计量学的重要定律之一，它和罗特卡定律、布拉德福定律一起被并称为文献计量学的三大定律。
+
+
+
+
+找到相关文章
+篇　名	基于PLSA方法的用户兴趣聚类
+並列篇名	User Interests Clustering Based on PLSA
+
+
+http://hi.baidu.com/linyoweb/blog/item/dc06c394ad38c44dd1135ed3.html
+
+website popularity和Zip分布 http://www.useit.com/alertbox/zipf.html
+Diversity is Power for Specialized Sites http://www.useit.com/alertbox/20030616.html
+
+wikipedia: http://en.wikipedia.org/wiki/Zipf%27s_law
+zipf的争议

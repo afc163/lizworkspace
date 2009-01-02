@@ -1,0 +1,20 @@
+FUNCTIONS
+    decrypt(cypher, key)
+        Decrypts a cypher with the private key 'key'
+    
+    encrypt(message, key)
+        Encrypts a string 'message' with the public key 'key'
+    
+    gen_pubpriv_keys(nbits)
+        Generates public and private keys, and returns them as (pub,
+        priv).
+        
+        The public key consists of a dict {e: ..., , n: ....). The private
+        key consists of a dict {d: ...., p: ...., q: ....).
+    
+    sign(message, key)
+        Signs a string 'message' with the private key 'key'
+    
+    verify(cypher, key)
+        Verifies a cypher with the public key 'key'
+

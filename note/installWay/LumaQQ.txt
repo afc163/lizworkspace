@@ -1,0 +1,27 @@
+在lumaqq主页http: //lumaqq.linuxsir.org/main/?q=node/18下载了 LUMAQQ和补丁。lumaqq_2005- linux_gtk2_x86_ with_jre.tar.gz 和lumaqq_2005_patch_2006.02.02.15.00.zip 最好下载带jre的，启动速度快，否则启动时会狂读硬盘寻找jre。
+将这两个文件分别解压至 /opt/目录下。
+
+sudo tar zxvf lumaqq_2005-linux_gtk2_x86_with_jre.tar.gz -C /opt/
+
+sudo unzip -o lumaqq_2005_patch_2006.02.02.15.00.zip -d /opt/LumaQQ/lib
+
+尔后将lumaqq写入应用程序菜单：
+sudo gedit /usr/share/applications/LumaQQ.desktop写入
+
+[Desktop Entry]
+
+Name=LumaQQ
+
+Comment=QQ Client
+
+Exec=/opt/LumaQQ/lumaqq
+
+Icon=/opt/LumaQQ/QQ.png
+
+Terminal=false
+
+Type=Application
+
+Categories=Application;Network;
+
+保存退出，LUMAQQ的快捷方式出现 应用程序 -> internat -> LumaQQ。

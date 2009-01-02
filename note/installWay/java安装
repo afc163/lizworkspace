@@ -1,0 +1,94 @@
+1、安装6.0版本的jdk，使用 以下命令：
+sudo aptitude install sun-java6-jdk
+2、设置默认java：
+sudo update-alternatives --config java
+sudo update-alternatives --config javac
+3、/etc/environment 文件中环境变量的设置：
+CLASSPATH=/usr/lib/jvm/java-6-sun-1.6.0.00/lib/
+JAVA_HOME=/usr/lib/jvm/java-6-sun-1.6.0.00/
+
+
+方法一：
+
+1. 下载文件
+
+JDK  jdk-6-linux-i586.bin  http://java.sun.com
+eclipse  eclipse-SDK-3.2-linux-gtk.tar.gz  http://www.eclipse.org
+CDT  org.eclipse.cdt-3.1.0-linux.x86.tar.gz  http://www.eclipse.org/cdt
+
+（都下载到/opt/，安装也安装在/opt/）
+
+2.按照jdk6
+
+chmod a+x jdk-6-linux-i586.bin
+
+./jdk-6-linux-i586.bin
+
+添加JAVA_HOME/JRE_HOME环境变量,这里以最常用的bash命令解释器为例，编辑用户目录下的.bashrc或.profile文件。如果你想在所有用户的shell下都生效，就编辑/etc/profile文件。同样都是加入以下内容：
+
+export JAVA_HOME=/opt/jdk1.6.0
+export JRE_HOME=/opt/jdk1.6.0/jre
+export CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATH
+export PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH
+
+3.按照eclipse
+
+tar -zxvf eclipse-SDK-3.2-linux-gtk.tar.gz
+
+编写一个执行脚本eclipse.sh，内容如下：
+
+#eclipse
+#
+export JAVA_HOME=/opt/jdk1.6.0
+export CLASSPATH=/opt/jdk1.6.0/lib
+/opt/eclipse/eclipse -vm /opt/jdk1.6.0/bin/java -data ~/workspace &
+
+然后
+
+cp eclipse.sh /usr/local/bin
+chmod 755 /usr/local/bin/eclipse.sh
+
+将eclipse.sh 添加到桌面。桌面上按下鼠标右键，在弹出菜单中选择“创建启动器”，在“名称”中输入Eclipse、“命令”中填 /usr/local/bin/eclipse.sh，按“确定”，桌面上就有eclipse的快捷方式了，以后可以直接双击这个图标启动 Eclipse。
+
+4.安装cdt
+
+tar -zxvf org.eclipse.cdt-3.1.0-linux.x86.tar.gz 
+
+
+
+
+
+
+
+
+
+
+方法二：
+Ubuntu 在安装时，如同大部分 Linux 发行版一样，都会同时安装 GNU 版本的 Java。这个 Java 的实用程度太低，尤其对于开发人员来说，是没有太多用处的。在 Ubuntu 下，安装 SUN Java 是一件很容易的事情。第一步：
+
+sudo apt-get install sun-java5-jdk
+安装完毕之后，选择默认 java：
+sudo update-alternatives --config java
+然后配置环境变量：
+sudo vim /etc/environment
+在其中添加如下两行：
+CLASSPATH=/usr/lib/jvm/java-1.5.0-sun/lib
+JAVA_HOME=/usr/lib/jvm/java-1.5.0-sun
+保存退出。
+
+之后安装配置 Eclipse。安装很简单：
+sudo apt-get install eclipse
+虽然已经这时新安装的 java 已经成为系统默认的 jvm，但是 Eclipse 并不会用 update-alternative 设置的 jvm 来启动自身，而使用的是以前的 GNU Java。GNU Java 是 1.4.2 的实现，而且在性能上远不如 SUN 的实现。为了让 Eclipse 利用 SUN Java 启动，我们还需要继续配置。首先将 SUN Java 完完全全的设置为系统的默认 JDK：
+sudo update-java-alternatives -s java-1.5.0-sun
+然后编辑 JVM 配置文件：
+sudo vim /etc/jvm
+将文件中的
+/usr/lib/jvm/java-1.5.0-sun
+这一行移动到配置块的顶部。由于 Eclipse 会忽略 Ubuntu 的通用 Java 设置（貌似一个 bug），我们需要继续编辑 Eclipse 的 java_home 文件：
+sudo vim /etc/eclipse/java_home
+如同上面一样，将
+/usr/lib/jvm/java-1.5.0-sun
+这一行移动到文件的顶部。
+
+所有的安装配置完成之后，Ubuntu 的 Java 开发平台就基本完备了。
+

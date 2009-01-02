@@ -1,0 +1,76 @@
+用ubuntu好久了，就是不知道怎么用telnet服务。现在弄好了，整理一下资料，供大家学习参考。
+1、安装xinetd 以及telnetd
+
+liceven@liceven-laptop:~$ sudo apt-get install xinetd telnetd
+获取：1 http://ubuntu.cn99.com feisty/main xinetd 1:2.3.14-1ubuntu1 [135kB]
+获取：2 http://ubuntu.cn99.com feisty/universe telnetd 0.17-35ubuntu1 [42.0kB] 
+下载 177kB，耗时 7s (25.2kB/s)                                                 
+选中了曾被取消选择的软件包 xinetd。
+(正在读取数据库 ... 系统当前总共安装有 123141 个文件和目录。)
+正在解压缩 xinetd (从 .../xinetd_1%3a2.3.14-1ubuntu1_i386.deb) ...
+选中了曾被取消选择的软件包 telnetd。
+正在解压缩 telnetd (从 .../telnetd_0.17-35ubuntu1_i386.deb) ...
+正在设置 xinetd (2.3.14-1ubuntu1) ...
+Stopping internet superserver: xinetd.
+增加 `diversion of /etc/init.d/inetd to /etc/init.d/inetd.real by xinetd’
+Starting internet superserver: xinetd.
+
+正在设置 telnetd (0.17-35ubuntu1) ...
+--------- IMPORTANT INFORMATION FOR XINETD USERS ----------
+The following line will be added to your /etc/inetd.conf file:
+
+telnet          stream  tcp     nowait  telnetd /usr/sbin/tcpd  /usr/sbin/in.telnetd
+
+If you are indeed using xinetd, you will have to convert the
+above into /etc/xinetd.conf format, and add it manually. See
+/usr/share/doc/xinetd/README.Debian for more information.
+-----------------------------------------------------------
+
+
+2、配置文件
+
+A。 /etc/inetd.conf
+
+liceven@liceven-laptop:~$ cat /etc/inetd.conf （如果存在就不需要了） 
+
+telnet stream tcp nowait telnetd /usr/sbin/tcpd /usr/sbin/in.telnetd 
+B. /etc/xinetd.conf
+
+root@liceven-laptop:/etc# cat xinetd.conf
+# Simple configuration file for xinetd
+#
+# Some defaults, and include /etc/xinetd.d/
+
+defaults
+{
+
+# Please note that you need a log_type line to be able to use log_on_success
+# and log_on_failure. The default is the following :
+# log_type = SYSLOG daemon info(插入红色部分）
+instances = 60 
+log_type = SYSLOG authpriv 
+log_on_success = HOST PID 
+log_on_failure = HOST 
+cps = 25 30  
+}
+
+includedir /etc/xinetd.d
+
+C。/etc/xinetd.d/telnet并加入以下内容：
+# default: on  
+# description: The telnet server serves telnet sessions; it uses \  
+# unencrypted username/password pairs for authentication.  
+service telnet  
+{  
+disable = no  
+flags = REUSE  
+socket_type = stream  
+wait = no  
+user = root  
+server = /usr/sbin/in.telnetd  
+log_on_failure += USERID  
+}  
+
+
+5. 重启机器或重启网络服务sudo /etc/init.d/xinetd restart  
+6. 使用TELNET客户端远程登录；ifconfig -a显示本机地址 

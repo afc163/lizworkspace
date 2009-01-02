@@ -1,0 +1,157 @@
+Ubuntu上安装apache+subversion+trac+mod_python完整过程记录
+
+1、安装python2.5.2
+下载python2.5.2并解压
+$   506  ./configure --prefix=/home/shengyan/software/python2.5.2 --with-zlib
+$ make
+$ make install
+###完毕
+    
+2、安装apache
+下载httpd-2.2.6并解压
+$ ./configure --prefix=/home/shengyan/software/apache2
+$ make
+$ make install
+$ /home/shengyan/software/apache2/bin/apachectl start
+将/home/shengyan/software/apache2/bin/加入到PATH中
+
+若出现...checking for C compiler default output file name... configure: error: C compiler cannot create executables，安装glibc6-dev
+若出现httpd: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1 for ServerName
+(13)Permission denied: make_sock: could not bind to address 0.0.0.0:80
+no listening sockets available, shutting down
+修改conf/httpd.conf中Listen port为8888 ServerName为127.0.0.1:8888
+
+###完毕
+
+3、安装mod_python-3.3.1
+下载mod_python-3.3.1并解压wget http://apache.mirror.phpchina.com/httpd/modpython/mod_python-3.3.1.tgz
+$ ./configure --with-apxs=/home/shengyan/software/apache2/bin/apxs --with-python=/home/shengyan/software/python2.5.2/bin/python
+$ make
+$ make install
+这里未出现cjj的64位错误
+
+###完毕，检查apache2/modules中存在mod_python.so了
+
+4、安装subversion-1.4.3
+下载http://subversion.tigris.org/downloads/subversion-1.4.3.tar.gz并解压
+下载http://subversion.tigris.org/downloads/subversion-deps-1.4.3.tar.gz并解压到同一文件夹中
+$ ./configure --with-apr=/home/shengyan/software/apache2 --with-apr-util=/home/shengyan/software/apache2 --with-apxs=/home/shengyan/software/apache2/bin/apxs --prefix=/home/shengyan/software/subversion LDFLAGS="-L/home/shengyan/software/expat2/lib" CPPFLAGS="-I/home/shengyan/software/expat2/include"
+$ make
+$ make install
+
+若出现configure: error: subversion requires zlib
+找到http://www.linuxdiyf.com/bbs/redirect.php?tid=85350&goto=lastpost 解决zlib问题如下：
+1) cd zlib  # 这个目录是subversion-deps-1.4.3.tar.gz中解压出来的
+2) ./configure --shared
+3) make
+4) cd ..
+
+若出现configure: error: no XML parser was found: expat or libxml 2.x required
+configure failed for neon错误
+下载expat重新安装完毕。路径为/home/shengyan/software/expat2
+
+5、配置svn http://man.chinaunix.net/linux/debian/debian_learning/ch09s14.html
+设置PATH=$PATH:/home/shengyan/software/subversion/bin
+创建版本库$ svnadmin create /home/shengyan/Repository
+导入源码$ svn import /home/shengyan/workspace  file:///home/shengyan/Repository/workspace 
+#因为~/.subversion/config中由于没有设置$EDITOR，得修改editor-cmd = vim #(vi, emacs, notepad, etc.)（这里得注意editor-cmd前面不加空格，否则会出现错误svn: /home/shengyan/.subversion/config:27: Option expected）
+不习惯用vim增加消息，所以直接加-m选项。
+$ svn list file:///home/shengyan/Repository/ 可以看到workspace
+启动版本库svnserve -d -r /home/shengyan/Repository
+###svn完毕
+
+6、安装好提供WebDAV访问和svn访问的的mod_dav模块和mod_dav_svn模块
+http://osdir.com/ml/apache.mod-dav.general/2005-08/msg00077.html 上说，对于apache2.x不需要安装mod_dav，mod_dav_svn似乎也不用
+直接修改conf/httpd.conf，增加
+<Location /svn>
+    DAV svn
+    #SVNListParentPath on
+    SVNPath /home/shengyan/Repository
+    #SVNParentPath /home/shengyan/Repository
+    #AuthType Basic
+    #AuthName "Subversion Repositories"
+    #AuthUserFile /home/shengyan/software/apache2/passwd
+    #AuthzSVNAccessFile /home/shengyan/software/apache2/authz
+    #Require valid-user
+</Location>
+可以，但加入用户验证就是不对。svn+apache授权错误是因为
+htpasswd创建错误
+先前htpasswd -cbp /home/shengyan/software/apache2/passwd shengyan lizzie1985一直不对，后来直接htpasswd -c passwd shengyan就可以了
+
+7、安装swig
+$ wget http://easynews.dl.sourceforge.net/sourceforge/swig/swig-1.3.25.tar.gz
+$ ./configure --prefix=/home/shengyan/software/swig1.3 --with-python=/home/shengyan/software/python2.5.2
+$ make
+$ make install
+出现错误redeclaration of C++ built-in type bool，这个是由于g++安装不完整，新立得中安装g++及相关库ok了
+
+8、安装trac
+直接安装trac缺少setuptools，新立得安装setuptools
+shengyan@SHENGYAN:~/software/Trac-0.11$ python setup.py install --prefix=/home/shengyan/software/python2.5.2
+若出现错误：bad install directory or PYTHONPATH...which Python does not read ".pth" files from.
+解决：设置环境变量export PYTHONPATH=/home/shengyan/software/python2.5.2:/home/shengyan/software/python2.5.2/lib/python2.5/site-packages
+
+完成install后
+初始化$ trac-admin $HOME/software/trac initenv
+里面要设置正确repository等
+启动$ tracd --port 8000 /home/shengyan/software/trac
+但访问http://127.0.0.1:8000/trac 有和cjj出现一样的问题，即首页显示Warning: Can't synchronize with the repository (Unsupported version control system "svn". Check that the Python support libraries for "svn" are correctly installed.)
+解决是得安装svn-swig，也就是回到之前的4
+直接$ make swig-py
+出现错误说libtools  ...  not find ...apr-util/libaprutil-0.la'这种类似的
+解决是得重新configure subversion
+$ ./configure --with-apr=/home/shengyan/software/apache2 --with-apr-util=/home/shengyan/software/apache2 --with-apxs=/home/shengyan/software/apache2/bin/apxs --prefix=/home/shengyan/software/subversion --with-swig=/home/shengyan/software/swig1.3 LDFLAGS="-L/home/shengyan/software/expat2/lib" CPPFLAGS="-I/home/shengyan/software/expat2/include"
+$ make swig-py  #终于没错误了
+$ make install-swig-py  #OK
+
+将/home/shengyan/software/subversion/lib/svn-python拷贝到/home/shengyan /software/python2.5.2/lib/python2.5/site-packages这个不对，出现warning的，只能修改 PYTHONPATH后OK。后来尝试把/home/shengyan/software/subversion/lib/svn-python下的两个文件夹libsvn和svn直接拷贝到/home/shengyan/software/python2.5.2/lib/python2.5 /site-packages，这个是可以的。
+
+9、trac+apache
+修改httpd.conf
+增加LoadModule python_module modules/mod_python.so
+
+<Location /trac>
+    SetHandler mod_python
+    PythonInterpreter main_interpreter
+    PythonHandler trac.web.modpython_frontend
+    PythonOption TracEnv /home/shengyan/software/trac
+</Location>
+<Location /trac/login>
+  AuthType Basic
+  AuthName "TRAC"
+  AuthUserFile /home/shengyan/software/apache2/passwd
+  Require valid-user
+</Location>
+
+访问http://localhost:8888/trac出现nternal Server Error，查看error_log为
+ZipImportError: can't decompress data; zlib not available
+找到http://mail.zope.org/pipermail/zope/2004-November/154739.html ，也就是python需要zlib。直接拷贝一个zlib.so到/home/shengyan/software/python2.5.2/lib/python2.5/lib-dynload。这是由于1中未加--with-zlib
+
+http://localhost:8888/trac刷新下，页面上又出现 self._version = get_pkginfo(sqlite).get(
+NameError: global name 'sqlite' is not defined
+缺少PySqlite，下载并安装http://trac.edgewall.org/wiki/PySqlite
+shengyan@SHENGYAN:~/software/pysqlite-2.4.1$ python setup.py install
+出现...在包含自 src/module.c：24 的文件中:
+src/connection.h:33:21: 错误： sqlite3.h：没有该文件或目录
+安装libsqlite3-dev
+shengyan@SHENGYAN:~/software/pysqlite-2.4.1$ python setup.py install  #OK
+
+
+中文化的和cjj一样
+
+（1）下载
+（2）unzip zoomquiettranslation.zip
+（3）trac-admin trac wiki load /home/shengyan/software/zoomquiettranslation/trunk/0.11.x/default-pages
+（4）编辑/home/shengyan/software/trac/conf/trac.ini文件，增加
+[mainnav]
+wiki.href = /wiki/ZhWikiStart
+
+[metanav]
+help.href = /wiki/ZhTracGuide
+（5）cp ~/zoomquiettranslation/branches/Trac0.10.4zh1/wiki-macros/ZhTracGuideToc.py /home/shengyan/software/trac/plugins
+
+出现No macro or processor named 'ZhTracGuideToc' found
+
+解决：http://trac-hacks.org/svn/zoomquiettranslation/trunk/0.11.x/ 下的ZhTracGuideToc.py覆盖原来的ZhTracGuideToc.py
+
+好了，整个结束。

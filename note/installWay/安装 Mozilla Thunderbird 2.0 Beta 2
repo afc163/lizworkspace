@@ -1,0 +1,161 @@
+目前在 Ubuntu 系统中装载的 Mozilla Thunderbird 稳定版本为 1.5.0.10，对于希望尝鲜最新的 2.0 Beta 2 版的朋友来说，就需要手动安装啰。
+
+在 Ubuntu 中安装 Mozilla Thunderbird 2.0 Beta 2 的步骤如下：
+
+   1. 从 Mozilla Thunderbird 的官方下载页面获取该最新版。
+   2. 将下载的包解到 /opt 目录：
+      sudo tar zxvf thunderbird-2.0b2.tar.gz -C /opt/
+   3. 更改文件所有者：
+      sudo chown -R root:root /opt/thunderbird/
+   4. 更改文件访问权限：
+      sudo chmod -R 755 /opt/thunderbird/
+   5. 创建菜单项目：
+      sudo gedit /usr/share/applications/thunderbird.desktop
+      其内容为：
+
+      [Desktop Entry]
+      Encoding=UTF-8
+      Name=Mozilla Thunderbird
+      Comment=E-mail Client
+      Exec=/opt/thunderbird/thunderbird
+      Icon=/usr/share/icons/gartoon/scalable/apps/thunderbird.svg
+      Terminal=false
+      Type=Application
+      Categories=Application;Network;
+      StartupNotify=true
+
+      注意，你可能需要更改 Mozilla Thunderbird 的菜单图标的位置，如果你没有安装 Gartoon 图标主题的话。
+
+现在通过 Internet -> Mozilla Thunderbird 菜单命令就可以运行 Mozilla Thunderbird 2.0 Beta 2 了。 
+
+
+Thunderbird官方没有给出详细的安装文档，虽说他强大到解压缩就可用，但是这最后的1％对广大菜鸟朋友来说，还是有些难度的，我有幸安装最新版的thunderbird成功，下面我将把我的安装过程同大家共享！！！
+
+目录
+1，安装Thunderbird 2.0.0.6简体中文版;
+2, 安装后无响应问题解决办法;
+3, 导入老版本的帐户同邮件
+
+1，安装Thunderbird 2.0.0.6简体中文版
+
+1.1 打开终端,我们将要把它安装到 /opt 目录下:
+
+代码:
+cd /opt
+
+
+1.2 下载thunderbird,也可以自己下载最新版,然后拷贝到/opt下:
+链接如下:http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/2.0.0.6/linux-i686/zh-CN/thunderbird-2.0.0.6.tar.gz
+
+代码:
+sudo wget http://releases.mozilla.org/pub/mozilla.org/thunderbird/releases/2.0.0.6/linux-i686/zh-CN/thunderbird-2.0.0.6.tar.gz
+
+
+1.3 解压缩下载文件到/opt,解压缩文件夹名字为thunderbird
+
+代码:
+sudo tar -xvf thunderbird-2.0.0.6.tar.gz
+
+
+1.4 更改文件夹所有者同访问权限:
+
+代码:
+sudo chown -R root:root /opt/thunderbird/
+
+sudo chmod -R 755 /opt/thunderbird/
+
+
+1.5 建立链接文件:
+
+代码:
+sudo gedit /usr/bin/thunderbird.sh
+
+
+1.6 拷贝一下内容到相应编辑器中,然后保存并关闭.
+
+代码:
+cd /opt/thunderbird/
+./thunderbird
+
+
+1.7 使该文件具有可执行属性:
+
+代码:
+sudo chmod +x /usr/bin/thunderbird.sh
+
+
+1.8 建立快捷方式:
+
+代码:
+sudo gedit /usr/share/applications/thunderbird.desktop
+
+
+1.9 拷贝一下内容到相应编辑器中,然后保存并关闭.
+
+代码:
+[Desktop Entry]
+Name=Thunderbird
+Comment=Read/Write Mail/News with Mozilla Thunderbird
+Exec=thunderbird.sh
+Icon=/opt/Thunderbird/chrome/icons/default/default.xpm
+Terminal=false
+Type=Application
+Categories=Application;Network;
+
+
+ps: 如果这步没有反应的请自己手动添加一下,我实验了n遍,在Internet菜单下就是没快捷方式,郁闷... ...最后手动解决.另外,在终端中输入thunderbird.sh也可以启动的.
+
+2, 安装后无响应问题解决办法:
+
+执行完上述操作后,在 应用程序--Internet--Thunderbird,就可以看到连接了,但是执行后无响应,在终端中执行命令: thunderbird.sh 提示出错:Segmentation fault (core dumped).
+实际上很多程序都会出现这个问题,可以同样参考以下解决方法:
+
+2.1 用管理员的身份编辑链接文件,本文中就是thunderbird.sh,在文件开头这样一串文字后:
+
+代码:
+#!/bin/sh
+#
+
+
+另起一行,添加: GTK_IM_MODULE=scim-bridge
+
+2.2 举例:
+原来的thunderbird.sh
+
+代码:
+#!/bin/sh
+#
+# ***** BEGIN LICENSE BLOCK *****
+# Version: MPL 1.1/GPL 2.0/LGPL 2.1
+#
+# The contents of this file are subject to the Mozilla Public License Version
+... ...
+
+
+修改后的thunderbird.sh
+
+代码:
+#!/bin/sh
+#
+GTK_IM_MODULE=scim-bridge
+# ***** BEGIN LICENSE BLOCK *****
+# Version: MPL 1.1/GPL 2.0/LGPL 2.1
+#
+# The contents of this file are subject to the Mozilla Public License Version
+... ...
+
+
+3, 导入老版本的帐户同邮件
+
+3.1 安装好之后你可能会发现,打开Thunderbird后,原来的帐户邮件不见了需要重新设置一切... ...不要紧张,这是由于手动安装同APT安装对保存这些文件目录的定义不同造成的.
+你的老版本的一切都安全的躺在 /home/username/.mozilla-thunderbird (username是指你的帐户名,每个人不同的哦),而手动版本却改到了 /home/username/.thunderbird 下,我们需要做得就是把两个文件夹里的内容互换一下.
+
+3.2 操作方法：
+这是我的方式,你的可以不同.高手们请忍耐,再一次刺痛了你们,请原谅我的菜,命令行的东西我是能躲就躲,呵呵!!!!!!
+进入 /home/username/.thunderbird --------- Ctrl+A ------- 删除.
+进入 /home/username/.mozilla-thunderbird --------- Ctrl+A ------- Ctrl+C 复制 ------- 回到 /home/username/.thunderbird ------- Ctrl+V 粘贴
+删除 /home/username/.mozilla-thunderbird,不放心的话,先留着,没问题后再删不迟!!!!!
+哈,喘口气先,原来命令行的好处就是可以简单的把我说的一堆废话用简单的一两句话代替,可惜,我不会!!!!!
+3.3 打开Thunderbird吧,享受新版本的快感吧!
+
+哈哈，终于完成了!好长的文章，希望通过本文给广大向我一样的朋友一点提示!!!! 原来ubuntu下安装软件还是很有趣的吗!!!!

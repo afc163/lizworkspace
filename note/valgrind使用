@@ -1,0 +1,58 @@
+http://blog.youxu.info/2008/10/29/seven-habits-of-highly-effective-programmers/
+
+1) 使用工具找Bug,而不是人工找
+ * 单元测试: JUnit
+ * 使用assert语句
+C语言
+#define ASSERT(value, msg) if (!(value)) {fprinft(stderr, "At file %s, line %d: \n message: %s\n", __FILE__, __LINE__, msg); exit(-1);}
+很多语言都有assert语句
+
+ * 使用容器找Bug
+C,推荐valgrind, 能够把 C/C++ 程序放到一个容器中执行, 记下每一个内存访问. 被这样的容器 debug 一下, 基本上指针指飞了 (Segmentation Fault) 的情况几乎就没有了. 想像一下是用 GDB 追踪非法指针和内存泄露方便, 还是用容器告诉你哪一个指针非法, 哪一个内存没释放方便
+gdb
+
+2) 自动化工具构建
+ant, makefile 自动解决依赖
+
+3) 手头备好常用API手册
+
+4) 日志记录比直接输出屏幕要好. 清晰的日志记录
+More Programming Pearls   这个之前尝试过...
+
+5) 充分使用命令行小工具,而不是手工
+grep/sed
+
+6) 优化
+不要盲目优化,,,Knuth 名言: Premature optimization is the root of all evil. (提前优化是万恶之源).
+首先使用profile测试分析下...再动手.
+
+
+
+############################################################################
+valgrind使用...http://valgrind.org/docs/manual/quick-start.html
+valgind提供不同的工具:http://valgrind.org/docs/manual/manual-intro.html#manual-intro.overview
+ * Memcheck 检查内存分配问题: 
+  * 未初始化的内存使用
+  * 对已经释放的内存再进行读写
+  * malloc块溢出
+  * 读写栈中不适当的区域
+  * 内存泄漏
+  * malloc/new/new [] 和 free/delete/delete []的不匹配
+  * ...
+ * Cachegrind cache profiler,缓存的...It performs detailed simulation of the I1, D1 and L2 caches in your CPU and so can accurately pinpoint the sources of cache misses in your code. It will show the number of cache misses, memory references and instructions accruing to each line of source code, with per-function, per-module and whole-program summaries. If you ask really nicely it will even show counts for each individual machine instruction.
+ * Callgind ... is a profiler similar in concept to Cachegrind, but which also tracks caller-callee relationships. By doing so it is able to show how instruction, memory reference and cache miss costs flow between callers and callees. Callgrind collects a large amount of data which is best navigated using Josef Weidendorfer's amazing KCachegrind visualisation tool (http://kcachegrind.sourceforge.net). KCachegrind is a KDE application which presents these profiling results in a graphical and easy-to-understand form.
+ * Massif ... is a heap profiler. It measures how much heap memory programs use. In particular, it can give you information about heap blocks, heap administration overheads, and stack sizes.
+
+Heap profiling can help you reduce the amount of memory your program uses. On modern machines with virtual memory, this reduces the chances that your program will run out of memory, and may make it faster by reducing the amount of paging needed.
+ * Helgrind  ... detects synchronisation errors in programs that use the POSIX pthreads threading primitives. It detects the following three classes of errors:
+
+ * Misuses of the POSIX pthreads API.
+ * Potential deadlocks arising from lock ordering problems.
+ * Data races -- accessing memory without adequate locking.
+
+Problems like these often result in unreproducible, timing-dependent crashes, deadlocks and other misbehaviour, and can be difficult to find by other means.
+
+
+valgrind --leak-check=yes memtest
+valgrind --tool=memcheck memtest
+valgrind --tool=memcheck ls -l  # memcheck是缺省的.

@@ -1,0 +1,1426 @@
+1) jQuery( expression, [context] ) expression查询表达式,context是元素或者jquery
+选择: $("div > p").css("border", "1px solid gray");
+也就是div下的p元素的css设为...
+
+2) jQuery( html, [ownerDocument] )
+直接传递HTML字符串返回DOM元素
+$("<span/>") or $("<span></span>")
+
+$("<div><p>Hello</p></div>").appendTo("body")
+注意/的使用:
+// Does NOT work in IE:
+$("<input/>").attr("type", "checkbox");
+// Does work in IE:
+$("<input type='checkbox'/>");
+
+3) jQuery( elements ) 
+Wrap jQuery functionality around a single or multiple DOM Element(s).
+$(document.body).css( "background", "black" );
+$(myForm.elements).hide()
+
+4) jQuery( callback ) 
+$(document).ready().当DOM文档完成加载时,,,,另外的写法:
+$(function(){
+  // Document is ready
+});
+jQuery(function($) {
+  // Your code using failsafe $ alias here...
+});
+
+5) each( callback ) 对符合条件的元素每个都执行function
+    $("span").click(function () {
+      $("li").each(function(){
+        $(this).toggleClass("example");
+      });
+    });   每个li执行改变class
+    $("button").click(function () {
+      $("div").each(function (index, domEle) {
+        // domEle == this
+        $(domEle).css("backgroundColor", "yellow"); 
+        if ($(this).is("#stop")) {
+          $("span").text("Stopped at div index #" + index);
+          return false;
+        }
+      });
+    });
+
+6) length 返回jQuery对象的元素个数, 同size
+    $(document.body).click(function () {
+      $(document.body).append($("<div>"));
+      var n = $("div").length;
+      $("span").text("There are " + n + " divs." +
+                     "Click to add more.");
+    }).trigger('click'); // trigger the click to start
+
+7) eq( position ) 
+从0开始对符合的元素赋予一个数值
+0~length-1
+
+$("p").eq(1).css("color", "red")
+
+8) get( )
+This serves as a backwards-compatible way of accessing all matched elements (other than the jQuery object itself, which is, in fact, an array of elements). It is useful if you need to operate on the DOM elements themselves instead of using built-in jQuery functions.
+
+    function disp(divs) {
+      var a = [];
+      for (var i = 0; i < divs.length; i++) {
+        a.push(divs[i].innerHTML);
+      }
+      $("span").text(a.join(" "));
+    }
+    
+    disp( $("div").get().reverse() );
+
+9) get( index )
+    $("*", document.body).click(function (e) {
+      e.stopPropagation();
+      var domEl = $(this).get(0);
+      $("span:first").text("Clicked on - " + domEl.tagName);
+    });
+
+10) index( subject ) 
+    $("div").click(function () {
+      // this is the dom element clicked
+      var index = $("div").index(this);
+      $("span").text("That was div index #" + index);
+    });
+
+11) data( name ) 
+返回指定名字的元素数据
+    $("button").click(function(e) {
+      var value;
+
+      switch ($("button").index(this)) {
+        case 0 :
+          value = $("div").data("blah");
+          break;
+        case 1 :
+          $("div").data("blah", "hello");
+          value = "Stored!";
+          break;
+        case 2 :
+          $("div").data("blah", 86);
+          value = "Stored!";
+          break;
+        case 3 :
+          $("div").removeData("blah");
+          value = "Removed!";
+          break;
+      }
+
+      $("span").text("" + value);
+    });
+    
+12) data( name, value ) 
+    $("div").data("test", { first: 16, last: "pizza!" });
+    $("span:first").text($("div").data("test").first); //first和last可能是指span的第一个和最后一个
+    $("span:last").text($("div").data("test").last);
+从这个例子中看出也有字典这个结构
+
+13) removeData( name ) 
+    $("span:eq(0)").text("" + $("div").data("test1"));
+    $("div").data("test1", "VALUE-1");
+    $("div").data("test2", "VALUE-2");
+    $("span:eq(1)").text("" + $("div").data("test1"));
+    $("div").removeData("test1");
+    $("span:eq(2)").text("" + $("div").data("test1"));
+    $("span:eq(3)").text("" + $("div").data("test2"));
+
+
+14) jQuery.fn.extend( object ) 
+Extends the jQuery element set to provide new methods (used to make a typical jQuery plugin).
+jQuery.fn.extend({
+  check: function() {
+    return this.each(function() { this.checked = true; });
+  },
+  uncheck: function() {
+    return this.each(function() { this.checked = false; });
+  }
+});
+也是增加两个函数,使之可以这样用:
+$("input[@type=checkbox]").check();
+$("input[@type=radio]").uncheck();
+
+
+15) jQuery.extend( object ) Extends the jQuery object itself.
+jQuery.extend({
+  min: function(a, b) { return a < b ? a : b; },
+  max: function(a, b) { return a > b ? a : b; }
+});
+增加两个函数Adds two functions into the jQuery namespace.
+jQuery.min(2,3); // => 2
+jQuery.max(4,5); // => 5
+
+16) jQuery.noConflict( ) 
+jQuery.noConflict();
+// Do something with jQuery
+jQuery("div p").hide();  //可以将$("div p")直接用jQuery("div p")代替
+// Do something with another library's $()
+$("content").style.display = 'none';
+
+
+
+17) jQuery.noConflict( extreme ) 
+var dom = {};
+dom.query = jQuery.noConflict(true);
+
+// Do something with the new jQuery
+dom.query("div p").hide();
+// Do something with another library's $()
+$("content").style.display = 'none';
+// Do something with another version of jQuery
+jQuery("div > p").hide();
+
+//////////////////////////////////////////////////////////////////////
+API/1.2/Selectors
+From jQuery JavaScript Library
+(Redirected from Selectors)
+Jump to: navigation, search
+
+Basics:
+
+Name	Type
+#id 	Returns: Array<Element>
+Matches a single element with the given id attribute.
+
+element 	Returns: Array<Element(s)>
+Matches all elements with the given name.
+
+.class 	Returns: Array<Element(s)>
+Matches all elements with the given class.
+
+* 	Returns: Array<Element(s)>
+Matches all elements.
+
+selector1, selector2, selectorN 	Returns: Array<Element(s)>
+Matches the combined results of all the specified selectors.
+$("div,span,p.myClass").css("border","3px solid red");
+div,span,...中满足一个就可以了
+
+
+Hierarchy:
+
+Name	Type
+ancestor descendant 	Returns: Array<Element(s)>
+Matches all descendant elements specified by "descendant" of elements specified by "ancestor".
+$("form input").css("border", "2px dotted blue");
+form中的input都...
+
+parent > child 	Returns: Array<Element(s)>
+Matches all child elements specified by "child" of elements specified by "parent".
+
+prev + next 	Returns: Array<Element(s)>
+Matches all next elements specified by "next" that are next to elements specified by "prev".
+$("label + input").css("color", "blue").val("Labeled!")
+
+prev ~ siblings 	Returns: Array<Element(s)>
+Matches all sibling elements after the "prev" element that match the filtering "siblings" selector.
+$("#prev ~ div").css("border", "3px groove blue");
+
+
+Basic Filters:
+Name	Type
+:first 	Returns: Array<Element>
+Matches the first selected element.
+
+:last 	Returns: Array<Element>
+Matches the last selected element.
+
+:not(selector) 	Returns: Array<Element(s)>
+Filters out all elements matching the given selector.
+
+:even 	Returns: Array<Element(s)>
+Matches even elements, zero-indexed.
+
+:odd 	Returns: Array<Element(s)>
+Matches odd elements, zero-indexed.
+
+:eq(index) 	Returns: Array<Element>
+Matches a single element by its index.
+
+:gt(index) 	Returns: Array<Element(s)>
+Matches all elements with an index above the given one.
+
+:lt(index) 	Returns: Array<Element(s)>
+Matches all elements with an index below the given one.
+
+:header 	Returns: Array<Element(s)>
+Matches all elements that are headers, like h1, h2, h3 and so on.
+
+:animated 	Returns: Array<Element(s)>
+Matches all elements that are currently being animated.
+    $("#run").click(function(){
+      $("div:animated").toggleClass("colored");
+    });
+    function animateIt() {
+      $("#mover").slideToggle("slow", animateIt);
+    }
+    animateIt();
+
+
+Content Filters:
+
+Name	Type
+:contains(text) 	Returns: Array<Element(s)>
+Matches elements which contain the given text.
+$("div:contains('John')").css("text-decoration", "underline");
+
+:empty 	Returns: Array<Element(s)>
+Matches all elements that have no children (including text nodes).
+$("td:empty").text("Was empty!").css('background', 'rgb(255,220,200)');
+
+:has(selector) 	Returns: Array<Element(s)>
+Matches elements which contain at least one element that matches the specified selector.
+$("div:has(p)").addClass("test");
+
+:parent 	Returns: Array<Element(s)>
+Matches all elements that are parents - they have child elements, including text.
+$("td:parent").fadeTo(1500, 0.3);
+
+
+
+Visibility Filters:
+Name	Type
+:hidden 	Returns: Array<Element(s)>
+Matches all elements that are hidden, or input elements of type "hidden".
+    // in some browsers :hidden includes head, title, script, etc... so limit to body
+    $("span:first").text("Found " + $(":hidden", document.body).length + 
+                         " hidden elements total.");
+    $("div:hidden").show(3000);
+    $("span:last").text("Found " + $("input:hidden").length + " hidden inputs.");
+
+:visible 	Returns: Array<Element(s)>
+Matches all elements that are visible.
+
+
+
+Attribute Filters:
+Name	Type
+[attribute] 	Returns: Array<Element(s)>
+Matches elements that have the specified attribute. Note the "@" before the attribute name was deprecated as of version 1.2.
+    $("div[id]").one("click", function(){
+      var idString = $(this).text() + " = " + $(this).attr("id");
+      $(this).text(idString);
+    });
+
+
+[attribute=value] 	Returns: Array<Element(s)>
+Matches elements that have the specified attribute with a certain value.
+
+[attribute!=value] 	Returns: Array<Element(s)>
+Matches elements that either don't have the specified attribute or do have the specified attribute but not with a certain value.
+
+[attribute^=value] 	Returns: Array<Element(s)>
+Matches elements that have the specified attribute and it starts with a certain value.
+$("input[name^='news']").val("news here!");
+
+[attribute$=value] 	Returns: Array<Element(s)>
+Matches elements that have the specified attribute and it ends with a certain value.
+$("input[name$='letter']").val("a letter");
+
+[attribute*=value] 	Returns: Array<Element(s)>
+Matches elements that have the specified attribute and it contains a certain value.
+$("input[name*='man']").val("has man in it!");
+
+[attributeFilter1][attributeFilter2][attributeFilterN] 	Returns: Array<Element(s)>
+Matches elements that match all of the specified attribute filters.
+$("input[id][name$='man']").val("only this one");
+
+
+
+Child Filters:
+Name	Type
+:nth-child(index/even/odd/equation) 	Returns: Array<Element(s)>
+Matches all elements that are the nth-child of their parent or that are the parent's even or odd children.
+$("ul li:nth-child(2)").append("<span> - 2nd!</span>");
+
+    $("button").click(function () {
+      var str = $(this).text();
+      $("tr").css("background", "white");
+      $("tr" + str).css("background", "#ff0000");
+      $("#inner").text(str);
+    });
+
+:first-child 	Returns: Array<Element(s)>
+Matches all elements that are the first child of their parent.
+
+:last-child 	Returns: Array<Element(s)>
+Matches all elements that are the last child of their parent.
+
+:only-child 	Returns: Array<Element(s)>
+Matches all elements that are the only child of their parent.
+
+
+Forms:
+Name	Type
+:input 	Returns: Array<Element(s)>
+Matches all input, textarea, select and button elements.
+    var allInputs = $(":input");
+    var formChildren = $("form > *");
+    $("#messages").text("Found " + allInputs.length + " inputs and the form has " +
+                             formChildren.length + " children.");
+			
+	// so it won't submit
+    $("form").submit(function () { return false; }); 
+
+
+
+:text 	Returns: Array<Element(s)>
+Matches all input elements of type text.
+
+:password 	Returns: Array<Element(s)>
+Matches all input elements of type password.
+
+:radio 	Returns: Array<Element(s)>
+Matches all input elements of type radio.
+
+:checkbox 	Returns: Array<Element(s)>
+Matches all input elements of type checkbox.
+
+:submit 	Returns: Array<Element(s)>
+Matches all input elements of type submit.
+
+:image 	Returns: Array<Element(s)>
+Matches all input elements of type image.
+
+:reset 	Returns: Array<Element(s)>
+Matches all input elements of type reset.
+
+:button 	Returns: Array<Element(s)>
+Matches all button elements and input elements of type button.
+
+:file 	Returns: Array<Element(s)>
+Matches all input elements of type file.
+
+:hidden 	Returns: Array<Element(s)>
+Matches all elements that are hidden, or input elements of type "hidden".
+
+
+Form Filters:
+Name	Type
+:enabled 	Returns: Array<Element(s)>
+Matches all elements that are enabled.
+$("input:enabled").val("this is it");
+
+:disabled 	Returns: Array<Element(s)>
+Matches all elements that are disabled.
+
+:checked 	Returns: Array<Element(s)>
+Matches all elements that are checked.
+
+:selected 	Returns: Array<Element(s)>
+Matches all elements that are selected.
+
+Note: if you wish to use any of the meta-characters described above as a literal part of a name, you must escape the character with two backslashes (\). For example:
+
+#foo\\:bar
+#foo\\[bar\\]
+#foo\\.bar
+
+
+API/1.2/Attributes
+From jQuery JavaScript Library
+
+Attr:
+Name	Type
+attr( name ) 	Returns: Object
+Access a property on the first matched element. This method makes it easy to retrieve a property value from the first matched element. If the element does not have an attribute with such a name, undefined is returned. Attributes include title, alt, src, href, width, style, etc.
+    var title = $("em").attr("title");
+    $("div").text(title);
+
+attr( properties ) 	Returns: jQuery
+Set a key/value object as properties to all matched elements.
+    $("img").attr({ 
+          src: "/images/hat.gif",
+          title: "jQuery",
+          alt: "jQuery Logo"
+        });
+    $("div").text($("img").attr("alt"));
+
+attr( key, value ) 	Returns: jQuery
+Set a single property to a value, on all matched elements.
+$("button:gt(1)").attr("disabled","disabled");
+
+attr( key, fn ) 	Returns: jQuery
+Set a single property to a computed value, on all matched elements.
+    $("div").attr("id", function (arr) {
+          return "div-id" + arr;
+        })
+        .each(function () {
+          $("span", this).html("(ID = '<b>" + this.id + "</b>')");
+        });
+
+removeAttr( name ) 	Returns: jQuery
+Remove an attribute from each of the matched elements.
+
+
+Class:
+addClass( class ) 	Returns: jQuery
+Adds the specified class(es) to each of the set of matched elements.
+
+hasClass( class ) 	Returns: Boolean
+Returns true if the specified class is present on at least one of the set of matched elements.
+
+removeClass( class ) 	Returns: jQuery
+Removes all or the specified class(es) from the set of matched elements.
+
+toggleClass( class ) 	Returns: jQuery
+Adds the specified class if it is not present, removes the specified class if it is present.
+    $("p").click(function () {
+      $(this).toggleClass("highlight");
+    });
+
+
+HTML:
+Name	Type
+html( ) 	Returns: String
+Get the html contents (innerHTML) of the first matched element. This property is not available on XML documents (although it will work for XHTML documents).
+    $("p").click(function () {
+      var htmlStr = $(this).html();
+      $(this).text(htmlStr);
+    });
+
+html( val ) 	Returns: jQuery
+Set the html contents of every matched element. This property is not available on XML documents (although it will work for XHTML documents).
+$("div").html("<span class='red'>Hello <b>Again</b></span>");
+
+
+Text:
+Name	Type
+text( ) 	Returns: String
+Get the combined text contents of all matched elements.
+    var str = $("p:first").text();
+    $("p:last").html(str);
+
+text( val ) 	Returns: jQuery
+Set the text contents of all matched elements.
+$("p").text("<b>Some</b> new text.");
+
+
+Value:
+Name	Type
+val( ) 	Returns: String, Array
+Get the content of the value attribute of the first matched element.
+    $("input").keyup(function () {
+      var value = $(this).val();
+      $("p").text(value);
+    }).keyup();
+
+val( val ) 	Returns: jQuery
+Set the value attribute of every matched element.
+    $("button").click(function () {
+      var text = $(this).text();
+      $("input").val(text);
+    });
+
+
+val( val ) 	Returns: jQuery
+Checks, or selects, all the radio buttons, checkboxes, and select options that match the set of values.
+    $("#single").val("Single2");
+    $("#multiple").val(["Multiple2", "Multiple3"]);
+    $("input").val(["check1","check2", "radio1" ]);
+对于...
+
+
+API/1.2/Traversing
+From jQuery JavaScript Library
+
+Filtering:
+Name	Type
+eq( index ) 	Returns: jQuery
+Reduce the set of matched elements to a single element.
+    $("div").eq(2).addClass("blue");
+
+hasClass( class ) 	Returns: Boolean
+Checks the current selection against a class and returns true, if at least one element of the selection has the given class.
+    $("div").click(function(){
+      if ( $(this).hasClass("protected") )
+        $(this).animate({ left: -10 }, 75)
+               .animate({ left: 10 }, 75)
+               .animate({ left: -10 }, 75)
+               .animate({ left: 10 }, 75)
+               .animate({ left: 0 }, 75);
+    });
+
+filter( expr ) 	Returns: jQuery
+Removes all elements from the set of matched elements that do not match the specified expression(s).
+    $("div").css("background", "#c8ebcc")
+            .filter(".middle")
+            .css("border-color", "red");
+
+filter( fn ) 	Returns: jQuery
+Removes all elements from the set of matched elements that does not match the specified function.
+    $("div").css("background", "#b4b0da")
+            .filter(function (index) {
+                  return index == 1 || $(this).attr("id") == "fourth";
+                })
+            .css("border", "3px double red");
+
+is( expr ) 	Returns: Boolean
+Checks the current selection against an expression and returns true, if at least one element of the selection fits the given expression.
+    $("div").one('click', function () {
+      if ($(this).is(":first-child")) {
+        $("p").text("It's the first div.");
+      } else if ($(this).is(".blue,.red")) {
+        $("p").text("It's a blue or red div.");
+      } else if ($(this).is(":contains('Peter')")) {
+        $("p").text("It's Peter!");
+      } else {
+        $("p").html("It's nothing <em>special</em>.");
+      }
+      $("p").hide().slideDown("slow");
+      $(this).css({"border-style": "inset", cursor:"default"});
+    });
+
+
+map( callback ) 	Returns: jQuery
+Translate a set of elements in the jQuery object into another set of values in an array (which may, or may not, be elements).
+    $("p").append( $("input").map(function(){
+      return $(this).val();
+    }).get().join(", ") );
+    
+    
+    var mappedItems = $("li").map(function (index) {
+      var replacement = $("<li>").text($(this).text()).get(0);
+      if (index == 0) {
+        // make the first item all caps
+        $(replacement).text($(replacement).text().toUpperCase());
+      } else if (index == 1 || index == 3) {
+        // delete the second and fourth items
+        replacement = null;
+      } else if (index == 2) {
+        // make two of the third item and add some text
+        replacement = [replacement,$("<li>").get(0)];
+        $(replacement[0]).append("<b> - A</b>");
+        $(replacement[1]).append("Extra <b> - B</b>");
+      }
+
+      // replacment will be an dom element, null, 
+      // or an array of dom elements
+      return replacement;
+    });
+    $("#results").append(mappedItems);
+
+not( expr ) 	Returns: jQuery
+Removes elements matching the specified expression from the set of matched elements.
+    $("div").not(".green, #blueone")
+            .css("border-color", "red");
+
+
+slice( start, end ) 	Returns: jQuery
+Selects a subset of the matched elements.
+    function colorEm() {
+      var $div = $("div");
+      var start = Math.floor(Math.random() *
+                             $div.length);
+      var end = Math.floor(Math.random() *
+                           ($div.length - start)) +
+                           start + 1;
+      if (end == $div.length) end = undefined;
+      $div.css("background", "");
+      if (end) 
+        $div.slice(start, end).css("background", "yellow");   
+       else
+        $div.slice(start).css("background", "yellow");
+      
+      $("span").text('$("div").slice(' + start +
+                     (end ? ', ' + end : '') +
+                     ').css("background", "yellow");');
+    }
+
+    $("button").click(colorEm);
+
+
+
+Finding:
+Name	Type
+add( expr ) 	Returns: jQuery
+Adds more elements, matched by the given expression, to the set of matched elements.
+    $("div").css("border", "2px solid red")
+            .add("p")
+            .css("background", "yellow");
+
+children( expr ) 	Returns: jQuery
+Get a set of elements containing all of the unique immediate children of each of the matched set of elements.
+    $("#container").click(function (e) {
+      $("*").removeClass("hilite");
+      var $kids = $(e.target).children();
+      var len = $kids.addClass("hilite").length;
+
+      $("#results span:first").text(len);
+      $("#results span:last").text(e.target.tagName);
+
+      e.preventDefault();
+      return false;
+    });
+
+
+contents( ) 	Returns: jQuery
+Find all the child nodes inside the matched elements (including text nodes), or the content document, if the element is an iframe.
+$("p").contents().not("[nodeType=1]").wrap("<b/>");
+$("iframe").contents().find("body").append("I'm in an iframe!");
+
+find( expr ) 	Returns: jQuery
+Searches for all elements that match the specified expression. This method is a good way to find additional descendant elements with which to process.
+    var newText = $("p").text().split(" ").join("</span> <span>");
+    newText = "<span>" + newText + "</span>";
+
+    $("p").html(newText)
+          .find("span")
+            .hover(function () { $(this).addClass("hilite"); },
+                   function () { $(this).removeClass("hilite"); })
+          .end()
+          .find(":contains('t')")
+            .css({"font-style":"italic", "font-weight":"bolder"});
+
+next( expr ) 	Returns: jQuery
+Get a set of elements containing the unique next siblings of each of the given set of elements.
+$("p").next(".selected").css("background", "yellow");
+
+nextAll( expr ) 	Returns: jQuery
+Find all sibling elements after the current element.
+$("div:first").nextAll().addClass("after");
+
+parent( expr ) 	Returns: jQuery
+Get a set of elements containing the unique parents of the matched set of elements.
+$("p").parent(".selected").css("background", "yellow");
+
+parents( expr ) 	Returns: jQuery
+Get a set of elements containing the unique ancestors of the matched set of elements (except for the root element).
+    var parentEls = $("b").parents()
+                          .map(function () { 
+                                return this.tagName; 
+                              })
+                          .get().join(", ");
+    $("b").append("<strong>" + parentEls + "</strong>");
+
+
+The matched elements can be filtered with an optional expression.
+prev( expr ) 	Returns: jQuery
+Get a set of elements containing the unique previous siblings of each of the matched set of elements.
+    var $curr = $("#start");
+    $curr.css("background", "#f99");
+    $("button").click(function () {
+      $curr = $curr.prev();
+      $("div").css("background", "");
+      $curr.css("background", "#f99");
+    });
+
+prevAll( expr ) 	Returns: jQuery
+Find all sibling elements in front of the current element.
+$("div:last").prevAll().addClass("before");
+
+siblings( expr ) 	Returns: jQuery
+Get a set of elements containing all of the unique siblings of each of the matched set of elements.
+Can be filtered with an optional expressions.
+    var len = $(".hilite").siblings()
+                          .css("color", "red")
+                          .length;
+    $("b").text(len);
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  
+  <script>
+  $(document).ready(function(){
+    $("p").siblings(".selected").css("background", "yellow");
+  });
+  </script>
+  
+</head>
+<body>
+  <div><span>Hello</span></div>
+  <p class="selected">Hello Again</p>
+  <p>And Again</p>
+</body>
+</html>
+
+
+Chaining:
+Name	Type
+andSelf( ) 	Returns: jQuery
+Add the previous selection to the current selection.
+    $("div").find("p").andSelf().addClass("border");
+    $("div").find("p").addClass("background");
+
+
+end( ) 	Returns: jQuery
+Revert the most recent 'destructive' operation, changing the set of matched elements to its previous state (right before the destructive operation).
+    jQuery.fn.showTags = function (n) {
+      var tags = this.map(function () { 
+                              return this.tagName; 
+                            })
+                        .get().join(", ");
+      $("b:eq(" + n + ")").text(tags);
+      return this;
+    };
+
+    $("p").showTags(0)
+          .find("span")
+          .showTags(1)
+          .css("background", "yellow")
+          .end()
+          .showTags(2)
+          .css("font-style", "italic");
+
+
+API/1.2/Manipulation
+From jQuery JavaScript Library
+
+Changing Contents:
+Name	Type
+html( ) 	Returns: String
+Get the html contents (innerHTML) of the first matched element. This property is not available on XML documents (although it will work for XHTML documents).
+
+html( val ) 	Returns: jQuery
+Set the html contents of every matched element. This property is not available on XML documents (although it will work for XHTML documents).
+
+text( ) 	Returns: String
+Get the combined text contents of all matched elements.
+
+text( val ) 	Returns: jQuery
+Set the text contents of all matched elements.
+
+
+Inserting Inside:
+Name	Type
+append( content ) 	Returns: jQuery
+
+Append content to the inside of every matched element.
+appendTo( content ) 	Returns: jQuery
+
+Append all of the matched elements to another, specified, set of elements.
+prepend( content ) 	Returns: jQuery
+
+Prepend content to the inside of every matched element.
+prependTo( content ) 	Returns: jQuery
+Prepend all of the matched elements to another, specified, set of elements.
+<head>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  
+  <script>
+  $(document).ready(function(){
+    $("span").prependTo("#foo"); // check prepend() examples
+  });
+  </script>
+  <style>div { background:yellow; }</style>
+</head>
+<body>
+  <div id="foo">FOO!</div>
+  <span>I have something to say... </span>
+</body>
+</html>
+
+
+Inserting Outside:
+Name	Type
+after( content ) 	Returns: jQuery
+Insert content after each of the matched elements.
+
+before( content ) 	Returns: jQuery
+Insert content before each of the matched elements.
+
+insertAfter( content ) 	Returns: jQuery
+Insert all of the matched elements after another, specified, set of elements.
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  
+  <script>
+  $(document).ready(function(){
+    $("p").insertAfter("#foo"); // check after() examples
+  });
+  </script>
+  <style>#foo { background:yellow; }</style>
+</head>
+<body>
+  <p> is what I said... </p><div id="foo">FOO!</div>
+</body>
+</html>
+
+insertBefore( content ) 	Returns: jQuery
+Insert all of the matched elements before another, specified, set of elements.
+
+Inserting Around:
+Name	Type
+wrap( html ) 	Returns: jQuery
+Wrap each matched element with the specified HTML content.
+$("p").wrap("<div></div>");
+
+wrap( elem ) 	Returns: jQuery
+Wrap each matched element with the specified element.
+wrapAll( html ) 	Returns: jQuery
+Wrap all the elements in the matched set into a single wrapper element.
+$("p").wrapAll("<div></div>");
+在最外层包裹
+
+wrapAll( elem ) 	Returns: jQuery
+Wrap all the elements in the matched set into a single wrapper element.
+$("p").wrapAll(document.createElement("div"));
+$("p").wrapAll($(".doublediv"));
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+                    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  
+  <script>
+  $(document).ready(function(){
+    $("p").wrapAll($(".doublediv"));
+  });
+  </script>
+  <style>
+  div { border: 2px solid blue; margin:2px; padding:2px; }
+  .doublediv { border-color:red; }
+  p { background:yellow; margin:4px; font-size:14px; }
+  </style>
+</head>
+<body>
+  <p>Hello</p>
+  <p>cruel</p>
+  <p>World</p>
+  <div class="doublediv"><div></div></div>
+</body>
+</html>
+
+wrapInner( html ) 	Returns: jQuery
+Wrap the inner child contents of each matched element (including text nodes) with an HTML structure.
+wrapInner( elem ) 	Returns: jQuery
+Wrap the inner child contents of each matched element (including text nodes) with a DOM element.
+Replacing:
+
+
+
+Name	Type
+replaceWith( content ) 	Returns: jQuery
+Replaces all matched elements with the specified HTML or DOM elements. This returns the JQuery element that was just replaced, which has been removed from the DOM.
+    $("button").click(function () {
+      $(this).replaceWith("<div>" + $(this).text() + "</div>");
+    });
+
+
+replaceAll( selector ) 	Returns: jQuery
+Replaces the elements matched by the specified selector with the matched elements.
+$("<b>Paragraph. </b>").replaceAll("p");
+
+
+Removing:
+Name	Type
+empty( ) 	Returns: jQuery
+Remove all child nodes from the set of matched elements.
+    $("button").click(function () {
+      $("p").empty();
+    });
+
+
+remove( expr ) 	Returns: jQuery
+Removes all matched elements from the DOM.
+$("#foo").remove().appendTo("#bar");should be written as $("#foo").appendTo("#bar");to avoid losing the event handlers. 
+
+    $("button").click(function () {
+      $("p").remove(":contains('Hello')");
+    });
+
+
+Copying:
+Name	Type
+clone( ) 	Returns: jQuery
+Clone matched DOM Elements and select the clones.
+$("b").clone().prependTo("p");
+
+clone( true ) 	Returns: jQuery
+Clone matched DOM Elements, and all their event handlers, and select the clones.
+    $("button").click(function(){
+      $(this).clone(true).insertAfter(this);
+    });
+
+API/1.2/CSS
+From jQuery JavaScript Library
+
+CSS:
+Name	Type
+css( name ) 	Returns: String
+Return a style property on the first matched element.
+    $("div").click(function () {
+      var color = $(this).css("background-color");
+      $("#result").html("That div is <span style='color:" +
+                         color + ";'>" + color + "</span>.");
+    });
+
+
+css( properties ) 	Returns: jQuery
+Set a key/value object as style properties to all matched elements.
+    $("p").hover(function () {
+      $(this).css({ backgroundColor:"yellow", fontWeight:"bolder" });
+    }, function () {
+      var cssObj = {
+        backgroundColor: "#ddd",
+        fontWeight: "",
+        color: "rgb(0,40,244)"
+      }
+      $(this).css(cssObj);
+    });
+
+
+css( name, value ) 	Returns: jQuery
+Set a single style property to a value on all matched elements.
+    $("p").mouseover(function () {
+      $(this).css("color","red");
+    });
+
+
+Positioning:
+Name	Type
+offset( ) 	Returns: Object{top,left}
+Get the current offset of the first matched element relative to the viewport.
+var p = $("p:last");
+var offset = p.offset();
+p.html( "left: " + offset.left + ", top: " + offset.top );
+
+position( ) 	Returns: Object{top,left}
+Gets the top and left position of an element relative to its offset parent.
+var p = $("p:first");
+var position = p.position();
+$("p:last").text( "left: " + position.left + ", top: " + position.top );
+
+scrollTop( ) 	Returns: Integer
+Gets the scroll top offset of the first matched element.
+var p = $("p:first");
+$("p:last").text( "scrollTop:" + p.scrollTop() );
+
+scrollTop( val ) 	Returns: jQuery
+When a value is passed in, the scroll top offset is set to that value on all matched elements.
+$("div.demo").scrollTop(300);
+
+scrollLeft( ) 	Returns: Integer
+Gets the scroll left offset of the first matched element.
+var p = $("p:first");
+$("p:last").text( "scrollLeft:" + p.scrollLeft() );
+
+scrollLeft( val ) 	Returns: jQuery
+When a value is passed in, the scroll left offset is set to that value on all matched elements.
+$("div.demo").scrollLeft(300);
+
+
+Height and Width:
+Name	Type
+height( ) 	Returns: Integer
+Get the current computed, pixel, height of the first matched element.
+    function showHeight(ele, h) {
+      $("div").text("The height for the " + ele + 
+                    " is " + h + "px.");
+    }
+    $("#getp").click(function () { 
+      showHeight("paragraph", $("p").height()); 
+    });
+    $("#getd").click(function () { 
+      showHeight("document", $(document).height()); 
+    });
+    $("#getw").click(function () { 
+      showHeight("window", $(window).height()); 
+    });
+
+
+height( val ) 	Returns: jQuery
+Set the CSS height of every matched element.
+
+width( ) 	Returns: Integer
+Get the current computed, pixel, width of the first matched element.
+
+width( val ) 	Returns: jQuery
+Set the CSS width of every matched element.
+    $("div").one('click', function () {
+      $(this).width(30)
+             .css({cursor:"auto", "background-color":"blue"});
+    });
+
+innerHeight( ) 	Returns: Integer
+Gets the inner height (excludes the border and includes the padding) for the first matched element.
+
+innerWidth( ) 	Returns: Integer
+Gets the inner width (excludes the border and includes the padding) for the first matched element.
+
+outerHeight( options ) 	Returns: Integer
+Gets the offsetHeight (includes the border and padding by default) for the first matched element.
+var p = $("p:first");
+$("p:last").text( "outerHeight:" + p.outerHeight() + " , outerHeight(true):" + p.outerHeight(true) );
+
+
+outerWidth( options ) 	Returns: Integer
+Get the outer width (includes the border and padding by default) for the first matched element.
+
+
+API/1.2/Events
+From jQuery JavaScript Library
+
+
+Page Load:
+Name	Type
+ready( fn ) 	Returns: jQuery
+Binds a function to be executed whenever the DOM is ready to be traversed and manipulated.
+
+Event Handling:
+Name	Type
+bind( type, data, fn ) 	Returns: jQuery
+Binds a handler to one or more events (like click) for each matched element. Can also bind custom events.
+    $("p").bind("click", function(e){
+      var str = "( " + e.pageX + ", " + e.pageY + " )";
+      $("span").text("Click happened! " + str);
+    });
+    $("p").bind("dblclick", function(){
+      $("span").text("Double-click happened in " + this.tagName);
+    });
+    $("p").bind("mouseenter mouseleave", function(e){
+        $(this).toggleClass("over");
+    });
+
+    $("p").bind("myCustomEvent", function(e, myName, myValue){
+      $(this).text(myName + ", hi there!");
+      $("span").stop().css("opacity", 1)
+               .text("myName = " + myName)
+               .fadeIn(30).fadeOut(1000);
+    });
+    $("button").click(function () {
+      $("p").trigger("myCustomEvent", [ "John" ]);
+    });
+
+
+one( type, data, fn ) 	Returns: jQuery
+Binds a handler to one or more events to be executed once for each matched element.
+    var n = 0;
+    $("div").one("click", function(){
+      var index = $("div").index(this);
+      $(this).css({ borderStyle:"inset",
+                    cursor:"auto" });
+      $("p").text("Div at index #" + index + " clicked." +
+                  "  That's " + ++n + " total clicks.");
+    });
+
+trigger( type, data ) 	Returns: jQuery
+Trigger a type of event on every matched element.
+
+triggerHandler( type, data ) 	Returns: jQuery
+This particular method triggers all bound event handlers on an element (for a specific event type) WITHOUT executing the browsers default actions.
+
+unbind( type, data ) 	Returns: jQuery
+This does the opposite of bind, it removes bound events from each of the matched elements.
+    function aClick() {
+      $("div").show().fadeOut("slow");
+    }
+    $("#bind").click(function () {
+      // could use .bind('click', aClick) instead but for variety...
+      $("#theone").click(aClick)
+                  .text("Can Click!");
+    });
+    $("#unbind").click(function () {
+      $("#theone").unbind('click', aClick)
+                  .text("Does nothing...");
+    });
+
+
+
+Interaction Helpers:
+Name	Type
+hover( over, out ) 	Returns: jQuery
+Simulates hovering (moving the mouse on, and off, an object). This is a custom method which provides an 'in' to a frequent task.
+    $("li").hover(
+      function () {
+        $(this).append($("<span> ***</span>"));
+      }, 
+      function () {
+        $(this).find("span:last").remove();
+      }
+    );
+
+
+   
+  //Another example for mouse over effect on hyperlinks on page
+   $("a").hover(function(){$(this).fadeOut(100);$(this).fadeIn(500);});
+
+toggle( fn, fn2, fn3,fn4,... ) 	Returns: jQuery
+Toggle among two or more function calls every other click.
+
+
+Event Helpers:
+Name	Type
+blur( ) 	Returns: jQuery
+Triggers the blur event of each matched element.
+$("p").blur( function () { alert("Hello World!"); } );
+
+blur( fn ) 	Returns: jQuery
+Bind a function to the blur event of each matched element.
+
+change( ) 	Returns: jQuery
+Triggers the change event of each matched element.
+
+change( fn ) 	Returns: jQuery
+Binds a function to the change event of each matched element.
+    $("select").change(function () {
+          var str = "";
+          $("select option:selected").each(function () {
+                str += $(this).text() + " ";
+              });
+          $("div").text(str);
+        })
+        .change();
+
+click( ) 	Returns: jQuery
+Triggers the click event of each matched element.
+
+click( fn ) 	Returns: jQuery
+Binds a function to the click event of each matched element.
+    $("p").click(function () { 
+      $(this).slideUp(); 
+    });
+    $("p").hover(function () {
+      $(this).addClass("hilite");
+    }, function () {
+      $(this).removeClass("hilite");
+    });
+
+
+dblclick( ) 	Returns: jQuery
+Triggers the dblclick event of each matched element.
+
+dblclick( fn ) 	Returns: jQuery
+Binds a function to the dblclick event of each matched element.
+
+error( ) 	Returns: jQuery
+Triggers the error event of each matched element.
+
+error( fn ) 	Returns: jQuery
+Binds a function to the error event of each matched element.
+$("img").error(function(){
+  $(this).hide();
+});
+$(window).error(function(msg, url, line){
+  jQuery.post("js_error_log.php", { msg: msg, url: url, line: line });
+});
+
+focus( ) 	Returns: jQuery
+Triggers the focus event of each matched element.
+
+focus( fn ) 	Returns: jQuery
+Binds a function to the focus event of each matched element.
+$(document).ready(function(){
+  $("#login").focus();
+});
+To stop people from writing in text input boxes, try:
+
+$("input[@type=text]").focus(function(){
+  $(this).blur();
+});
+
+keydown( ) 	Returns: jQuery
+Triggers the keydown event of each matched element.
+
+keydown( fn ) 	Returns: jQuery
+Bind a function to the keydown event of each matched element.
+
+keypress( ) 	Returns: jQuery
+Triggers the keypress event of each matched element.
+
+keypress( fn ) 	Returns: jQuery
+Binds a function to the keypress event of each matched element.
+
+keyup( ) 	Returns: jQuery
+Triggers the keyup event of each matched element.
+
+keyup( fn ) 	Returns: jQuery
+Bind a function to the keyup event of each matched element.
+
+load( fn ) 	Returns: jQuery
+Binds a function to the load event of each matched element.
+
+mousedown( fn ) 	Returns: jQuery
+Binds a function to the mousedown event of each matched element.
+
+mousemove( fn ) 	Returns: jQuery
+Bind a function to the mousemove event of each matched element.
+
+mouseout( fn ) 	Returns: jQuery
+Bind a function to the mouseout event of each matched element.
+
+mouseover( fn ) 	Returns: jQuery
+Bind a function to the mouseover event of each matched element.
+
+mouseup( fn ) 	Returns: jQuery
+Bind a function to the mouseup event of each matched element.
+
+resize( fn ) 	Returns: jQuery
+Bind a function to the resize event of each matched element.
+$(window).resize(function(){
+  alert("Stop it!");
+});
+
+scroll( fn ) 	Returns: jQuery
+Bind a function to the scroll event of each matched element.
+
+select( ) 	Returns: jQuery
+Trigger the select event of each matched element.
+
+select( fn ) 	Returns: jQuery
+Bind a function to the select event of each matched element.
+    $(document).select( function () { 
+      $("div").text("Something was selected").show().fadeOut(1000); 
+    });
+
+
+submit( ) 	Returns: jQuery
+Trigger the submit event of each matched element.
+
+submit( fn ) 	Returns: jQuery
+Bind a function to the submit event of each matched element.
+    $("form").submit(function() {
+      if ($("input:first").val() == "correct") {
+        $("span").text("Validated...").show();
+        return true;
+      }
+      $("span").text("Not valid!").show().fadeOut(1000);
+      return false;
+    });
+
+
+unload( fn ) 	Returns: jQuery
+Binds a function to the unload event of each matched element.
+To display an alert when a page is unloaded:
+$(window).unload( function () { alert("Bye now!"); } );
+
+
+API/1.2/Effects
+From jQuery JavaScript Library
+
+Basics:
+Name	Type
+show( ) 	Returns: jQuery
+Displays each of the set of matched elements if they are hidden.
+
+show( speed, callback ) 	Returns: jQuery
+Show all matched elements using a graceful animation and firing an optional callback after completion.
+
+hide( ) 	Returns: jQuery
+Hides each of the set of matched elements if they are shown.
+
+hide( speed, callback ) 	Returns: jQuery
+Hide all matched elements using a graceful animation and firing an optional callback after completion.
+
+toggle( ) 	Returns: jQuery
+Toggles displaying each of the set of matched elements.
+
+
+Sliding:
+Name	Type
+slideDown( speed, callback ) 	Returns: jQuery
+Reveal all matched elements by adjusting their height and firing an optional callback after completion.
+
+slideUp( speed, callback ) 	Returns: jQuery
+Hide all matched elements by adjusting their height and firing an optional callback after completion.
+
+slideToggle( speed, callback ) 	Returns: jQuery
+Toggle the visibility of all matched elements by adjusting their height and firing an optional callback after completion.
+    $("button").click(function () {
+      $("p").slideToggle("slow");
+    });
+
+
+
+Fading:
+Name	Type
+fadeIn( speed, callback ) 	Returns: jQuery
+Fade in all matched elements by adjusting their opacity and firing an optional callback after completion.
+
+fadeOut( speed, callback ) 	Returns: jQuery
+Fade out all matched elements by adjusting their opacity and firing an optional callback after completion.
+
+fadeTo( speed, opacity, callback ) 	Returns: jQuery
+Fade the opacity of all matched elements to a specified opacity and firing an optional callback after completion.
+    $("div").click(function () {
+      $(this).fadeTo("fast", Math.random());
+    });
+
+
+Custom:
+Name	Type
+animate( params, duration, easing, callback ) 	Returns: jQuery
+A function for making custom animations.
+
+    $("#right").click(function(){
+      $(".block").animate({"left": "+=50px"}, "slow");
+    });
+
+    $("#left").click(function(){
+      $(".block").animate({"left": "-=50px"}, "slow");
+    });
+
+
+    $("#go").click(function(){
+      $("#block").animate({ 
+        width: "70%",
+        opacity: 0.4,
+        marginLeft: "0.6in",
+        fontSize: "3em", 
+        borderWidth: "10px"
+      }, 1500 );
+    });
+
+
+animate( params, options ) 	Returns: jQuery
+A function for making custom animations.
+    $("#go1").click(function(){
+      $("#block1").animate( { width:"90%" }, { queue:false, duration:3000 } )
+         .animate( { fontSize:"24px" }, 1500 )
+         .animate( { borderRightWidth:"15px" }, 1500);
+    });
+
+    $("#go2").click(function(){
+      $("#block2").animate( { width:"90%"}, 1000 )
+         .animate( { fontSize:"24px" } , 1000 )
+         .animate( { borderLeftWidth:"15px" }, 1000);
+    });
+
+    $("#go3").click(function(){
+      $("#go1").add("#go2").click();
+    });
+
+    $("#go4").click(function(){
+      $("div").css({width:"", fontSize:"", borderWidth:""});
+    });
+
+
+stop( ) 	Returns: jQuery
+Stops all the currently running animations on all the specified elements.
+    // Start animation
+    $("#go").click(function(){
+      $(".block").animate({left: '+=100px'}, 2000);
+    });
+
+    // Stop animation when button is clicked
+    $("#stop").click(function(){
+      $(".block").stop();
+    });
+
+    // Start animation in the opposite direction
+    $("#back").click(function(){
+      $(".block").animate({left: '-=100px'}, 2000);
+    });
+
+
+queue( ) 	Returns: Array<Function>
+Returns a reference to the first element's queue (which is an array of functions).
+
+queue( callback ) 	Returns: jQuery
+Adds a new function, to be executed, onto the end of the queue of all matched elements.
+
+queue( queue ) 	Returns: jQuery
+Replaces the queue of all matched element with this new queue (the array of functions).
+
+dequeue( ) 	Returns: jQuery
+Removes a queued function from the front of the queue and executes it.
+    $("button").click(function () {
+      $("div").animate({left:'+=200px'}, 2000);
+      $("div").animate({top:'0px'}, 600);
+      $("div").queue(function () {
+        $(this).toggleClass("red");
+        $(this).dequeue();
+      });
+      $("div").animate({left:'10px', top:'30px'}, 700);
+    });
+
+
+
