@@ -1,0 +1,222 @@
+ 通过使用 过滤器 ，可以定制变量的显示格式。
+
+过滤器的形式: {{ name|lower }}. 这将显示 {{ name }} 变量通过 lower 过滤后的值. 它将文本转换为小写. 使用管道符号 (|) 应用一个过滤器.
+
+过滤器可以 "链接". 一个过滤器的输入作为下一个过滤器的输入: {{ text|escape|linebreaks }} 是一个常用过滤器组合,用于将文本内容转义然后将换行转换成  标签.
+
+有些过滤器能接受参数. 一个带有参数的过滤器看起来这样: {{ bio|truncatewords:"30" }}. 它用来显示 bio 变量的前 30 个. 过滤器参数总是带有比引号. 下文中的 内建过滤器参考 描述了所有的内建过滤器.
+
+内建过滤器参考
+add
+
+返回参数与被处理数据相加的结果.
+addslashes
+
+给敏感字符添加斜线(转义). 举例,要将一个字符串传递给 JavaScript 时..
+capfirst
+
+大写被处理数据的第一个字母.
+center
+
+
+ 按给定宽度将待处理数据居中.
+cut
+
+将待处理数据中的所有子串删除(该子串等于 cut 的参数)
+date
+
+根据给定的格式(与 now 标签相同)格式化一个日期.
+default
+
+如果值不可用,使用提供的默认值.
+default_if_none
+
+如果值为 None, 使用这个给定的默认值.
+dictsort
+
+接受一个字典列表,返回按给定参数的属性排序后的列表.
+dictsortreversed
+
+接受一个字典列表,返回按给定参数的属性逆序排序后的列表.
+divisibleby
+
+如果值可以被参数除尽,则返回 True.
+escape
+
+对一个字符串的敏感字符进入转义(以用于HTML). 特别是它会做如下替换:
+
+        * "&" to "&"
+        *  to ">"
+        * '"' (double quote) to '"'
+        * "'" (single quote) to '''
+
+filesizeformat
+
+将值格式化为 '可读性好的' 文件大小(比如 '13 K
+ B', '4.1 MB', '102bytes' 等等).
+first
+
+返回列表中的第一个元素.
+fix_ampersands
+
+将 & 符号替换为 & 实体.
+floatformat
+
+将一个浮点数四舍五入到小数点后1位 -- 如果根本没有小数,小数部分不会显示.例如:
+
+        * 36.123 被转换成 36.1
+        * 36.15 被转换成 36.2
+        * 36 被转换成 36
+
+get_digit
+
+提供一个完整的数, 返回该数中被请求的数字,其中 1 是最右边的数, 2 是从右边数第二个数字等等. 若输入值非法(若输入或参数不是整数, 或者参数小于1)则返回其原始值. 否则输出就总是整数.
+join
+
+用一个字符串将一个列表连接起来, 类似 Python 的 str.join(list).
+length
+
+返回值的长度. 对列表特别有用.
+length_is
+
+若值的长度与参数相等,返回 True, 否则返回 False.
+linebreaks
+
+将换行符转化为  和 
+.
+linebreaksbr
+
+将换行
+ 符转化为 
+.
+linenumbers
+
+带行号显示文本.
+ljust
+
+在给定宽度的域内将文本左对齐.
+
+参数: 域宽度
+lower
+
+将字符串转化为小写.
+make_list
+
+将值转化为一个列表.对一个整数,它是一个数字的列表.对一个字符串,这是一个字符的列表.
+phone2numeric
+
+将一个电话号码(可能包含字母)转化等价的数字值.比如: '800-COLLECT' 将被转化为 '800-2655328'.
+
+输入不一定非是一个合法号码. 它可以转化任意字符串.
+pluralize
+
+如果值不是 1 的话返回 's' 用于 '1 vote' vs. '2 votes' 这种场合. 例如:
+
+you have {{number_messages}} mail{{number_messages|pluralize}}.
+(对中国人用处不大，嘿嘿）
+
+pprint
+
+pprint.pprint 和一个封装器-- 仅用于调试.
+random
+
+返回随机的从列表中返回一个元素
+removetags
+
+从输出中删除单空格分隔的 [X]HTML标签 列表
+rjust
+
+在给
+ 定宽度的域内将文本右对齐.
+
+参数: 域大小
+slice
+
+返回一个列表的片段.
+
+使用与 Python 的 list 相同的语法, 参阅 http://diveintopython.org/native_data_types/lists.html#odbchelper.list.slice 以了解更详细的信息.
+
+示例: {{ some_list|slice:":2" }}
+slugify
+
+转化为小写, 移去非单词字符(字母数字和下划线),将空白转化为连字符,去除前后空白.
+stringformat
+
+根据给定参数(一个格式字符串)格式化一个变量, 这个格式字符串使用 Python 字符串格式化语法, 例外之处是 "%" 运算符被省略.
+
+参阅 http://docs.python.org/lib/typesseq-strings.html 以了解 Python 格式字符串
+striptags
+
+过滤掉[X]HTML标签.
+time
+
+根据给定的格式, 格式化一个时间(与 now 标签使用的格式相同).
+timesince
+
+格式化一个日期,这个日期是从给定日期到现在的天数和小时数(比
+ 如: "4 days, 6 hours").
+
+接受一个可选的参数，该参数是一个包含比较日期的变量（该参数默认值是 now). 举例来说， 如果 blog_date 是一个日期实例表示 2006-06-01 午夜， 而 comment_date 是一个日期实例表示 2006-06-01 早上8点，那么 {{ comment_date|timesince:blog_date }} 将返回 "8 hours".
+timeuntil
+
+类似 timesince, 只是它比较当前时间直到给定日期时间。举例来说，如果今天是 2006-06-01 而 conference_date 是 2006-06-29, 那么 {{ conference_date|timeuntil }} 将返回 "28 days".
+
+接受一个可选的参数，该参数是一个包含比较日期的变量（该参数默认值是 now). 举例来说， 如果 from_date 是一个日期实例表示 2006-06-22， 那么 {{ conference_date|timeuntil:from_date }} 会返回 "7 days".
+title
+
+按标题格式转化一个字符串
+truncatewo
+ rds
+
+将一个字符串截短为指定数目的单词.
+
+参数: 要保留的单词数
+unordered_list
+
+递归的接受一个自嵌套的列表并返回一个HTML无序列表(此列表可不是pythob语义中的列表) -- 只是没有开始和结束的标签.
+
+假定该列表是合适的格式. 举例来说, 如果 var 的值为 ['States', [['Kansas', [['Lawrence', []], ['Topeka', []]]], ['Illinois', []]]], 那么 {{ var|unordered_list }} 就会返回:
+
+States
+
+        Kansas
+        
+                Lawrence
+                Topeka
+        
+        
+        Illinois
+
+
+
+upper
+
+将一个字符串全部转为大写.
+urlencode
+
+转义该值以用于 URL.
+urlize
+
+将普通文本的 URL 转化为可点击的链接.
+urlizetrunc
+
+将 URL 转化为一个可点击的链接, 根据给定
+(09时59分55秒) 王姝: 的字符数截短 URL.
+
+参数: URL长度
+wordcount
+
+返回单词数
+wordwrap
+
+在指定行长将文字折行.
+
+参数: 行长(以字符计)
+yesno
+
+提供一个字符串参数对应着 true, false 和 (可选的) None, 根据被处理的值返回相应的字符串:
+Value 	Argument 	Outputs
+True 	"yeah,no,maybe" 	yeah
+False 	"yeah,no,maybe" 	no
+None 	"yeah,no,maybe" 	maybe
+None 	"yeah,no" 	"no" (如果没有对应 None 的字符串,就将 None 转化为 False 处理 
