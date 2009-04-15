@@ -82,3 +82,23 @@ HTTP（HyperTextTransferProtocol）是超文本传输协议的缩写，它用于
 　　例如，传送头500个字节次字段的形式：Content-Range:bytes0-499/1234如果一个http消息包含此节（例如，对范围请求的响应或对一系列范围的重叠请求），Content-Range表示传送的范围，Content-Length表示实际传送的字节数。
 　　Last-modified实体头
 　　指定服务器上保存内容的最后修订时间。
+
+
+http://www.cnblogs.com/suyuan/archive/2008/07/24/1250328.html
+http协议通常包括的方法有很多，以下我只列出我在http/1.1协议定义中看到的方法：get、post、head、options、put、delete、trace、connect。
+
+get方法用于获取URI资源，是最为常用的一种方法。
+
+post方法用于向指定URI提交内容，服务器端响应其行为，该方法也极为常用。
+
+head方法向URI发送请求，仅仅只需要获得响应的协议头。
+
+put方法用于向URI发送请求，若URI不存在，则要求服务器端根据请求创建资源。当URI存在时，服务器端必须接受请求内容，将其作为URI资源的修改后版本。
+
+delete方法用于删除URI标识的指定资源。
+
+trace方法用于激活服务器端对请求的循环反馈，反馈作为http响应的正文内容被传输回客户端。
+
+connect方法通常被用于使用代理连接。
+
+对于上面提到的这些方法，相信大家如果肯花时间，自然可以在http协议的标准中看到更加详细的内容。但有一点是我需要说明的，以上提到的方法，除了get、post和head可以通过浏览器应用外，其它的方法例如put和delete使用起来有些问题。但ajax的出现为我们提供了一种解决的方式，ajax使用xmlhttprequest进行操作时，在发送请求之前，可以通过设置request type的方式来完成对请求方法的设定。
