@@ -1,0 +1,68 @@
+//方法OpenKey指定当前操作的键，参数Key就是要操作的键，当其值为空时，
+将指定的根键作为操作对象。CanCreate是用来决定所设Key不存在时，是否创
+建此键。
+function OpenKey(Const Key:string;CanCreate:Boolean):Boolean;
+
+//读取一个字符串值，Name为字符串名称
+function ReadString(const Name:string):string;
+//读取一个整数值，Name为整数名称
+function ReadInteger(const Name:string):Integer;
+//读取二进制值，Name 为二进制名称；返回实际读取的字节数
+function ReadBinaryData(const Name:string;var Buffer;BufSize:Integer):Integer;
+
+还有 //Name指定要读的值，缺省为空串
+function ReadBool(const Name:string):Boolean;
+function ReadCurrency(const Name:string):Boolean;
+function ReadDate(const Name:string):TDate;
+function ReadDatetime(const Name:string):TDateTime;
+function ReadFloat(const Name:string):Double;
+function ReadTime(const Name:string):TDateTime;
+
+
+//写入一个字符串值，Name为字符串名称，Value为字符串值
+procedure WriteString(const Name,Value:string);
+//写入一个整数值，Name为整数名称
+procedure WriteInteger(const Name:string;Value:string);
+//写入二进制值，Name 为二进制名称,Buffer为包含二进制值的缓冲区
+procedure WriteBinaryData(const Name:string;var Buffer;BufSize:Integer);
+
+还有 //Name指定要写入的值，
+procedure WriteBool(const Name:string;Value:Boolean);
+procedure WriteCurrency(const Name:string;Value:Currency);
+procedure WriteDate(const Name:string;Value:TDateTime);
+procedure WriteDatetime(const Name:string;Value:TDateTime);
+procedure WriteFloat(const Name:string;Value:Double);
+procedure WriteTime(const Name:string;Value:TDateTime);
+
+//创建新主键  Key为主键名，返回True表操作成功
+function CreatKey(const Key:string):Boolean;
+
+//删除主键  Key为主键名，返回True表操作成功
+function DeleteKey(const Key:string):Boolean;
+
+//复制或移动主键
+procedure MoveKey(const OldName,Newname:string;Delete:Boolean)
+Delete 表示是否删除源主键，True 表删除
+
+//判断指定主键是否存在 true表存在
+function KeyExists(const Key:string):Boolean;
+
+//判断指定主键下是否有子键  true表含有
+function HasSubKeys:Boolean;
+
+//获取子键名称  Strings 用于返回当前主键下各子键的名称
+procedure GetKeyNames(Strings:TStrings);
+
+//获取主键下的数据值名称  Strings 用于返回当前主键下各数值的名称
+procedure GetValueNames(Strings:TStrings);
+
+
+//判断数值名称存在
+function ValueExists(const Name:string):Boolean;
+
+//数值名称改名
+procedure RenameValue(Const OldName,NewName:string);
+
+
+
+

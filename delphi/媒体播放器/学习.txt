@@ -1,0 +1,39 @@
+改变程序的图标
+
+学习
+（1）TMediaPlayer组件,它封装了Windows Media Control Interface(MCI) 的大量函数。
+属性
+ AutoEnable 是否自动激活
+AutoRewind 如果为True，当播放完一遍后，按Play 键自动回到开始处播放，如果为False，则需按Pre键
+ColoredButtons 确定按钮的颜色
+EnabledButtons设置按钮是否可用
+FileName要播放的多媒体文件名
+Mode返回设备的当前状态
+VisibleButtons 设置按钮是否显示
+TimeFormat设置时间格式
+DeviceID设备的标识ID
+DeviceType确定设备类型
+AutoOpen设置设备是否自动打开
+Display 决定当媒体播放时，显示的区域在哪个控制控件上；
+方法
+ Open ：打开一个多媒体设备  DeviceType 与FileName相匹配的设备类型
+Save将当前装入的媒体内容保存到由FileName的文件中
+Rewind设定当前位置到媒体的开始处
+Resume重新开始播放或录制当前被暂停的多媒体设备
+Close关闭当前已打开的多媒体设备
+PauseOnly暂停多媒体设备
+Play开始播放多媒体文件，之前需先Open
+Stop停止播放多媒体文件，之后还需Close 
+事件
+Onclick 
+OnNotify发生在某个媒体控制方法完成之后，媒体控制方法指的是Back，Close，Eject
+Next，Open。。。等。
+OnPostClick 发生在OnClick事件被调用之后
+OnEnter激活这一组件之后发生
+OnExit 退出时
+
+（2）选择媒体文件用到   在Win3.1
+TDriveComboBox选择驱动器名
+TDirectoryListBox显示在指定的驱动器下的目录列表
+TFileListBox显示在特定目录下的文件列表
+TFilterComBox设置过滤文件

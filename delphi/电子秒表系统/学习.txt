@@ -1,0 +1,18 @@
+///弹出菜单不对
+
+
+学习：
+（1）CLX(Component Library for Cross-Platform，跨平台组件库)，开发者可以为Windows
+和Linux下面的同一个应用程序只写一次代码，且只需要在发布时将其分别在Delphi和Kylix
+中编译即可。
+（2）TLCDNumber控件是一个按照指定的数字显示格式数字信息的控件，属于QStdCtrls单元
+（3）FormatDateTime函数
+function FormatDateTime(const Format:string;DateTime:TDateTime):string;
+begin
+  DateTimeToString(Result,Format,DateTime);
+end;
+Format：制定返回的日期时间格式字符串
+            d,dd,e,ee,m,mm,yy,yyyy,h,hh,n,nn,s,ss,z,zzz,am/pm,a/p,
+            /: 根据全局变量DateSeparator显示日期分隔符
+            :: 根据全局变量TimeSeparator显示日期分隔符
+DateTime：时间量

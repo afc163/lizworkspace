@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<workspace>
+	<settings>
+		<label>EDApplet</label>
+	</settings>
+	<users>
+		<user>
+			<path>EDApplet.jcu</path>
+		</user>
+	</users>
+	<projects>
+		<project>
+			<path>EDApplet.jcp</path>
+		</project>
+	</projects>
+</workspace>

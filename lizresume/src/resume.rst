@@ -87,8 +87,8 @@
 发表论文(Publication)
 ========================
 * SHENG Yan, LI Yun, TIAN Su-fang, LUAN Luan. A Rough Concept Lattice Model of Variable Precision. IEEE International Symposium on Intelligent Information Technology Application 2008 (IITA'08), Shanghai City, China;
-* Yun Li, Yan Sheng, Luan Luan, Lianglei Sun and Ling Chen. A Personalized Search Results Ranking Method Based on WordNet. 8th IEEE/ACIS International Conference on Computer and Information Science (ICIS 2009), June 1-3, 2009, Shanghai, China; 正投
-* Li Yun, Sheng Yan, Luan Luan. A Text Classification Method with an Effective Feature Extraction based on Category Analysis. 正投
+* Yun Li, Yan Sheng, Luan Luan, Lianglei Sun and Ling Chen. A Personalized Search Results Ranking Method Based on WordNet. 8th IEEE/ACIS International Conference on Computer and Information Science (ICIS 2009), June 1-3, 2009, Shanghai, China; 
+* Li Yun, Sheng Yan, Luan Luan. A Text Classification Method with an Effective Feature Extraction based on Category Analysis. 
 * 盛艳, 李云, 李拓, 袁运浩. 一种基于概念格模型的本体合并方法. 2008全国开放式分布与并行计算学术年会(DPCS2008), 2008年10月25~27日;
 * 盛艳, 李云, 李拓, 栾鸾. 基于概念格模型的本体映射. 第三届江苏计算机大会(Jiangsu Computer Conference 2008, JSCC 2008), 2008年11月14日~16日; 此论文被评为第三届江苏计算机大会"优秀论文";
 * 栾鸾, 李云, 盛艳. 多关系频繁项集的并行获取. 2008全国开放式分布与并行计算学术年会(DPCS2008), 2008年10月25~27日;
@@ -149,11 +149,11 @@
     
     *Duties:* We installed RedHat Enterprise Linux 4.0 AS as server operating systems, Apache2.2 as Web server and other utilities. Then after localizing the BLAST, SMS2 and Clustalx, we integrated three systems to one complete system. The main extension is selecting the Avian virus genome to build a sub-database which updates with the NCBI database.
 
-* 2008.04~2009.01 各种使用Python编写的工具程序集(Many tools based on Python)
+* 2008.04~2009.01 各种使用Python编写的工具程序集(Many ToolSet )
 
-    *描述:* 包含很多实用和非实用工具程序, 其项目网址为 `http://code.google.com/p/lizworkspace/ <http://code.google.com/p/lizworkspace/>`_ . 主要有: Backup(备份两台机子上的监视文件以保持同步), streamdata(流数据上进行频繁项集的挖掘), perm(排列组合算法), mp3_classify(将mp3歌曲根据歌手分类), powerset(产生集合的幂集, 和perm有点类似), spider(本体实验中写的yahoo爬虫), search(分析google搜索结果用于个性化搜索实验), crontabanalysis(分析crontab文件), rmfilebaseondate(根据文件名上的日期删除文件), XMPP_Jabber(基于XMPP/Jabber协议的机器人程序), godin(Godin算法, 序列, 模糊集, 粗糙集上的构格算法), FSproj(特征选择相关, 用于文本自动分类), Multi_Relation(多关系上的贝叶斯分类).
+    *描述:* 包含很多实用和非实用工具程序, 其项目网址为 `http://code.google.com/p/lizworkspace/ <http://code.google.com/p/lizworkspace/>`_ . 主要有: Backup(备份两台机子上的监视文件以保持同步), streamdata(流数据上进行频繁项集的挖掘), perm(排列组合算法), mp3_classify(将mp3歌曲根据歌手分类), powerset(产生集合的幂集), spider(本体实验中写的yahoo爬虫), search(分析google搜索结果用于个性化搜索实验), crontabanalysis(分析crontab文件), rmfilebaseondate(根据文件名上的日期删除文件), XMPP_Jabber(基于XMPP/Jabber协议的机器人程序), godin(Godin算法, 序列, 模糊集, 粗糙集上的构格算法), FSproj(特征选择相关, 用于文本自动分类), Multi_Relation(多关系上的贝叶斯分类).
     
-    *Describe:* It includes many utilities which are in `http://code.google.com/p/lizworkspace/ <http://code.google.com/p/lizworkspace/>`_. Such as, Backup(Backup files which are in different computers to keep content consistent), streamdata(Mining the frequent item in stream data), perm(Permutation and combination algorithms), mp3_classify(Classify the music based on singers), powerset(Like perm, it produces one set's powerset quickly), spider(Yahoo spider used in my Ontology papers), search(Analyze the search result and user's web history from google used in Personalized Search), crontabanalysis(Analyze the crontab file to print information more human readable), rmfilebaseondate(remove the old files by date), XMPP_Jabber(A simple robot  based on the XMPP/Jabber protocol), godin(Godin algorithm and other lattice-building algorithms used in Sequence, Fuzzy set and Rough set), FSproj(Feature Extraction to classify texts automatically), Multi_Relation(Bayesian classifier in multi-relations data).
+    *Describe:* It includes many utilities which are in `http://code.google.com/p/lizworkspace/ <http://code.google.com/p/lizworkspace/>`_. Such as, Backup(Backup files which are in different computers to keep content consistent), streamdata(Mining the frequent item in stream data), perm(Permutation and combination algorithms), mp3_classify(Classify the music based on singers), powerset(it produces one set's powerset quickly), spider(Yahoo spider used in my Ontology papers), search(Analyze the search result and user's web history from google used in Personalized Search), crontabanalysis(Analyze the crontab file to print information more human readable), rmfilebaseondate(remove the old files by date), XMPP_Jabber(A simple robot  based on the XMPP/Jabber protocol), godin(Godin algorithm and other lattice-building algorithms used in Sequence, Fuzzy set and Rough set), FSproj(Feature Extraction to classify texts automatically), Multi_Relation(Bayesian classifier in multi-relations data).
 
 爱好/特长(Hobbies)
 ======================
@@ -169,9 +169,8 @@
 * 对人比较真诚, 有积极向上的乐观性格, 遇到困难不会轻易妥协;
 * 容易和别人相处, 有比较强的团队精神;
 * I am a highly-motivated and reliable person with good health and pleasant personality. The main qualities required are preparedness to work hard, ability to learn with good analytical capability.
-* ...
 
 谢谢:)(Thanks All)
 ========================
-hahha
+...
 

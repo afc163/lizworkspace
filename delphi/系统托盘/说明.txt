@@ -1,0 +1,82 @@
+首先 ：showwindow 的对象是谁，好像不是当前form
+  
+
+
+学习：Shell_NotifyIcon函数是在ShellAPI.pas单元声明的
+function Shell_NotifyIcon(dwMessage:DWORD;lpData:PNotifyIconData):BOOL;
+如果函数执行成功,则返回一个非零值.
+其中dwMessage的取值决定函数所要进行的操作类型，取值为
+NIM_ADD:（值为0）在任务栏状态区插入一个图标
+NIM_DELETE:删除
+NIM_MODIFY:修改任务栏状态区的图标、提示信息、等
+    lpData是一个指向NOTIFYICONDATA记录的指针，该记录的内容取决于dwMessage参数的取值
+NOTIFYICONDATA记录定义
+NOTIFYICONDATA=record
+  cdSize:DWORD;      NOTIFYICONDATA记录的大小，应为sizeof(NOTIFYICONDATA的对象)
+  Wnd:HWND;           于此状态区图标相关联的窗口句柄，此窗口将负责处理uCallbackMessage消息
+  uID:UINT;        程序自定义的状态区图标的标识符，是唯一的。
+  uFlags:UINT;    指明NOTIFYICONDATA记录中的成员uCallbackMessage，hIcon，szTip那些项有效，
+                      取值为NIF_MESSAGE(值为1),NIF_ICON(值为2),NIF_TIP(值为4)的组合(or  运算)
+  uCallbackMessage:UINT;          程序定义的消息标识符（32位的整数），当鼠标在状态区图标上移
+                                                   动或点击时（即发生了鼠标事件）时，操作系统将向Wnd指定的那
+                                                  个窗口发送uCallbackMessage消息，一般来说，这个域的值可以通
+                                                  过RegisterWindowsMessage来获得，也可通过WM_User的偏移量来
+                                                  获得，在uCallbackMessage消息中，IParam参数包含了Windows鼠标
+                                                 消息的类型而wParam参数则包含了图标标识（即uID）；
+                                                  有效的鼠标事件有：WM_LBUTTONDOWN,WM_RBUTTONDOWN,
+                                                 WM_MBUTTONDOWN,WM_LBUTTONUP,WM_RBUTTONUP,
+                                               WM_MBUTTONUP, WM_MOUSEMOVE,WM_LBUTTONDBLCLK,
+                                                 WM_RBUTTONDBLCLK,WM_MBUTTONDBLCLK
+  hIcon:HICON;          指定一个图标句柄
+  szTip:array[0..63] of AnsiChar;        显示图标上的提示信息
+end;
+
+
+
+
+消息处理机制
+鼠标在状态区图标上移动或点击时（即发生了鼠标事件）时，操作系统将向Wnd指定的那个窗口发
+送uCallbackMessage成员所指定的WM_MYESSAGE，取值为WM_USER+1一旦截获到了这条消息，
+则进入相应的消息处理程序
+procedure IconOnClick(var message:TMessage);message MI_ICONEVENT;
+
+
+
+
+资源文件的制作与使用
+Delphi中的资源类型：图标资源，光标资源，位图资源，字符串资源
+如何创建
+（1）创建一个.Rc的纯文本文件。
+            格式为：资源标识符+关键字+资源文件名
+资源标识符：程序中调用的特殊符号
+关键字：表示资源类型
+               有：Wave:  声音文件
+                      RCDATA:JPEG文件
+                      AVI:  AVI 动画
+                      ICON:图标文件
+                      BITMAP:位图文件
+                      CURSOR:光标文件
+资源文件名 ：编译的资源文件名
+（2）利用Borland资源编译器（BRCC32.EXE）转化.Rc文件成.Res 文件
+在DOS命令行下输入Brcc32 Filename.Rc
+（3）在工程中引用资源文件
+  加入{$R Filename.Res}
+
+在任务栏上隐藏应用程序
+function ShowWindow(hwnd:HWND,nCmdShow:int):BOOL;
+hwnd参数是应用程序的句柄   一般为Application.Handle
+nCmdShow参数代表了窗体的现实状态
+SW_HIDE  隐藏窗口,激活另一窗口
+SW_MAXIMIZE  将指定窗口最大化
+SW_MINIMIZE  将指定窗口最小化
+SW_RESTORE  还原指定窗口
+SW_SHOW  以当前位置和大小激活窗口
+SW_SHOWDEFAULT  以传递到CreatProcess函数中的STARTUPINFO记录中指定的SW_flag方式显示窗口
+SW_SHOWMAXIMIZED           激活并最大化指定窗口
+SW_SHOEMINIMIZED             激活并最小化指定窗口
+SW_SHOWMINNOACTIVE      以最小化方式显示指定窗口，当前窗口保持激活
+SW_SHOWNA        以当前状态显示指定窗口，当前窗口保持激活
+SW_SHOWNOACTIVATE        以其最近的大小和位置显示指定窗口，当前窗口保持激活
+SW_SHOWNORMAL 激活并显示指定窗口，如果该窗口被最大化或最小化，将还原其原本的大小和位置
+
+                                              

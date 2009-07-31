@@ -1,0 +1,49 @@
+
+
+获取CPU频率
+主要原理是利用rdtsc汇编指令得到CPU内部定时器的值，每经过一个CPU周期，每个
+定时器就加一。如果在一段时间内数得CPU的周期数，则CPU工作频率等于周期数除以时间
+同时，为了不让其他进程和线程打扰，必须要设置最高的优先级，设置当前进程和线程到最
+高的优先级代码如下
+SetPriorityClass(GetCurrentProcess(),REALTIME_PRIORITY_CLASS);
+SetThreadPriority(GetCurrentThread(),THREAD_PRIORITY_TIME_CRITICAL);
+
+获取显示其刷新频率
+通过Windows API函数EnumDisplaySettings可以获取当前显示器的一些参数，方法是先申明一
+个TDeviceMode的对象DeviceMode，通过调用EnumDisplaySettings函数“EnumDisplaySettings
+(nil,Cardinal(-1),DeviceMode)”获取当前显示器的参数，其中DeviceMode.dmDisplayFrequency为
+刷新频率，单位为Hz
+
+获取内存信息
+通过Windows API函数GlobalMemoryStatus可以获取当前系统的内存信息，其函数原形为：
+Void GlobalMemoryStatus(LPMEMORYSTATUS lpBuffer)
+其中lpBuffer为指向内存状态信息结构变量的指针，定义如下：
+typedef struct_MEMORYSTATUS{
+  DWORD dwLength;//sizeof(MEMORYSTATUS)
+  DWORD dwMemoryLoad;//正在使用的内存占总内存的百分比
+  DWORD dwTotalPhys;//物理内存的字节数
+  DWORD dwAvailPhys;//未使用的物理内存的字节数
+  DWORD dwTotalPageFile;//交换文件的字节数
+  DWORD dwAvailPageFile;//未使用的交换文件的字节数
+  DWORD dwTotalVirtual;//虚拟内存的字节数
+  DWORD dwAvailVirtual;//未使用的虚拟内存的字节数
+}
+MEMORYSTATUS, *LPMEMORYSTATUS
+
+
+获取显示卡信息
+通过Windows API函数EnumDisplayDevice可以获取当前显示卡的信息，
+BOOL EnumDisplayDevice(PVOID Unused,  //保留给将来升级用的，应赋值nil
+                                            DWORD iDevNum,//希望的查询的设置号，从0开始计算，如果它
+                                                                          指定的设备不是一个有效的设备，则返回False，
+                                                                         否则返回True，并将参数给lpDisplayDevice参数，
+                                                                        这样只需调用lpDisplayDevice.DeviceString就可得到
+                                            PDISPLAY_DEVICE lpDisplayDevice,
+                                            DWORD dwFlags//无实际意义，置0
+                                            );
+获取驱动器信息
+通过Windows API函数GetDriveType
+Declare Function GetDriveType Lib "Kernel" (ByVal DriveNumber As Integer)As Integer
+入口参数DriveNumber的取值为0，1，2，3等，其中A驱动器为0，B为1，依此类推，函数返回值是0 为
+未检测到驱动器，2为软驱，3为硬盘，4为网络驱动器，5为CD—Rom光驱。
+比如，要获取当前C驱动器的类型，可以通过“GetDriveType(pchar('C:\'))”函数的返回值来判断。

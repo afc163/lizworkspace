@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="ECLIPSE_HOME/plugins/org.eclipse.jface_3.2.1.M20060908-1000.jar" sourcepath="/ECLIPSE_PLATFORM_SOURCE/org.eclipse.jface.text_3.2.1.r321_v20060810"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

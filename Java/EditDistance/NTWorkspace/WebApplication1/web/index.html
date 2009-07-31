@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang='zh'>
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=GB2312">
+    <title>Liz's Page</title>
+  </head>
+  <body>
+      <div align="center">
+            <h1>Levenshtein Distance</h1>
+            <form name="StringForm" action="EditDistance.jsp" method="POST">
+                <table width="40%" border="0">
+                    <tbody>
+                        <tr>
+                            <td width="50%" height="30" align="right">Input One String: </td>
+                            <td width="50%" height="30" align="left"><input type="text" name="stringFrom" value="sunny" /></td>
+                        </tr>
+                        <tr>
+                            <td width="50%" height="30" align="right">Input Another String: </td>
+                            <td width="50%" height="30" align="left"><input type="text" name="stringTo" value="rainny" /></td>
+                        </tr>                       
+                    </tbody>
+                </table> 
+                <table border="0" width="30%">
+                    <tbody>
+                        <tr>
+                            <td align="right"><input type="submit" value="Compute" name="computeButton" /></td>
+                        </tr>
+                        <tr>
+                            <td width="100%" height="60" align="center">
+                                <textarea name="resultArea" rows="4" cols="20" readonly="readonly">
+                                </textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+  </body>
+</html>

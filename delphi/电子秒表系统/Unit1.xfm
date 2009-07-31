@@ -1,0 +1,137 @@
+object Form1: TForm1
+  Left = 258
+  Top = 129
+  Width = 332
+  Height = 119
+  VertScrollBar.Range = 113
+  HorzScrollBar.Range = 329
+  ActiveControl = Buttonstart
+  BorderStyle = fbsSingle
+  Caption = #30005#23376#31186#34920
+  Color = clBackground
+  PopupMenu = PopupMenu1
+  PixelsPerInch = 96
+  TextHeight = 12
+  TextWidth = 6
+  object LCDNumber1: TLCDNumber
+    Left = 8
+    Top = 8
+    Width = 321
+    Height = 73
+    Color = clBackground
+    Digits = 9
+    ParentColor = False
+    Value = '00:00:000'
+  end
+  object Buttonstart: TButton
+    Left = 8
+    Top = 88
+    Width = 75
+    Height = 25
+    Caption = #24320#22987#35745#25968
+    TabOrder = 1
+    OnClick = ButtonstartClick
+  end
+  object Buttonhold: TButton
+    Left = 89
+    Top = 88
+    Width = 75
+    Height = 25
+    Caption = #26242#20572#35745#25968
+    TabOrder = 2
+    OnClick = ButtonholdClick
+  end
+  object Buttonkeepon: TButton
+    Left = 171
+    Top = 88
+    Width = 75
+    Height = 25
+    Caption = #32487#32493
+    TabOrder = 3
+    OnClick = ButtonkeeponClick
+  end
+  object Buttonstop: TButton
+    Left = 253
+    Top = 88
+    Width = 75
+    Height = 25
+    Caption = #20572#27490
+    TabOrder = 4
+    OnClick = ButtonstopClick
+  end
+  object Timer1: TTimer
+    Enabled = False
+    Interval = 1
+    OnTimer = Timer1Timer
+    Left = 248
+    Top = 56
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 296
+    Top = 48
+    object N1: TMenuItem
+      Caption = #33258#23450#20041#36793#26694#26679#24335
+      object N3: TMenuItem
+        Caption = #27809#26377#36793#26694
+        OnClick = SetBChecked
+      end
+      object N4: TMenuItem
+        Tag = 1
+        Caption = #21333#34892#36793#26694
+        OnClick = SetBChecked
+      end
+      object N5: TMenuItem
+        Tag = 2
+        Caption = #20004#20493#36793#26694
+        OnClick = SetBChecked
+      end
+      object N6: TMenuItem
+        Tag = 3
+        Caption = #20985#38519#36793#26694
+        OnClick = SetBChecked
+      end
+      object N7: TMenuItem
+        Tag = 4
+        Caption = #20984#36215#36793#26694
+        OnClick = SetBChecked
+      end
+      object N8: TMenuItem
+        Tag = 5
+        Caption = #20984#36215#26012#35282#36793#26694
+        OnClick = SetBChecked
+      end
+      object N9: TMenuItem
+        Tag = 6
+        Caption = #20985#38519#26012#35282#36793#26694
+        OnClick = SetBChecked
+      end
+      object N10: TMenuItem
+        Tag = 7
+        Caption = #34432#21051#36793#26694
+        OnClick = SetBChecked
+      end
+      object N11: TMenuItem
+        Tag = 8
+        Caption = #28014#38613#36793#26694
+        OnClick = SetBChecked
+      end
+    end
+    object N2: TMenuItem
+      Caption = #33258#23450#20041#25968#23383#29255#27573#31867#22411
+      object N12: TMenuItem
+        Caption = #28014#38613#31867#22411
+        OnClick = SetSChecked
+      end
+      object N13: TMenuItem
+        Tag = 1
+        Caption = #22635#20805#31867#22411
+        OnClick = SetSChecked
+      end
+      object N14: TMenuItem
+        Tag = 2
+        Caption = #24179#28369#31867#22411
+        OnClick = SetSChecked
+      end
+    end
+  end
+end
