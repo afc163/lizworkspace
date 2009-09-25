@@ -13,6 +13,13 @@
 \setlength{\oddsidemargin}{-0.25in}
 \setlength{\evensidemargin}{-0.25in}
 
+\usepackage{xunicode}
+\usepackage{xltxtra}
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
+\setsansfont{AR PL UKai CN}
+\setromanfont{AR PL UKai CN}
+
 %\usepackage{fullpage}
 \usepackage{shading}
 %\textheight=9.0in
@@ -20,9 +27,9 @@
 \raggedbottom
 \raggedright
 \setlength{\tabcolsep}{0in}
-\usepackage{sphinx}
-\usepackage{CJK}
-
+\usepackage{sphinx1}
+\usepackage{picins}
+\usepackage{graphicx}
 %-----------------------------------------------------------
 %Custom commands
 \newcommand{\resitem}[1]{\item #1 \vspace{-2pt}}
@@ -31,13 +38,10 @@
 \begin{tabular*}{6.5in}{l@{\extracolsep{\fill}}r}
         \textbf{#1} & #2 \\
         \textit{#3} & \textit{#4} \\
-\end{tabular*}\vspace{-6pt}}
+\end{tabular*}\vspace{-2pt}}
 %-----------------------------------------------------------
 
-
 \begin{document}
-\begin{CJK*}{GBK}{kai}
-
 \begin{tabular*}{7in}{l@{\extracolsep{\fill}}r}
 \textbf{\Large 盛 艳}  & 手机: 13813147410\\
 江苏省扬州大学 &  Email: \href{mailto:shengyan1985@gmail.com}{shengyan1985@gmail.com} \\
@@ -377,5 +381,6 @@ interested in Intelligent Information Retrieval, NLP methods and techniques.
 
 \end{itemize}
 
-\end{CJK*}
+\clearpage
+
 \end{document}

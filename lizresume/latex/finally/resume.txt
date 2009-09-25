@@ -54,17 +54,17 @@
 
 ==== Openbookproject开放图书计划 ====
  * 2008.4 - 2009.6
- * 描述: 中文Pythonic技术图书的翻译编写项目, 其工程网址在 \href{http://code.google.com/p/openbookproject/}{http://code.google.com/p/openbookproject}. 其中的LovelyPython是原创图书, 将Python以最易懂的方式介绍给读者.
+ * 描述: 中文Pythonic技术图书的翻译编写项目, 其工程网址在 http://code.google.com/p/openbookproject. 其中的LovelyPython是原创图书, 将Python以最易懂的方式介绍给读者.
  * 职责: 参与LovelyPython图书编写过程, 参与部分章节的编写及校对等.
  
 ==== 禽流感病毒基因组生物信息学分析平台构建 ====
  * 2008.11 - 2009.1
  * 描述: 针对国际上各大生物信息中心提供的多个分析软件和基因/核酸数据库, 如BLAST检索系统(The Basic Local Alignment Search Tool, 一个基本的局部序列相似性比对搜索工具)及NCBI数据库(National Center for Biotechnology Information, 生物信息数据库中心), SMS2(The Sequence Manipulation Suite 2, 是用于分析较短的DNA和蛋白质序列的教学实验分析工具), Clustalx-2.0.10(用于进行DNA或蛋白质的多序列比对程序)等, 进行本地化生物信息学分析平台的构建, 并在此基础上进行功能扩展, 具体为禽流感病毒基因组数据库的选取, 定时更新及维护, 方便科研人员对禽流感病毒基因进行分析.
- * 职责: 完整搭建生物信息分析平台及其扩展. 主要有: 服务器基础环境安装及部署, 采用RedHat Enterprise Linux 4.0 AS作为服务器操作系统, 采用Apache2.2作为Web服务器及相关支持工具的安装. BLAST分析工具的本地化部署及相关数据库的安装, SMS2和Clustalx的安装部署, 并将三者整合起来. 其中, 基于Django0.96进行信息平台扩展并使用mod\_python部署到Apache上形成一整套完整的分析系统. 对系统扩展的工作主要有: 在所有基因数据库中提取禽流感病毒基因并构建二级数据库, 随着NCBI数据库的更新也随之更新并提供扩展检索功能.
+ * 职责: 完整搭建生物信息分析平台及其扩展. 主要有: 服务器基础环境安装及部署, 采用RedHat Enterprise Linux 4.0 AS作为服务器操作系统, 采用Apache2.2作为Web服务器及相关支持工具的安装. BLAST分析工具的本地化部署及相关数据库的安装, SMS2和Clustalx的安装部署, 并将三者整合起来. 其中, 基于Django0.96进行信息平台扩展并使用mod_python部署到Apache上形成一整套完整的分析系统. 对系统扩展的工作主要有: 在所有基因数据库中提取禽流感病毒基因并构建二级数据库, 随着NCBI数据库的更新也随之更新并提供扩展检索功能.
 
 ==== eachdn域名交易平台 ====
  * 2009.5 - 2009.9
- * 描述: 一个进行域名交易的电子商务网站, 其网址在 http://www.each.dn .
+ * 描述: 一个进行域名交易的电子商务网站, 其网址在 http://www.eachdn.com .
  * 职责: 负责整个网站后台处理部分, 包括需求分析, 数据库设计, 整体架构设计等, 也包括前台js设计. 主要使用到的框架及技术有: Django, jQuery, Orbited, Xapian等.
 
 ==== 基于语义的协作信息检索框架研究 ====
@@ -134,7 +134,7 @@
  Linux (Ubuntu, Fedora).
 
 ==== Web Technology ====
- Familiar with the Web application development; Master Html, CSS, Javascript and other Web technologies, and  use JQuery skilled, also have Ajax development experience; Become adroit at the Django Web development framework and know about Karrigell, GAE.
+ Familiar with the Web application development; Familiar with Html, CSS, Javascript and other Web technologies, and  use JQuery skilled, also have Ajax development experience; Become adroit at the Django Web development framework and know about Karrigell, GAE.
 
 ==== Database ====
  Familiar with the use of MySQL, Sqlite and other databases.
@@ -167,7 +167,7 @@
 
 ==== eachdn Domain Name Trading Platform ====
  * 2009.5 - 2009.9
- * Describe: An e-commerce website for domain name transactions, the website is http://www.each.dn. 
+ * Describe: An e-commerce website for domain name transactions, the website is http://www.eachdn.com. 
  * Duties: Responsible for the overall website's backend part, including needs analysis, database design, architecture design, including js. The main technologies and framework: Django, jQuery, Orbited, Xapian.
 
 ==== Collaborative information retrieval research using semantic info ====
