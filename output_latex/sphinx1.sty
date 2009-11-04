@@ -1,0 +1,42 @@
+%
+% sphinx.sty
+%
+% Adapted from the old python.sty, mostly written by Fred Drake,
+% by Georg Brandl.
+%
+
+\NeedsTeXFormat{LaTeX2e}[1995/12/01]
+\ProvidesPackage{sphinx}[2008/05/01 LaTeX package (Sphinx markup)]
+
+\RequirePackage{textcomp}
+\RequirePackage{fancyhdr}
+\RequirePackage{fancybox}
+\RequirePackage{titlesec}
+\RequirePackage{tabulary}
+\RequirePackage{amsmath} % for \text
+\RequirePackage{makeidx}
+\RequirePackage{framed}
+\RequirePackage{color}
+\RequirePackage{fancyvrb}
+\RequirePackage{threeparttable}
+
+% Redefine these colors to your liking in the preamble.
+\definecolor{TitleColor}{rgb}{0.126,0.263,0.361}
+\definecolor{InnerLinkColor}{rgb}{0.208,0.374,0.486}
+\definecolor{OuterLinkColor}{rgb}{0.216,0.439,0.388}
+% Redefine these colors to something not white if you want to have colored
+% background and border for code examples.
+\definecolor{VerbatimColor}{rgb}{1,1,1}
+\definecolor{VerbatimBorderColor}{rgb}{1,1,1}
+
+% Uncomment these two lines to ignore the paper size and make the page
+% size more like a typical published manual.
+%\renewcommand{\paperheight}{9in}
+%\renewcommand{\paperwidth}{8.5in}   % typical squarish manual
+%\renewcommand{\paperwidth}{7in}     % O'Reilly ``Programmming Python''
+
+% Include hyperref last.
+\RequirePackage[colorlinks,breaklinks,
+                linkcolor=InnerLinkColor,filecolor=OuterLinkColor,
+                menucolor=OuterLinkColor,pagecolor=OuterLinkColor,
+                urlcolor=OuterLinkColor]{hyperref}
