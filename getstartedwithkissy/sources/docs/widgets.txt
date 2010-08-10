@@ -1,0 +1,56 @@
+.. _widgets:
+
+
+组件
+===============================================
+Kissy UI库, 未来会提供种类丰富的UI组件, 虽然目前发布的只有 Switchable , 但不久之后, 会有更多的组件开发完成.
+
+下面介绍下 Kissy 已有组件 ``Switchable`` [1]_ 和 ``Suggest`` [2]_ .
+
+
+Switchable
+-------------------
+``Switchable`` 是最基本的切换组件, 已有四种扩展组件 ``S.Tabs`` , ``S.Slide`` , ``S.Carousel`` , ``S.Accordin`` , 基本上这几种能够满足你大多数的应用需求, 她们的最基本的使用可参见 [3]_ , 相信你能马上使用起来的.
+
+不过, 可能还有些需要注意的地方:
+ #. 切换组件默认是显示第一个内容块, 如果当前显示不是首个, 可以使用 ``switchTo(index)`` 切换到对应的内容块;
+ #. 一般情况下, 非当前显示内容中如果包含 异步请求 或者 iframe 或者 图片, 可以加入延迟加载插件 ``datalazyload`` ;
+
+
+.. note::
+
+   [1]_ 中, 说: "Switchable 基础类抽象了切换的基本操作，通过插件机制实现了自动播放、循环、切换效果、延迟加载、倒计时动画等扩展功能，最后封装成各个 Widget 类，让用户能简明快速地调用。
+
+   一定程度上，只要组件的核心是可切换的，Switchable 就能帮你实现."
+
+
+那么, 如何利用 ``Switchable`` 扩展出自己的切换效果呢? 为了更好的说明这个功能, 这里举例 [4]_ 中出现的 ``kwicks`` 切换效果,  见 `demo <demo/kwicks.html>`_ .
+
+
+
+.. literalinclude:: demo/kwicks.js
+   :language: javascript
+   :lines: 5-
+
+
+
+这样扩展之后, 引入 ``kwicks.js`` , 通过 ``new S.Kwicks('#J_kwicks');`` 调用即可, 很简单吧~~
+
+
+
+Suggest
+-------------------
+搜索框提示组件, 功能多多, 文档 [2]_ 上已经很详细了, 所以这边就不重复讲了.
+
+
+
+
+下一节将介绍, 如果你需要自己写个组件, 该注意写什么(其实已经在这节中出现了)? -- :ref:`自定义组件 <yourwidgets>` ...
+
+.. rubric:: 参考链接
+
+.. [1] `Switchable <http://kissyteam.github.com/kissy/docs/switchable/index.html>`_ ;
+.. [2] `Suggest <http://kissyteam.github.com/kissy/docs/suggest/index.html>`_ ;
+.. [3] `Switchable Demo <http://kissyteam.github.com/kissy/src/switchable/test.html>`_ ;
+.. [4] `kwicks <http://eyedraw.eu/>`_ ;
+

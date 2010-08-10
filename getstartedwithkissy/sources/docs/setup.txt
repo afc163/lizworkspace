@@ -1,0 +1,26 @@
+.. _setup:
+
+
+
+Setup
+=============================
+
+如何使用 Kissy ? 简单的只有下面三点...
+
+* 将kissy.js, `http://github.com/kissyteam/kissy/raw/master/build/packages/kissy.js <http://github.com/kissyteam/kissy/raw/master/build/packages/kissy.js>`_ 引入到你的页面上;
+* 另外, Kissy也提供了CSS的reset和grid基本样式, 如果你需要, 可以引入 `http://github.com/kissyteam/kissy/raw/master/build/cssreset/reset.css <http://github.com/kissyteam/kissy/raw/master/build/cssreset/reset.css>`_ 和 `http://github.com/kissyteam/kissy/raw/master/build/cssgrids/grids.css <http://github.com/kissyteam/kissy/raw/master/build/cssgrids/grids.css>`_ ;
+* 这里还有base.css, 是将reset和grid合并起来的一个文件, `http://github.com/kissyteam/kissy/raw/master/build/cssbase/base.css <http://github.com/kissyteam/kissy/raw/master/build/cssbase/base.css>`_ , 有关布局样式, 可以使用 `自动生成工具 <http://kissyteam.github.com/kissy/src/cssgrids/css-generator.html>`_ .
+* 注意一下, 这里引用的是 github.com 上的资源, 你也可以直接用 淘宝cdn 上已经发布了的 Kissy 版本:  `http://a.tbcdn.cn/s/kissy/1.1.0/build/packages/kissy-min.js <http://a.tbcdn.cn/s/kissy/1.1.0/build/packages/kissy-min.js>`_ , 当前最新版本是 1.1.0 , 所有代码都放在 build 目录下; 如果需要引用多个 kissy 组件, 可以利用 cdn combo, 如 `http://a.tbcdn.cn/s/kissy/1.1.0/build/??anim/anim-pkg-min.js,datalazyload/datalazyload-min.js,switchable/switchable-pkg-min.js <http://a.tbcdn.cn/s/kissy/1.1.0/build/??anim/anim-pkg-min.js,datalazyload/datalazyload-min.js,switchable/switchable-pkg-min.js>`_ , 请求一次就可以加载多个文件.
+
+.. note::
+   每一个小章节都会配有一个小例子, 例如这章给出所有例子上最基本的DOM结构
+
+
+.. literalinclude:: demo/setup.html
+   :language: html
+
+
+见 `示例1 <demo/setup.html>`_ , 在这个页面上, 除了加载base.css和kissy.js之外, 其他什么也没做! 要真正使用Kissy, 那赶快去看 :ref:`下一节 <hellokissy>` 内容吧~
+
+
+

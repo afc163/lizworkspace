@@ -1,0 +1,287 @@
+.. _anim:
+
+
+Anim
+===============================================
+关于js中的动画, 让我映象最为深刻的就是 JQuery 首页上最经典的例子 ``$("p.neat").addClass("ohmy").show("slow");``
+
+相当简单的一行代码就可以出现元素的渐隐效果, 从那时她就已经深深吸引了当初只知道flash能做动画的我;
+
+
+Kissy中也提供了基本的动画特效支持. 主要由三个子模块组成 [1]_ :
+ #. ``anim``, 动画的基础模块;
+ #. ``anim-easing``, 提供easeIn/Out, elasticIn/Out, backIn/Out, bounceIn/Out 等平滑函数;
+ #. ``anim-node-plugin``, 对 ``Node/NodeList`` 的动画支持;
+
+核心的动画函数 ``S.Anim(elem, props, duration, easing, callback)`` , 5个参数分别为:
+ #. ``elem`` : 指定动画的目标元素;
+ #. ``props`` : 动画属性, 可以是字符串或者普通对象;
+ #. ``duration`` : 动画时长, 以秒为单位;
+ #. ``easing`` : 动画平滑函数, 可以取 [2]_ , 不同的函数呈现不同的变化效果;
+ #. ``callback`` : 动画完毕后的回调函数;
+
+
+基本使用
+-----------------------------
+最简单的示例, 实现的效果就是, 点击开始之后, 图片元素从左移到右边之后, 同时会有放大效果.
+
+.. raw:: html
+   
+   <div class="demo">
+        <style>
+            .imgwrap {
+                position: relative;
+                padding: 10px;
+                border: 2px solid grey;
+                background: #E9F4FF;
+                height: 110px;
+            }
+            #J_img {
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+            
+        </style>
+        <button id="J_button-img" type="button">Start</button>
+        <br />
+        <div class="imgwrap">
+            <img id="J_img" src="http://img02.taobaocdn.com/tps/i2/T1QXVsXnFjXXXXXXXX-167-63.png" />
+        </div>
+        
+        <script>
+            KISSY.ready(function(S){
+                var btn = S.one('#J_button-img');
+                
+                btn.on('click', function(){
+                    btn.attr('disabled', true);
+                    var anim = S.Anim('#J_img', 
+                                        {'left': '400px', 'height': '100px'},
+                                        2,
+                                        S.Easing.easeOut,
+                                        function(){
+                                            btn.removeAttr('disabled');
+                                        });
+                    anim.run();
+                    // 或者使用 Node 方式, 如:
+                    /*S.one('#J_img').animate({'left': '400px', 'height': '100px'},
+                                2,
+                                S.Easing.easeOut,
+                                function(){
+                                    btn.removeAttr('disabled');
+                                });
+                    */
+                });
+            });
+        </script>
+   </div>
+
+这里面的动画分解一下的话, 主要有元素位置的变化(由 ``left`` 控制), 和 元素大小的变化(由 ``height`` 控制).
+
+.. code-block:: javascript
+   :linenos:
+   
+   KISSY.ready(function(S){
+       var btn = S.one('#J_button-img');
+       
+       btn.on('click', function(){
+           btn.attr('disabled', true);
+           var anim = S.Anim('#J_img', 
+                               {'left': '400px', 'height': '100px'},
+                               2,
+                               S.Easing.easeOut,
+                               function(){
+                                   btn.removeAttr('disabled');
+                               });
+           anim.run();
+           // 或者使用 Node 方式, 如:
+           /*S.one('#J_img').animate({'left': '400px', 'height': '100px'},
+                       2,
+                       S.Easing.easeOut,
+                       function(){
+                           btn.removeAttr('disabled');
+                       });
+           */
+       });
+   });
+
+
+
+很简单的例子, 貌似也没什么好说的了, 更多类似的小例子可以参见 [3]_ .
+
+
+
+show()/hide()/fadeIn()/fadeOut()
+----------------------------------------------------------
+这里我们来模范的实现 JQuery中的 ``show()/hide()`` 和 ``fadeIn()/fadeOut()``  函数 (实现的比较粗糙..呵呵)
+
+.. raw:: html
+   
+   <div class="demo">
+        <style>
+            #J_show {
+                margin: 10px;
+                padding: 10px;
+                text-align: center;
+                border: 2px solid grey;
+                background: #E9F4FF;
+                width:40%;
+                display: block;
+                overflow: hidden;
+            }
+            #J_fade {
+                border: 2px solid grey;
+                margin: 10px;
+                padding: 10px;
+                text-align: center;
+                background: #E9F4FF;
+                width:40%;
+                display: none;
+            }
+            
+        </style>
+        <button id="J_button-show" type="button">Hide</button>
+        
+        <div id="J_show">waiting...</div>
+        
+        <hr />
+        
+        <button id="J_button-fade" type="button">Fade</button>
+        <div id="J_fade">waiting...</div>
+        
+        <script>
+            KISSY.ready(function(S){
+                var btnShow = S.one('#J_button-show'),
+                    sw = S.one('#J_show'),
+                    hw = [sw.height(), sw.width()];
+                
+                btnShow.on('click', function(){
+                    btnShow.attr('disabled', true);
+                    if (sw.css('display') === 'none') {
+                        sw.css('opacity', 0).css('display', 'block').height(0).width(0).css('opacity', 1);
+                        
+                        sw.animate({'height': hw[0]+'px', 'width': hw[1]+'px'},
+                                    2,
+                                    S.Easing.easeOut,
+                                    function(){
+                                        sw.html('Now, you can see me!').height(hw[0]).width(hw[1]);
+                                        btnShow.removeAttr('disabled').html('Hide');
+                                    });
+                    } else {
+                        sw.animate({'height': '0px', 'width': '0px'},
+                                    2,
+                                    S.Easing.easeOut,
+                                    function(){
+                                        sw.html('waiting...').css('display', 'none');
+                                        btnShow.removeAttr('disabled').html('Show');
+                                    });
+                    }
+                });
+                
+                
+                var btnFade = S.one('#J_button-fade'),
+                    fd = S.one('#J_fade');
+                
+                btnFade.on('click', function(){
+                    btnFade.attr('disabled', true);
+                    if (fd.css('display') === 'none') {
+                        fd.css('opacity', 0).css('display', 'block');
+                        fd.animate('opacity: 1;',
+                                    2,
+                                    S.Easing.easeOut,
+                                    function(){
+                                        fd.html('Now, you can see me!');
+                                        btnFade.removeAttr('disabled').html('Hide');
+                                    });
+                    } else {
+                        fd.animate('opacity: 0;',
+                                    2,
+                                    S.Easing.easeOut,
+                                    function(){
+                                        fd.html('waiting...').css('display', 'none');
+                                        btnFade.removeAttr('disabled').html('Fade');
+                                    });
+                    }
+                });
+            });
+        </script>
+   </div>
+
+
+部分代码:
+
+.. code-block:: javascript
+   :linenos:
+   
+   KISSY.ready(function(S){
+        // ...
+        btnShow.on('click', function(){
+            btnShow.attr('disabled', true);
+            
+            if (sw.css('display') === 'none') {
+                // show()
+                sw.css('opacity', 0).css('display', 'block').height(0).width(0).css('opacity', 1);
+                
+                sw.animate({'height': hw[0]+'px', 'width': hw[1]+'px'},
+                            2,
+                            S.Easing.easeOut,
+                            function(){
+                                sw.html('Now, you can see me!').height(hw[0]).width(hw[1]);
+                                btnShow.removeAttr('disabled').html('Hide');
+                            });
+            } else {
+                // hide()
+                sw.animate({'height': '0px', 'width': '0px'},
+                            2,
+                            S.Easing.easeOut,
+                            function(){
+                                sw.html('waiting...').css('display', 'none');
+                                btnShow.removeAttr('disabled').html('Show');
+                            });
+            }
+        });
+        
+        // ...
+        btnFade.on('click', function(){
+            btnFade.attr('disabled', true);
+            
+            if (fd.css('display') === 'none') {
+                // fadeIn()
+                fd.css('opacity', 0).css('display', 'block');
+                fd.animate('opacity: 1;',
+                            2,
+                            S.Easing.easeOut,
+                            function(){
+                                fd.html('Now, you can see me!');
+                                btnFade.removeAttr('disabled').html('Hide');
+                            });
+            } else {
+                // fadeOut()
+                fd.animate('opacity: 0;',
+                            2,
+                            S.Easing.easeOut,
+                            function(){
+                                fd.html('waiting...').css('display', 'none');
+                                btnFade.removeAttr('disabled').html('Fade');
+                            });
+            }
+        });
+   });
+
+这里面, 
+ #. 动画属性 ``props`` 须是连续型的数值, 如果是 ``display`` 这种 "离散型" 的, 我想到的只有利用 ``opacity`` 设置透明度这种方式, 在 ``display: block`` 之前将元素设置为透明, 获取 ``height/width``, 设置元素高度宽度为0, 再设置元素不透明, 最后动画从高宽度为0到正常的高度和宽度;
+ #. 像 ``height/width`` 这种属性, 需要加上单位, 不能光光是数字;
+ #. ``S.Easing`` 取值可以根据你的需要选取, 默认不写也是可以的;
+
+
+
+关于动画, 先介绍到这里吧, 其他深入的内容, 等你一起探索! 
+
+下一节, 将会介绍 Kissy 的第一个功能强大, 且在淘宝网上经常能够看到的组件 -- ``Switchable`` , 并会详细介绍 :ref:`Kissy组件 <widgets>`  的组织方式...
+
+
+.. rubric:: 参考链接
+
+.. [1] `Anim 文档 <http://kissyteam.github.com/kissy/docs/anim/>`_ ;
+.. [2] `平滑函数 <http://kissyteam.github.com/kissy/docs/anim/anim-easing.html>`_ ;
+.. [3] `动画示例 <http://kissyteam.github.com/kissy/src/anim/test.html>`_ ;

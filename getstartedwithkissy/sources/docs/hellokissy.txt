@@ -1,0 +1,122 @@
+.. _hellokissy:
+
+
+Hello Kissy
+===============================================
+
+首先从最简单的例子 -- hello kissy 开始!
+
+
+.. raw:: html
+   
+   <div class="demo">
+        <button type="button" id="J_click">Click Me!</button>
+        
+        <script>
+            KISSY.ready(function(S){
+                var DOM = S.DOM,
+                    Event = S.Event;
+                
+                var btn = DOM.get('#J_click');
+                
+                Event.on(btn, 'click', function(e) {
+                    alert("Hello, welcome to Kissy's world!");
+                });
+            });
+        </script>
+   </div>
+
+很简单, 点击按钮弹出hello kissy的消息框, 对应代码为:
+
+.. literalinclude:: demo/hellokissy.html
+   :language: javascript
+   :lines: 11-26
+
+
+这个例子中, 
+ #. ``KISSY.ready()`` 指在DOM加载完毕之后执行代码. 就像jQuery中的 ``$(document).ready()`` 类似;
+ #. ``KISSY.DOM`` , KISSY的DOM模块 [1]_ , 提供基本的DOM操作功能, 如元素的选择和遍历, css 属性的获取和修改, 还能获取位置大小等;
+ #. ``KISSY.Event`` , KISSY的Event模块 [2]_ , 提供事件处理功能, 如基本的事件添加删除功能, 另外还更好的支持 ``mouseenter/mouseleave`` , ``focusin/focusout`` 事件, 这会在下面的例子中讲到;
+ #. ``DOM.get(selector, context)`` , 在 ``context`` 中, 根据给出的 ``selector`` 获取DOM树上对应的 **一个节点** , ``context`` 不是必需的; 另外还有一个类似的方法叫做 ``DOM.query(selector, context)`` , 与前者不同的是, 得到 **所有** 符合条件的元素;
+
+
+Hello Kissy More
+-------------------------
+
+上面的例子太普通了, 于是乎, 我们在这里修改一下, 使她变得更加好玩一点~
+
+
+.. raw:: html
+   
+   <div class="demo">
+        <style>
+            #J_click-kissy {
+                margin-left: 600px;
+            }
+            .msg {
+                text-align: center;
+            }
+        </style>
+        <button type="button" id="J_click-hello">Click Me!</button>
+        
+        <button type="button" id="J_click-kissy" style="display: none;">Click Me!</button>
+        <script>
+            KISSY.ready(function(S){
+                var DOM = S.DOM,
+                    Event = S.Event,
+                    times = 0;
+                
+                var btnHello = DOM.get('#J_click-hello'),
+                    btnKissy = DOM.get('#J_click-kissy');
+                
+                Event.on(btnHello, 'mouseenter', function(e) {
+                    DOM.css(btnHello, 'display', 'none');
+                    DOM.css(btnKissy, 'display', 'block');
+                    times++;
+                    showMsg();
+                });
+                
+                Event.on(btnKissy, 'mouseenter', function(e) {
+                    DOM.css(btnKissy, 'display', 'none');
+                    DOM.css(btnHello, 'display', 'block');
+                    times++;
+                    showMsg();
+                });
+                
+                function showMsg() {
+                    if (times>2) {
+                        var msg = DOM.get('#J_msg');
+                        if (!msg) {
+                            msg = DOM.create('<p id="J_msg" class="msg">哈哈, 你点不到我!</p>');
+                            DOM.insertAfter(msg, btnKissy);
+                        }
+                    }
+                }
+            });
+        </script>
+   </div>
+   
+
+对应代码为:
+
+.. literalinclude:: demo/hellokissy.html
+   :language: javascript
+   :lines: 43-74
+
+
+
+这个例子中, 用到了:
+ #. 之前提到的 ``mouseenter`` 事件, 也就是当鼠标进入元素时触发的事件, 在这里, 当鼠标进入按钮区域时, 隐藏她并显示另外一个按钮. Kissy支持更多的事件, 具体使用参见 [2]_ ;
+ #. ``DOM.css()``, 获取/设置元素某个css属性, 这里设置元素的 ``display`` 属性;
+ #. ``DOM.insertAfter( newNode, refNode )``, 在元素refNode之后插入新元素, 还有另外一个方法 ``DOM.insertBefore`` 是在refNode之前插入新元素. 在这个例子中, 将提示信息插入到按钮之后. 更多DOM方法见 [1]_ ;
+
+
+
+本章节完整例子见 `示例2 <demo/hellokissy.html>`_ , 到这里, 我们已经能最基本的使用Kissy了, 接下来将介绍和jQuery/YUI3中类似的 :ref:`Node <usenode>` 对象的使用.
+
+
+.. rubric:: 参考链接
+
+.. [1] `DOM文档 <http://kissyteam.github.com/kissy/docs/dom/index.html>`_ ;
+.. [2] `Event文档 <http://kissyteam.github.com/kissy/docs/event/index.html>`_ ;
+

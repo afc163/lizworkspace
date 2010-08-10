@@ -1,0 +1,52 @@
+.. Get Started With Kissy documentation master file, created by
+   sphinx-quickstart on Wed Aug 04 09:42:21 2010.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Get Started With Kissy
+===============================================
+
+这是一份介绍如何使用Kissy的入门教程, 教你从最基本的地方开始熟悉这可爱的Kissy. 
+
+如果你是如下情况之一的开发人员, 都可以通过这份文档慢慢使用起Kissy!
+
+   #. 以前就学习过 `JQuery <http://jquery.com/>`_ , `YUI <http://developer.yahoo.com/yui/>`_ , `Ext <http://www.sencha.com/products/js/>`_ 等其他JS框架, 但现在想尝试个新鲜点的, 且还是国人开发的;
+   #. js新手, 只有可怜的一点js基础, 正好想学一个JS框架来提高自身技能;
+   #. 完全是个菜鸟, 也没关系! 学习Kissy会让你逐渐对前端技术产生足够的兴趣;
+   #. 至于前端大牛,,那就忽略本文档, 直接进入Kissy的 `源码世界 <http://github.com/kissyteam/kissy/tree/master/src/>`_ 研究吧!
+
+
+Kissy资源
+------------------------
+   KISSY - An Enjoyable JavaScript Library
+   
+   * Project Hosting in `GitHub <http://github.com/kissyteam/kissy/>`_;
+   * `Kissy文档 <http://kissyteam.github.com/kissy/docs/>`_ , 不断更新中;
+   * Kissy之父, 淘宝UED的 `玉伯 <http://lifesinger.org/>`_;
+
+下面就开始我们的Kissy新奇之旅吧~~
+
+
+主要内容
+------------------------
+
+.. toctree::
+   :maxdepth: 3
+
+   docs/setup.rst
+   docs/hellokissy.rst
+   docs/node.rst
+   docs/ajax.rst
+   docs/anim.rst
+   docs/widgets.rst
+   docs/yourwidgets.rst
+   docs/nextstep.rst
+
+
+索引及搜索
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
