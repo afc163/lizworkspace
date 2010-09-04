@@ -6,8 +6,8 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Setup &mdash; Get Started With Kissy v0.1 documentation</title>
-    <link rel="stylesheet" href="../static/sphinxdoc.css" type="text/css" />
+    <title>Setup &mdash; Quick Start Guide v0.1 documentation</title>
+    <link rel="stylesheet" href="../static/kissy.css" type="text/css" />
     <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,117 +23,143 @@
     <script type="text/javascript" src="../static/jquery.js"></script>
     <script type="text/javascript" src="../static/underscore.js"></script>
     <script type="text/javascript" src="../static/doctools.js"></script>
-    <link rel="top" title="Get Started With Kissy v0.1 documentation" href="../index.html" />
-    <link rel="next" title="Hello Kissy" href="hellokissy.html" />
-    <link rel="prev" title="Get Started With Kissy" href="../index.html" /> 
+    <link rel="top" title="Quick Start Guide v0.1 documentation" href="../index.html" />
+    <link rel="next" title="Hello KISSY" href="hellokissy.html" />
+    <link rel="prev" title="Getting Started With KISSY" href="../index.html" /> 
   </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="hellokissy.html" title="Hello Kissy"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="../index.html" title="Get Started With Kissy"
-             accesskey="P">previous</a> |</li>
-        <li><a href="http://kissyteam.github.com/kissy/docs/">Kissy Doc</a> |</li>
-        <li><a href="../index.html">Get Started With Kissy v0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div> 
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="../index.html"
-                        title="previous chapter">Get Started With Kissy</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="hellokissy.html"
-                        title="next chapter">Hello Kissy</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../sources/docs/setup.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
+  <body><div class="headwrap">
+<div class="header">
+    <h1 class="logo"><!-- <a href="/"><img src="http://kissyteam.github.com/kissy.png" /></a> --></h1>
+    <!-- <ul class="navigation">
+        <li><a href="#">Doc1</a></li>
+        <li><a href="#">Doc1</a></li>
+        <li><a href="#">Doc1</a></li>
+    </ul> -->
+<div class="searchbox" style="display: none"  id="searchbox">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" size="18" />
-      <input type="submit" value="Go" />
+      <input type="text" name="q" size="18" class="ipt"/>
+      <input type="submit" value="搜索" class="btn"/>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
+</div>
+</div>
+ 
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="http://kissyteam.github.com/kissy/docs/">Kissy Doc</a> |</li>
+        <li><a href="../index.html">Quick Start Guide v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
 
     <div class="document">
       <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+        <div class="toc">
+        <script>
+            KISSY.ready(function(S){
+                var DOM = S.DOM,
+                    Event = S.Event;
+                
+                Event.on('#J_toc', 'click', function(e){
+                    e.halt();
+                    var p = DOM.parent(DOM.parent(this));
+                    DOM.toggleClass(p, 'tocshow');
+                });
+            });
+        </script>
+        </div>
+        <div class="body">
             
   <div class="section" id="setup">
 <span id="id1"></span><h1>Setup<a class="headerlink" href="#setup" title="Permalink to this headline">¶</a></h1>
-<p>如何使用 Kissy ? 简单的只有下面三点...</p>
+<p>如何使用 KISSY ?</p>
 <ul class="simple">
-<li>将kissy.js, <a class="reference external" href="http://github.com/kissyteam/kissy/raw/master/build/packages/kissy.js">http://github.com/kissyteam/kissy/raw/master/build/packages/kissy.js</a> 引入到你的页面上;</li>
-<li>另外, Kissy也提供了CSS的reset和grid基本样式, 如果你需要, 可以引入 <a class="reference external" href="http://github.com/kissyteam/kissy/raw/master/build/cssreset/reset.css">http://github.com/kissyteam/kissy/raw/master/build/cssreset/reset.css</a> 和 <a class="reference external" href="http://github.com/kissyteam/kissy/raw/master/build/cssgrids/grids.css">http://github.com/kissyteam/kissy/raw/master/build/cssgrids/grids.css</a> ;</li>
-<li>这里还有base.css, 是将reset和grid合并起来的一个文件, <a class="reference external" href="http://github.com/kissyteam/kissy/raw/master/build/cssbase/base.css">http://github.com/kissyteam/kissy/raw/master/build/cssbase/base.css</a> , 有关布局样式, 可以使用 <a class="reference external" href="http://kissyteam.github.com/kissy/src/cssgrids/css-generator.html">自动生成工具</a> .</li>
-<li>注意一下, 这里引用的是 github.com 上的资源, 你也可以直接用 淘宝cdn 上已经发布了的 Kissy 版本:  <a class="reference external" href="http://a.tbcdn.cn/s/kissy/1.1.0/build/packages/kissy-min.js">http://a.tbcdn.cn/s/kissy/1.1.0/build/packages/kissy-min.js</a> , 当前最新版本是 1.1.0 , 所有代码都放在 build 目录下; 如果需要引用多个 kissy 组件, 可以利用 cdn combo, 如 <a class="reference external" href="http://a.tbcdn.cn/s/kissy/1.1.0/build/??anim/anim-pkg-min.js,datalazyload/datalazyload-min.js,switchable/switchable-pkg-min.js">http://a.tbcdn.cn/s/kissy/1.1.0/build/??anim/anim-pkg-min.js,datalazyload/datalazyload-min.js,switchable/switchable-pkg-min.js</a> , 请求一次就可以加载多个文件.</li>
+<li>先将kissy.js, <a class="reference external" href="http://github.com/kissyteam/kissy/raw/master/build/packages/kissy.js">http://github.com/kissyteam/kissy/raw/master/build/packages/kissy.js</a> 引入到你的页面上;</li>
+<li>接着, <strong>稍加</strong> 编写一些js, 就可以实现下面的效果了;</li>
 </ul>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">每一个小章节都会配有一个小例子, 例如这章给出所有例子上最基本的DOM结构</p>
-</div>
-<div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!doctype html&gt;</span>
-<span class="nt">&lt;html&gt;</span>
-<span class="nt">&lt;head&gt;</span>
-    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span> <span class="nt">/&gt;</span>
-    <span class="nt">&lt;title&gt;</span>Demo<span class="nt">&lt;/title&gt;</span>
-    <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;http://a.tbcdn.cn/s/kissy/1.1.0/build/cssbase/base-min.css&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://github.com/kissyteam/kissy/raw/master/build/packages/kissy.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-<span class="nt">&lt;/head&gt;</span>
-<span class="nt">&lt;body&gt;</span>
-    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;page&quot;</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;h2&gt;</span>Hello Kissy, not Hello Kitty!<span class="nt">&lt;/h2&gt;</span>
-    <span class="nt">&lt;/div&gt;</span>
-<span class="nt">&lt;/body&gt;</span>
-<span class="nt">&lt;/html&gt;</span>
-</pre></div>
-</div>
-<p>见 <a class="reference external" href="demo/setup.html">示例1</a> , 在这个页面上, 除了加载base.css和kissy.js之外, 其他什么也没做! 要真正使用Kissy, 那赶快去看 <a class="reference internal" href="hellokissy.html#hellokissy"><em>下一节</em></a> 内容吧~</p>
+<div class="demo">
+    <style>
+        .imgwrap {
+            position: relative;
+            padding: 10px;
+            background: #E9F4FF;
+            height: 110px;
+        }
+        #J_kissy {
+            position: absolute;
+            left: 400px;
+            top: 0;
+            opacity: 0;
+            font-size: 14px;
+            line-height: 2;
+            filter: alpha(opacity:0);
+        }
+        #J_img {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+    </style>
+
+    <button type="button" id="J_click">Click Me!</button>
+    <div class="imgwrap">
+        <img id="J_img" src="http://kissyteam.github.com/kissy/docs/assets/logo.png" />
+        <h2 id="J_kissy">Hello Kissy, NOT Kitty!</h2>
+    </div>
+
+    <script>
+        KISSY.ready(function(S){
+            var DOM = S.DOM,
+                Event = S.Event;
+
+            var btn = DOM.get('#J_click');
+
+            Event.on(btn, 'click', function(e) {
+                DOM.attr(btn, 'disabled', true);
+                var flag = DOM.css(DOM.get('#J_img'), 'left'),
+                    obj = {'0px': ['#J_img', '#J_kissy'],
+                            '400px': ['#J_kissy', '#J_img']},
+                    anim = {'0px': [],
+                            '400px': []};
+                if (!parseInt(flag)) {
+                    anim[flag][0] = {'left': '400px', 'opacity': '0'};
+                    anim[flag][1] = {'left': '0px', 'opacity': '1', 'font-size': '28px'};
+                } else {
+                    anim[flag][0] = {'left': '400px', 'opacity': '0', 'font-size': '14px'};
+                    anim[flag][1] = {'left': '0px', 'opacity': '1'};
+                }
+                S.Anim(obj[flag][0],
+                        anim[flag][0],
+                        2,
+                        S.Easing.easeOut,
+                        function(){
+                            S.Anim(obj[flag][1],
+                                    anim[flag][1],
+                                    2,
+                                    S.Easing.easeOut,
+                                    function(){
+                                        DOM.removeAttr(btn, 'disabled');
+                                    }).run();
+                        }).run();
+            });
+        });
+    </script>
+
+</div><p>使用 KISSY 实现上面的效果, 只需要不到20行的代码, 下面的章节会一步一步地教你学习 KISSY !</p>
+<p>下一节将会详细介绍本节中出现的示例  <a class="reference internal" href="hellokissy.html#hellokissy"><em>Hello Kissy</em></a> ~</p>
 </div>
 
 
-          </div>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="hellokissy.html" title="Hello Kissy"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="../index.html" title="Get Started With Kissy"
-             >previous</a> |</li>
-        <li><a href="http://kissyteam.github.com/kissy/docs/">Kissy Doc</a> |</li>
-        <li><a href="../index.html">Get Started With Kissy v0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2010, liz.
+        &copy; Copyright 2010, kissyteam.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.
     </div>
   </body>

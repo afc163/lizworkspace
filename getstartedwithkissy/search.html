@@ -6,8 +6,8 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Search &mdash; Get Started With Kissy v0.1 documentation</title>
-    <link rel="stylesheet" href="static/sphinxdoc.css" type="text/css" />
+    <title>Search &mdash; Quick Start Guide v0.1 documentation</title>
+    <link rel="stylesheet" href="static/kissy.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -24,33 +24,49 @@
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
     <script type="text/javascript" src="static/searchtools.js"></script>
-    <link rel="top" title="Get Started With Kissy v0.1 documentation" href="index.html" />
+    <link rel="top" title="Quick Start Guide v0.1 documentation" href="index.html" />
   <script type="text/javascript">
     jQuery(function() { Search.loadIndex("searchindex.js"); });
   </script>
    
 
   </head>
-  <body>
+  <body><div class="headwrap">
+<div class="header">
+    <h1 class="logo"><!-- <a href="/"><img src="http://kissyteam.github.com/kissy.png" /></a> --></h1>
+    <!-- <ul class="navigation">
+        <li><a href="#">Doc1</a></li>
+        <li><a href="#">Doc1</a></li>
+        <li><a href="#">Doc1</a></li>
+    </ul> -->
+</div>
+</div>
+ 
     <div class="related">
       <h3>Navigation</h3>
       <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
         <li><a href="http://kissyteam.github.com/kissy/docs/">Kissy Doc</a> |</li>
-        <li><a href="index.html">Get Started With Kissy v0.1 documentation</a> &raquo;</li> 
+        <li><a href="index.html">Quick Start Guide v0.1 documentation</a> &raquo;</li> 
       </ul>
-    </div> 
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-        </div>
-      </div>
+    </div>
 
     <div class="document">
       <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+        <div class="toc">
+        <script>
+            KISSY.ready(function(S){
+                var DOM = S.DOM,
+                    Event = S.Event;
+                
+                Event.on('#J_toc', 'click', function(e){
+                    e.halt();
+                    var p = DOM.parent(DOM.parent(this));
+                    DOM.toggleClass(p, 'tocshow');
+                });
+            });
+        </script>
+        </div>
+        <div class="body">
             
   <h1 id="search-documentation">Search</h1>
   <div id="fallback" class="admonition warning">
@@ -76,23 +92,12 @@
   
   </div>
 
-          </div>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li><a href="http://kissyteam.github.com/kissy/docs/">Kissy Doc</a> |</li>
-        <li><a href="index.html">Get Started With Kissy v0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2010, liz.
+        &copy; Copyright 2010, kissyteam.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.
     </div>
   </body>

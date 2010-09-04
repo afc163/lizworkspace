@@ -6,8 +6,8 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Ajax &mdash; Get Started With Kissy v0.1 documentation</title>
-    <link rel="stylesheet" href="../static/sphinxdoc.css" type="text/css" />
+    <title>Ajax &mdash; Quick Start Guide v0.1 documentation</title>
+    <link rel="stylesheet" href="../static/kissy.css" type="text/css" />
     <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,30 +23,42 @@
     <script type="text/javascript" src="../static/jquery.js"></script>
     <script type="text/javascript" src="../static/underscore.js"></script>
     <script type="text/javascript" src="../static/doctools.js"></script>
-    <link rel="top" title="Get Started With Kissy v0.1 documentation" href="../index.html" />
+    <link rel="top" title="Quick Start Guide v0.1 documentation" href="../index.html" />
     <link rel="next" title="Anim" href="anim.html" />
     <link rel="prev" title="Node初步" href="node.html" /> 
   </head>
-  <body>
+  <body><div class="headwrap">
+<div class="header">
+    <h1 class="logo"><!-- <a href="/"><img src="http://kissyteam.github.com/kissy.png" /></a> --></h1>
+    <!-- <ul class="navigation">
+        <li><a href="#">Doc1</a></li>
+        <li><a href="#">Doc1</a></li>
+        <li><a href="#">Doc1</a></li>
+    </ul> -->
+<div class="searchbox" style="display: none"  id="searchbox">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" class="ipt"/>
+      <input type="submit" value="搜索" class="btn"/>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+</div>
+</div>
+ 
     <div class="related">
       <h3>Navigation</h3>
       <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="anim.html" title="Anim"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="node.html" title="Node初步"
-             accesskey="P">previous</a> |</li>
         <li><a href="http://kissyteam.github.com/kissy/docs/">Kissy Doc</a> |</li>
-        <li><a href="../index.html">Get Started With Kissy v0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">Quick Start Guide v0.1 documentation</a> &raquo;</li> 
       </ul>
-    </div> 
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="toc">
+  <h3><a id="J_toc" href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Ajax</a><ul>
 <li><a class="reference internal" href="#id4">使用Ajax</a></li>
@@ -54,41 +66,24 @@
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="node.html"
-                        title="previous chapter">Node初步</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="anim.html"
-                        title="next chapter">Anim</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../sources/docs/ajax.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" size="18" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+        <script>
+            KISSY.ready(function(S){
+                var DOM = S.DOM,
+                    Event = S.Event;
+                
+                Event.on('#J_toc', 'click', function(e){
+                    e.halt();
+                    var p = DOM.parent(DOM.parent(this));
+                    DOM.toggleClass(p, 'tocshow');
+                });
+            });
+        </script>
         </div>
-      </div>
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+        <div class="body">
             
   <div class="section" id="ajax">
 <span id="id1"></span><h1>Ajax<a class="headerlink" href="#ajax" title="Permalink to this headline">¶</a></h1>
-<p>Kissy中提供了最基本的Ajax异步请求功能 <a class="footnote-reference" href="#id6" id="id2">[1]</a>, 目前虽然只有一个 <tt class="docutils literal"><span class="pre">getScript</span></tt> 方法, 但在小应用中已经足够了. 其他的ajax模块中方法, 如 <tt class="docutils literal"><span class="pre">get</span></tt> , <tt class="docutils literal"><span class="pre">post</span></tt> 后续补上.</p>
+<p>KISSY中提供了最基本的Ajax异步请求功能 <a class="footnote-reference" href="#id6" id="id2">[1]</a>, 目前虽然只有一个 <tt class="docutils literal"><span class="pre">getScript</span></tt> 方法, 但在小应用中已经足够了. 其他的ajax模块中方法, 如 <tt class="docutils literal"><span class="pre">get</span></tt> , <tt class="docutils literal"><span class="pre">post</span></tt> 后续补上.</p>
 <p><tt class="docutils literal"><span class="pre">getScript</span></tt> 异步请求之后, 会以js脚本执行请求回来的数据, 与 <tt class="docutils literal"><span class="pre">jQuery</span> <span class="pre">$.getScript</span></tt> 是一致的.</p>
 <p>这种请求方式, 我们一般称为 <tt class="docutils literal"><span class="pre">JSONP回调</span></tt> , 可以跨域请求, 关于跨域可参见 <a class="footnote-reference" href="#id8" id="id3">[2]</a> .</p>
 <div class="section" id="id4">
@@ -103,10 +98,22 @@
              padding: 4px;
              margin: 8px;
          }
+         #J_button {
+             height: 40px;
+             width: 120px;
+             text-align: center;
+             border: none;
+             cursor: pointer;
+         }
+         .loading {
+             background: transparent url(http://www.iconfinder.com/design/images/ajax-loader10.gif) no-repeat;
+         }
      </style>
      <button id="J_button" type="button">Fetch Photo</button>
 
-     <div id="J_photo-list"></div>
+     <div id="J_photo-list">
+         <div class="loading"></div>
+     </div>
 
      <script>
          KISSY.ready(function(S){
@@ -115,7 +122,8 @@
 
              btn.on('click', function(){
                  btn.attr('disabled', true);
-                 btn.html('...');
+                 btn.html('');
+                 btn.addClass('loading');
                  var data = {
                      'method': 'flickr.favorites.getPublicList',
                      'api_key': '5d93c2e473e39e9307e86d4a01381266',
@@ -127,7 +135,6 @@
                      URL = 'http://api.flickr.com/services/rest/?';
                  S.getScript(URL+S.param(data), function(){
                      btn.removeAttr('disabled');
-                     btn.html('Fetch Photo');
                  });
              });
              function getFavorites(jdata){
@@ -140,6 +147,10 @@
                      s = 'fetch photo failed, pls try again!'
                  }
                  photoList.html(s);
+                 setTimeout(function(){
+                     btn.removeClass('loading');
+                     btn.html('Fetch Photo');
+                 }, 1000);
              }
              window.getFavorites = getFavorites;
          });
@@ -250,12 +261,12 @@
 </ol>
 </dd>
 </dl>
-<p>在简单介绍完 <tt class="docutils literal"><span class="pre">S.getScript</span></tt> 之后, 会讲述 Kissy提供的动画接口 <a class="reference internal" href="anim.html#anim"><em>KISSY.anim</em></a> ...</p>
+<p>在简单介绍完 <tt class="docutils literal"><span class="pre">S.getScript</span></tt> 之后, 讲述 KISSY提供的动画支持 <a class="reference internal" href="anim.html#anim"><em>KISSY.anim</em></a> ...</p>
 <p class="rubric">参考链接</p>
 <table class="docutils footnote" frame="void" id="id6" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td><a class="reference external" href="http://kissyteam.github.com/kissy/docs/ajax/index.html">Ajax 文档</a> ;</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td><a class="reference external" href="http://KISSYteam.github.com/KISSY/docs/ajax/index.html">Ajax 文档</a> ;</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id8" rules="none">
@@ -274,29 +285,12 @@
 </div>
 
 
-          </div>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="anim.html" title="Anim"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="node.html" title="Node初步"
-             >previous</a> |</li>
-        <li><a href="http://kissyteam.github.com/kissy/docs/">Kissy Doc</a> |</li>
-        <li><a href="../index.html">Get Started With Kissy v0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2010, liz.
+        &copy; Copyright 2010, kissyteam.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.
     </div>
   </body>

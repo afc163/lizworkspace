@@ -4,9 +4,9 @@
 Node初步
 ===============================================
 
-如果你已经熟悉了jQuery, YUI3.0 或是Ext, 那就应该对其链式风格的使用非常了解.  链式风格的书写让人使用更加方便, 代码看起来也非常整洁. 
+如果你已经熟悉了jQuery, YUI3.0 或是 Ext , 那就应该对其链式风格的使用非常了解.  链式风格的书写让人使用更加方便, 代码看起来也非常整洁. 
 
-Kissy也提供了这种链式风格的支持 [1]_ , 之前针对Node问题, 组内进行的讨论见 [2]_ .
+Kissy 也提供了这种链式风格的支持 [1]_.
 
 
 Node API
@@ -31,9 +31,9 @@ Kissy提供两种使用方式:
 
 Node使用
 -------------------
-这里我们拿先前玉伯博客 [3]_ 上的 ``KISSY.all('.good-student')`` 举个node使用的小例子.
+这里我们拿先前玉伯博客 [2]_ 上的 ``KISSY.all('.good-student')`` 举个 node 使用的小例子.
    
-实现的效果就是, 点击按钮之后, 好多好学生都慢慢漂入Taobao中. 
+实现的效果就是, 点击按钮之后, 好多好学生都慢慢漂入 Taobao 中. 
    
 .. raw:: html
    
@@ -171,5 +171,4 @@ Node使用
 .. rubric:: 参考链接
 
 .. [1] `Node 文档 <http://kissy.googlecode.com/svn/trunk/docs/node/index.html>`_ ;
-.. [2] `组里对这部分内容的讨论 <http://lifesinger.org/blog/2010/07/kissy-update-and-discuss/>`_ ;
-.. [3] `Join Taobao <http://lifesinger.org/blog/2010/07/kissy-all-good-student/>`_ ;
+.. [2] `Join Taobao <http://lifesinger.org/blog/2010/07/kissy-all-good-student/>`_ ;

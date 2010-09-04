@@ -8,7 +8,7 @@ Anim
 相当简单的一行代码就可以出现元素的渐隐效果, 从那时她就已经深深吸引了当初只知道flash能做动画的我;
 
 
-Kissy中也提供了基本的动画特效支持. 主要由三个子模块组成 [1]_ :
+KISSY 中也提供了基本的动画特效支持. 主要由三个子模块组成 [1]_ :
  #. ``anim``, 动画的基础模块;
  #. ``anim-easing``, 提供easeIn/Out, elasticIn/Out, backIn/Out, bounceIn/Out 等平滑函数;
  #. ``anim-node-plugin``, 对 ``Node/NodeList`` 的动画支持;
@@ -277,7 +277,7 @@ show()/hide()/fadeIn()/fadeOut()
 
 关于动画, 先介绍到这里吧, 其他深入的内容, 等你一起探索! 
 
-下一节, 将会介绍 Kissy 的第一个功能强大, 且在淘宝网上经常能够看到的组件 -- ``Switchable`` , 并会详细介绍 :ref:`Kissy组件 <widgets>`  的组织方式...
+下一节, 将会介绍 KISSY 的第一个功能强大, 且在淘宝网上经常能够看到的组件 -- ``Switchable`` , 并会简单介绍 :ref:`KISSY组件 <widgets>`  的组织方式...
 
 
 .. rubric:: 参考链接

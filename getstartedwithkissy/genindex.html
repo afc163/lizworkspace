@@ -6,8 +6,8 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Index &mdash; Get Started With Kissy v0.1 documentation</title>
-    <link rel="stylesheet" href="static/sphinxdoc.css" type="text/css" />
+    <title>Index &mdash; Quick Start Guide v0.1 documentation</title>
+    <link rel="stylesheet" href="static/kissy.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,44 +23,53 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="Get Started With Kissy v0.1 documentation" href="index.html" /> 
+    <link rel="top" title="Quick Start Guide v0.1 documentation" href="index.html" /> 
   </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="#" title="General Index"
-             accesskey="I">index</a></li>
-        <li><a href="http://kissyteam.github.com/kissy/docs/">Kissy Doc</a> |</li>
-        <li><a href="index.html">Get Started With Kissy v0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div> 
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-
-   
-
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
+  <body><div class="headwrap">
+<div class="header">
+    <h1 class="logo"><!-- <a href="/"><img src="http://kissyteam.github.com/kissy.png" /></a> --></h1>
+    <!-- <ul class="navigation">
+        <li><a href="#">Doc1</a></li>
+        <li><a href="#">Doc1</a></li>
+        <li><a href="#">Doc1</a></li>
+    </ul> -->
+<div class="searchbox" style="display: none"  id="searchbox">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" size="18" />
-      <input type="submit" value="Go" />
+      <input type="text" name="q" size="18" class="ipt"/>
+      <input type="submit" value="搜索" class="btn"/>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
+</div>
+</div>
+ 
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="http://kissyteam.github.com/kissy/docs/">Kissy Doc</a> |</li>
+        <li><a href="index.html">Quick Start Guide v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
 
     <div class="document">
       <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+        <div class="toc">
+        <script>
+            KISSY.ready(function(S){
+                var DOM = S.DOM,
+                    Event = S.Event;
+                
+                Event.on('#J_toc', 'click', function(e){
+                    e.halt();
+                    var p = DOM.parent(DOM.parent(this));
+                    DOM.toggleClass(p, 'tocshow');
+                });
+            });
+        </script>
+        </div>
+        <div class="body">
             
 
    <h1 id="index">Index</h1>
@@ -70,23 +79,12 @@
    </div>
 
 
-          </div>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="#" title="General Index"
-             >index</a></li>
-        <li><a href="http://kissyteam.github.com/kissy/docs/">Kissy Doc</a> |</li>
-        <li><a href="index.html">Get Started With Kissy v0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2010, liz.
+        &copy; Copyright 2010, kissyteam.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.
     </div>
   </body>

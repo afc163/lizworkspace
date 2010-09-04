@@ -15,64 +15,40 @@
 /* -- page layout ----------------------------------------------------------- */
 
 body {
-    font: 14px/1.5 tahoma,arial,宋体,sans-serif;
-    line-height: 150%;
+    font: 14px/1.5 tahoma,arial,\5fae\8f6f\96c5\9ed1,sans-serif;
     text-align: center;
-    background-color: #E9F4FF;
-    color: black;
+    color: #333333;
     padding: 0;
-    border: 1px solid #AACCEE;
-
-    margin: 0px 80px 0px 80px;
-    min-width: 740px;
+    margin: 0;
+    /*background: url("http://www.genocom.nl/images/bg.png") repeat-x scroll -70% 0 white;*/
 }
 
 div.document {
     background-color: white;
     text-align: left;
-    background-image: url(contents.png);
-    background-repeat: repeat-x;
+    margin: 0 auto;
+    width: 740px;
 }
 
 div.bodywrapper {
     margin: 0 240px 0 0;
-    border-right: 1px solid #ccc;
 }
 
 div.body {
     margin: 0;
     padding: 0.5em 20px 20px 20px;
-    background: transparent url(http://kissyteam.github.com/kissy/docs/assets/logo.png) no-repeat right 8px; /* http://kissyteam.github.com/kissy/docs/assets/welcome.jpg */
 }
 
 div.related {
-    font-size: 1em;
+    background:url("navigation.png") repeat scroll 0 0 transparent;
+    border-bottom:1px solid #111111;
+    color:#AAAAAA;
 }
-
-div.related ul {
-    background-image: url(navigation.png);
-    height: 2em;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-}
-
-div.related ul li {
-    margin: 0;
-    padding: 0;
-    height: 2em;
-    float: left;
-}
-
-div.related ul li.right {
-    float: right;
-    margin-right: 5px;
-}
-
 div.related ul li a {
     margin: 0;
     padding: 0 5px 0 5px;
     line-height: 1.75em;
-    color: #EE9816;
+    color: #AAA;
 }
 
 div.related ul li a:hover {
@@ -93,12 +69,12 @@ div.sphinxsidebar {
 }
 
 div.sphinxsidebar h3, div.sphinxsidebar h4 {
-    margin: 1em 0 0.5em 0;
-    font-size: 1em;
-    padding: 0.1em 0 0.1em 0.5em;
-    color: white;
-    border: 1px solid #86989B;
-    background-color: #AFC1C4;
+    color:#DC3C01;
+    font-size:1em;
+    margin:1em 0 0.5em;
+    padding:0.1em 0 0.1em 0.5em;
+    text-shadow:0 -1px 1px #808080;
+    
 }
 
 div.sphinxsidebar h3 a {
@@ -117,16 +93,11 @@ div.sphinxsidebar ul ul {
 }
 
 div.footer {
+    border-top: 1px solid #CCCCCC;
     color: #86989B;
-    padding: 3px 8px 10px 0;
+    padding: 3px 8px 20px 0;
     clear: both;
     font-size: 0.8em;
-    text-align: right;
-}
-
-div.footer a {
-    color: #86989B;
-    text-decoration: underline;
 }
 
 /* -- body styles ----------------------------------------------------------- */
@@ -136,23 +107,23 @@ p {
 }
 
 a {
-    color: #CA7900;
+    color: #2971A7;
     text-decoration: none;
 }
 
 a:hover {
-    color: #2491CF;
-}
-
-div.body a {
-    text-decoration: underline;
+    color: #0088CC;
 }
 
 h1 {
-    margin: 0;
-    padding: 0.7em 0 0.3em 0;
-    font-size: 1.5em;
-    color: #11557C;
+    color:#333333;
+    font-family:Futura,"Century Gothic",AppleGothic,sans-serif;
+    font-size:26px;
+    font-weight:normal;
+    margin:0;
+    padding:0.7em 0 0.3em;
+    text-shadow:2px 1px 3px #A4DEFF;
+    
 }
 
 h2 {
@@ -355,4 +326,101 @@ div.demo {
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
+}
+.toc h3 {
+    float: right;
+    font-size: 14px;
+    margin: 0;
+}
+.toc h3 a {
+    color: #777777;
+}
+.toc h3 a:hover {
+    color: #333;
+}
+.toc ul {
+    display: none;
+}
+.tocshow {
+    background:rgba(22, 22, 22, 0.6);
+    _background: #222;
+    filter: alpha(opacity=40);
+    padding:5px;
+    /*opacity: 0.4;*/
+}
+.tocshow ul {
+    display: block;
+}
+.tocshow h3 a {
+    color: #BBB;
+}
+.toc a {
+    color: white;
+}
+.toc a:hover {
+    text-decoration: underline;
+}
+.header {
+    width: 740px;
+    height: 108px;
+    overflow: hidden;
+    position: relative;
+    margin: 0 auto;
+}
+.header ul {
+    position: absolute;
+    left: 200px;
+    top: 0;
+}
+.header ul li {
+    float: left;
+    width: 60px;
+}
+.header .logo a {
+    display: block;
+}
+.header .logo a:hover {
+    color: #444;
+}
+.header .searchbox {
+    position: absolute;
+    right: 0;
+    top: 40px;
+}
+.header ul {
+    list-style: none outside none;
+}
+.header .searchbox input {
+    -webkit-box-shadow:0 0 3px yellow;
+    -moz-box-shadow:0 0 3px yellow;
+    box-shadow:0 0 3px yellow;
+    border: 1px solid #bbb;
+    height: 26px;
+}
+.header .searchbox .ipt {
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    
+    width: 300px;
+}
+.header .searchbox .btn {
+    -moz-border-radius: 16px;
+    -webkit-border-radius: 16px;
+    border-radius: 16px;
+    
+}
+.header .searchbox button {
+    /*background: url("http://img07.taobaocdn.com/tps/i7/T1cYNAXfJiXXXXXXXX-489-82.png") no-repeat scroll -999em 0 transparent;
+    background-position:-248px -30px;
+    height:26px;
+    width:101px;
+    background-color:#F68911;
+    border:0 none;
+    cursor:pointer;
+    padding:0;
+    text-indent:-999em;*/
+}
+.headwrap {
+    background: url("kissy.jpg") no-repeat scroll -240px 0 transparent;
 }

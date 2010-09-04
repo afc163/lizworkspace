@@ -4,7 +4,7 @@
 Ajax
 ===============================================
 
-Kissy中提供了最基本的Ajax异步请求功能 [1]_, 目前虽然只有一个 ``getScript`` 方法, 但在小应用中已经足够了. 其他的ajax模块中方法, 如 ``get`` , ``post`` 后续补上.
+KISSY中提供了最基本的Ajax异步请求功能 [1]_, 目前虽然只有一个 ``getScript`` 方法, 但在小应用中已经足够了. 其他的ajax模块中方法, 如 ``get`` , ``post`` 后续补上.
 
 ``getScript`` 异步请求之后, 会以js脚本执行请求回来的数据, 与 ``jQuery $.getScript`` 是一致的. 
 
@@ -29,10 +29,22 @@ Kissy中提供了最基本的Ajax异步请求功能 [1]_, 目前虽然只有一�
                 padding: 4px;
                 margin: 8px;
             }
+            #J_button {
+                height: 40px;
+                width: 120px;
+                text-align: center;
+                border: none;
+                cursor: pointer;
+            }
+            .loading {
+                background: transparent url(http://www.iconfinder.com/design/images/ajax-loader10.gif) no-repeat;
+            }
         </style>
         <button id="J_button" type="button">Fetch Photo</button>
         
-        <div id="J_photo-list"></div>
+        <div id="J_photo-list">
+            <div class="loading"></div>
+        </div>
         
         <script>
             KISSY.ready(function(S){
@@ -41,7 +53,8 @@ Kissy中提供了最基本的Ajax异步请求功能 [1]_, 目前虽然只有一�
                 
                 btn.on('click', function(){
                     btn.attr('disabled', true);
-                    btn.html('...');
+                    btn.html('');
+                    btn.addClass('loading');
                     var data = {
                         'method': 'flickr.favorites.getPublicList',
                         'api_key': '5d93c2e473e39e9307e86d4a01381266',
@@ -53,7 +66,6 @@ Kissy中提供了最基本的Ajax异步请求功能 [1]_, 目前虽然只有一�
                         URL = 'http://api.flickr.com/services/rest/?';
                     S.getScript(URL+S.param(data), function(){
                         btn.removeAttr('disabled');
-                        btn.html('Fetch Photo');
                     });
                 });
                 function getFavorites(jdata){
@@ -66,6 +78,10 @@ Kissy中提供了最基本的Ajax异步请求功能 [1]_, 目前虽然只有一�
                         s = 'fetch photo failed, pls try again!'
                     }
                     photoList.html(s);
+                    setTimeout(function(){
+                        btn.removeClass('loading');
+                        btn.html('Fetch Photo');
+                    }, 1000);
                 }
                 window.getFavorites = getFavorites;
             });
@@ -134,11 +150,11 @@ Kissy中提供了最基本的Ajax异步请求功能 [1]_, 目前虽然只有一�
    
 
 
-在简单介绍完 ``S.getScript`` 之后, 会讲述 Kissy提供的动画接口 :ref:`KISSY.anim <anim>` ...
+在简单介绍完 ``S.getScript`` 之后, 讲述 KISSY提供的动画支持 :ref:`KISSY.anim <anim>` ...
 
 .. rubric:: 参考链接
 
-.. [1] `Ajax 文档 <http://kissyteam.github.com/kissy/docs/ajax/index.html>`_ ;
+.. [1] `Ajax 文档 <http://KISSYteam.github.com/KISSY/docs/ajax/index.html>`_ ;
 .. [2] `JSON介绍 <http://en.wikipedia.org/wiki/JSON>`_ ;
 .. [3] `Flickr API <http://www.flickr.com/services/api/>`_ ;
 

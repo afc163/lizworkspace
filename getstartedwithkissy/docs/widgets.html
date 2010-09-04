@@ -6,8 +6,8 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>组件 &mdash; Get Started With Kissy v0.1 documentation</title>
-    <link rel="stylesheet" href="../static/sphinxdoc.css" type="text/css" />
+    <title>组件 &mdash; Quick Start Guide v0.1 documentation</title>
+    <link rel="stylesheet" href="../static/kissy.css" type="text/css" />
     <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,225 +23,310 @@
     <script type="text/javascript" src="../static/jquery.js"></script>
     <script type="text/javascript" src="../static/underscore.js"></script>
     <script type="text/javascript" src="../static/doctools.js"></script>
-    <link rel="top" title="Get Started With Kissy v0.1 documentation" href="../index.html" />
+    <link rel="top" title="Quick Start Guide v0.1 documentation" href="../index.html" />
     <link rel="next" title="自定义组件" href="yourwidgets.html" />
     <link rel="prev" title="Anim" href="anim.html" /> 
   </head>
-  <body>
+  <body><div class="headwrap">
+<div class="header">
+    <h1 class="logo"><!-- <a href="/"><img src="http://kissyteam.github.com/kissy.png" /></a> --></h1>
+    <!-- <ul class="navigation">
+        <li><a href="#">Doc1</a></li>
+        <li><a href="#">Doc1</a></li>
+        <li><a href="#">Doc1</a></li>
+    </ul> -->
+<div class="searchbox" style="display: none"  id="searchbox">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" class="ipt"/>
+      <input type="submit" value="搜索" class="btn"/>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+</div>
+</div>
+ 
     <div class="related">
       <h3>Navigation</h3>
       <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="yourwidgets.html" title="自定义组件"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="anim.html" title="Anim"
-             accesskey="P">previous</a> |</li>
         <li><a href="http://kissyteam.github.com/kissy/docs/">Kissy Doc</a> |</li>
-        <li><a href="../index.html">Get Started With Kissy v0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">Quick Start Guide v0.1 documentation</a> &raquo;</li> 
       </ul>
-    </div> 
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="../index.html">Table Of Contents</a></h3>
+    </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="toc">
+  <h3><a id="J_toc" href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">组件</a><ul>
 <li><a class="reference internal" href="#switchable">Switchable</a></li>
-<li><a class="reference internal" href="#suggest">Suggest</a></li>
+<li><a class="reference internal" href="#slide">使用 Slide</a></li>
+<li><a class="reference internal" href="#carousel">使用 Carousel</a></li>
+<li><a class="reference internal" href="#kissy">KISSY 组件组织方式</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="anim.html"
-                        title="previous chapter">Anim</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="yourwidgets.html"
-                        title="next chapter">自定义组件</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../sources/docs/widgets.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" size="18" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+        <script>
+            KISSY.ready(function(S){
+                var DOM = S.DOM,
+                    Event = S.Event;
+                
+                Event.on('#J_toc', 'click', function(e){
+                    e.halt();
+                    var p = DOM.parent(DOM.parent(this));
+                    DOM.toggleClass(p, 'tocshow');
+                });
+            });
+        </script>
         </div>
-      </div>
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+        <div class="body">
             
   <div class="section" id="widgets">
 <span id="id1"></span><h1>组件<a class="headerlink" href="#widgets" title="Permalink to this headline">¶</a></h1>
-<p>Kissy UI库, 未来会提供种类丰富的UI组件, 虽然目前发布的只有 Switchable , 但不久之后, 会有更多的组件开发完成.</p>
-<p>下面介绍下 Kissy 已有组件 <tt class="docutils literal"><span class="pre">Switchable</span></tt> <a class="footnote-reference" href="#id8" id="id2">[1]</a> 和 <tt class="docutils literal"><span class="pre">Suggest</span></tt> <a class="footnote-reference" href="#id10" id="id3">[2]</a> .</p>
+<p>KISSY UI库, 未来会提供种类丰富的UI组件, 虽然目前发布的组件为数不多 , 但相信不久之后, 会有更多的组件开发完成.</p>
+<p>下面介绍下 KISSY 已有组件 <tt class="docutils literal"><span class="pre">Switchable</span></tt> <a class="footnote-reference" href="#id4" id="id2">[1]</a> .</p>
 <div class="section" id="switchable">
 <h2>Switchable<a class="headerlink" href="#switchable" title="Permalink to this headline">¶</a></h2>
-<p><tt class="docutils literal"><span class="pre">Switchable</span></tt> 是最基本的切换组件, 已有四种扩展组件 <tt class="docutils literal"><span class="pre">S.Tabs</span></tt> , <tt class="docutils literal"><span class="pre">S.Slide</span></tt> , <tt class="docutils literal"><span class="pre">S.Carousel</span></tt> , <tt class="docutils literal"><span class="pre">S.Accordin</span></tt> , 基本上这几种能够满足你大多数的应用需求, 她们的最基本的使用可参见 <a class="footnote-reference" href="#id12" id="id4">[3]</a> , 相信你能马上使用起来的.</p>
-<dl class="docutils">
-<dt>不过, 可能还有些需要注意的地方:</dt>
-<dd><ol class="first last arabic simple">
-<li>切换组件默认是显示第一个内容块, 如果当前显示不是首个, 可以使用 <tt class="docutils literal"><span class="pre">switchTo(index)</span></tt> 切换到对应的内容块;</li>
-<li>一般情况下, 非当前显示内容中如果包含 异步请求 或者 iframe 或者 图片, 可以加入延迟加载插件 <tt class="docutils literal"><span class="pre">datalazyload</span></tt> ;</li>
-</ol>
-</dd>
-</dl>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p><a class="footnote-reference" href="#id8" id="id5">[1]</a> 中, 说: &#8220;Switchable 基础类抽象了切换的基本操作，通过插件机制实现了自动播放、循环、切换效果、延迟加载、倒计时动画等扩展功能，最后封装成各个 Widget 类，让用户能简明快速地调用。</p>
-<p class="last">一定程度上，只要组件的核心是可切换的，Switchable 就能帮你实现.&#8221;</p>
+<p><tt class="docutils literal"><span class="pre">Switchable</span></tt> 是最基本的切换组件, 已有四种扩展组件 <tt class="docutils literal"><span class="pre">S.Tabs</span></tt> , <tt class="docutils literal"><span class="pre">S.Slide</span></tt> , <tt class="docutils literal"><span class="pre">S.Carousel</span></tt> , <tt class="docutils literal"><span class="pre">S.Accordin</span></tt> , 基本上这几种能够满足你大多数的应用需求.</p>
 </div>
-<p>那么, 如何利用 <tt class="docutils literal"><span class="pre">Switchable</span></tt> 扩展出自己的切换效果呢? 为了更好的说明这个功能, 这里举例 <a class="footnote-reference" href="#id13" id="id6">[4]</a> 中出现的 <tt class="docutils literal"><span class="pre">kwicks</span></tt> 切换效果,  见 <a class="reference external" href="demo/kwicks.html">demo</a> .</p>
-<div class="highlight-javascript"><div class="highlight"><pre><span class="c1">// 添加一个新模块到KISSY中</span>
-<span class="nx">KISSY</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;Kwicks&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">,</span> <span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span>
+<div class="section" id="slide">
+<h2>使用 Slide<a class="headerlink" href="#slide" title="Permalink to this headline">¶</a></h2>
+<p>Slide 效果就是 Taobao 上最最经常见的多张图片相互切换效果, 如:</p>
+<div class="demo">
+    <script src="http://kissyteam.github.com/kissy/build/switchable/switchable-pkg-min.js"></script>
+    <script src="http://kissyteam.github.com/kissy/src/switchable/plugin-countdown.js"></script>
+    <style>
+        .demo ol {
+            margin: 0;
+            padding: 0;
+        }
+        .demo li {
+            list-style: none;
+        }
+        #demo1 { position: relative; width: 470px; height: 150px; border: 1px solid #B6D1E6; overflow: hidden; }
+        #demo1 .ks-switchable-nav { position: absolute; bottom: 5px; right: 5px; z-index: 99; }
+        #demo1 .ks-switchable-nav li {
+            float: left;
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            margin-left: 3px;
+            background-color: #FCF2CF;
+            border: 1px solid #F47500;
+            color: #D94B01;
+            text-align: center;
+            cursor: pointer;
+            list-style: none;
+        }
+        #demo1 .ks-switchable-nav li.ks-active {
+            width: 18px;
+            height: 18px;
+            line-height: 18px;
+            margin-top: -1px;
+            color: #FFF;
+            background-color: #FFB442;
+            font-weight: bold;
+        }
+        #demo1 .ks-switchable-content li { height: 150px; width: 470px; overflow: hidden; }
+        /* for countdown plugin */
+        #demo1 .ks-switchable-nav li,
+        #demo1 .ks-switchable-trigger-content {
+            position: relative;
+        }
+        #demo1 .ks-switchable-trigger-mask {
+            position: absolute;
+            right: 0;
+            width: 18px;
+            height: 18px;
+            background-color: #FF9415;
+            visibility: hidden
+        }
+        #demo1 .ks-active .ks-switchable-trigger-mask {
+            visibility: visible
+        }
+    </style>
 
-    <span class="c1">// 定义一些模块中的全局变量</span>
-    <span class="kd">var</span> <span class="nx">DOM</span> <span class="o">=</span> <span class="nx">S</span><span class="p">.</span><span class="nx">DOM</span><span class="p">,</span> <span class="nx">Event</span> <span class="o">=</span> <span class="nx">S</span><span class="p">.</span><span class="nx">Event</span><span class="p">,</span>
-        <span class="nx">CLS_PREFIX</span> <span class="o">=</span> <span class="s1">&#39;ks-switchable-&#39;</span><span class="p">,</span> <span class="nx">DOT</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
+    <div id="demo1" class="section loading">
+        <ol class="ks-switchable-content">
+            <li><a href="#" target="_blank"><img alt="" src="http://img01.taobaocdn.com/tps/i1/T1dqdJXeJqXXXXXXXX-470-150.jpg"/></a></li>
+            <li class="hidden"><a target="_blank" href="#"><img alt="" width="470" height="150" border="0" src="http://img03.taobaocdn.com/tps/i3/T1dHlJXcRDXXXXXXXX-470-150.gif"/></a></li>
+            <li class="hidden"><a target="_blank" href="#"><img alt="" width="470" height="150" border="0" src="http://img.alimama.cn/bcrm/adboard/picture/2010-08-18/100818175417060.jpg"/></a></li>
+            <li class="hidden"><a href="#" target="_blank"><img alt="" src="http://img.alimama.cn/bcrm/adboard/picture/2010-08-20/100820101156005.jpg"/></a></li>
+            <li class="hidden">
+                <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="470" height="150" class="holiday-logo">
+                    <param name="movie" value="http://img04.taobaocdn.com/tps/i4/T1bblrXfBrXXXXXXXX.swf"/>
 
-        <span class="cm">/**</span>
-<span class="cm">         * 默认配置, 可覆盖 Switchable 的默认配置</span>
-<span class="cm">         */</span>
-        <span class="nx">defaultConfig</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="nx">markupType</span><span class="o">:</span> <span class="mi">1</span><span class="c1">//,</span>
-            <span class="c1">//triggerType: &#39;click&#39;  //触发事件, 默认为mouse</span>
-        <span class="p">};</span>
-
-    <span class="cm">/**</span>
-<span class="cm">     * Kwicks Class</span>
-<span class="cm">     * @constructor</span>
-<span class="cm">     */</span>
-    <span class="kd">function</span> <span class="nx">Kwicks</span><span class="p">(</span><span class="nx">container</span><span class="p">,</span> <span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
-
-        <span class="c1">// factory or constructor</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="nx">self</span> <span class="k">instanceof</span> <span class="nx">Kwicks</span><span class="p">))</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="k">new</span> <span class="nx">Kwicks</span><span class="p">(</span><span class="nx">container</span><span class="p">,</span> <span class="nx">config</span><span class="p">);</span>
-        <span class="p">}</span>
-
-        <span class="c1">// 插入 kwicks 的初始化逻辑</span>
-        <span class="nx">self</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;init&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">init_kwicks</span><span class="p">(</span><span class="nx">self</span><span class="p">);</span> <span class="p">});</span>
-
-        <span class="c1">// 调用 super class 的构造器</span>
-        <span class="nx">Kwicks</span><span class="p">.</span><span class="nx">superclass</span><span class="p">.</span><span class="nx">constructor</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">container</span><span class="p">,</span> <span class="nx">S</span><span class="p">.</span><span class="nx">merge</span><span class="p">(</span><span class="nx">defaultConfig</span><span class="p">,</span> <span class="nx">config</span><span class="p">));</span>
-    <span class="p">}</span>
-
-    <span class="c1">// 扩展 Switchable</span>
-    <span class="nx">S</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="nx">Kwicks</span><span class="p">,</span> <span class="nx">S</span><span class="p">.</span><span class="nx">Switchable</span><span class="p">);</span>
-    <span class="nx">S</span><span class="p">.</span><span class="nx">Kwicks</span> <span class="o">=</span> <span class="nx">Kwicks</span><span class="p">;</span>
-
-    <span class="cm">/**</span>
-<span class="cm">     * Kwicks 的初始化逻辑</span>
-<span class="cm">     * 计算每个部分的平均显示区域位置</span>
-<span class="cm">     */</span>
-    <span class="kd">function</span> <span class="nx">init_kwicks</span><span class="p">(</span><span class="nx">self</span><span class="p">)</span> <span class="p">{</span>
-        <span class="kd">var</span> <span class="nx">width</span> <span class="o">=</span> <span class="nx">DOM</span><span class="p">.</span><span class="nx">width</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">container</span><span class="p">)</span><span class="o">/</span><span class="nx">self</span><span class="p">.</span><span class="nx">panels</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
-        
-        <span class="nx">S</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">panels</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="nx">i</span><span class="p">){</span>
-            <span class="nx">DOM</span><span class="p">.</span><span class="nx">offset</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;left&#39;</span><span class="o">:</span> <span class="nx">width</span><span class="o">*</span><span class="nx">i</span><span class="p">,</span> <span class="s1">&#39;top&#39;</span><span class="o">:</span><span class="mi">0</span><span class="p">});</span>
-        <span class="p">});</span>
-    <span class="p">}</span>
-    
-    <span class="nx">S</span><span class="p">.</span><span class="nx">augment</span><span class="p">(</span><span class="nx">Kwicks</span><span class="p">,</span> <span class="p">{</span>
-        <span class="cm">/**</span>
-<span class="cm">         * 切换视图时的行为, 覆盖 super class的 _switchView</span>
-<span class="cm">         */</span>
-        <span class="nx">_switchView</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">fromPanels</span><span class="p">,</span> <span class="nx">toPanels</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kd">var</span> <span class="nx">self</span> <span class="o">=</span> <span class="k">this</span><span class="p">,</span>
-                <span class="nx">panelWidth</span> <span class="o">=</span> <span class="nx">DOM</span><span class="p">.</span><span class="nx">width</span><span class="p">(</span><span class="nx">toPanels</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
-                <span class="nx">width</span> <span class="o">=</span> <span class="p">(</span><span class="nx">DOM</span><span class="p">.</span><span class="nx">width</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">container</span><span class="p">)</span><span class="o">-</span><span class="nx">panelWidth</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">panels</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span>
-                <span class="nx">start</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-            
-            <span class="c1">// 更新每个子区域的位置</span>
-            <span class="nx">S</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">panels</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="nx">i</span><span class="p">){</span>
-                <span class="c1">//也可直接使用offset设置元素位置, 但就没有动画效果了</span>
-                <span class="c1">//DOM.offset(t, {&#39;left&#39;: start, &#39;top&#39;:0});</span>
-                <span class="nx">S</span><span class="p">.</span><span class="nx">Anim</span><span class="p">(</span><span class="nx">t</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;left&#39;</span><span class="o">:</span> <span class="nx">start</span><span class="o">+</span><span class="s1">&#39;px&#39;</span><span class="p">},</span> <span class="mf">0.4</span><span class="p">,</span> <span class="nx">S</span><span class="p">.</span><span class="nx">Easing</span><span class="p">.</span><span class="nx">easeOut</span><span class="p">).</span><span class="nx">run</span><span class="p">();</span>
-                <span class="k">if</span> <span class="p">(</span><span class="nx">t</span> <span class="o">===</span> <span class="nx">toPanels</span><span class="p">[</span><span class="mi">0</span><span class="p">]){</span>
-                    <span class="nx">start</span> <span class="o">+=</span> <span class="nx">panelWidth</span><span class="p">;</span>
-                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-                    <span class="nx">start</span> <span class="o">+=</span> <span class="nx">width</span><span class="p">;</span>
-                <span class="p">}</span>
-            <span class="p">});</span>
-        <span class="p">}</span>
+                    <param name="quality" value="high"/>
+                    <param name="swfversion" value="8.0.0"/>
+                    <param name="wmode" value="opaque"/>
+                    <!--[if !IE]>-->
+                    <object type="application/x-shockwave-flash" data="http://img04.taobaocdn.com/tps/i4/T1bblrXfBrXXXXXXXX.swf" width="470" height="150" name="holiday-logo" class="holiday-logo">
+                        <param name="wmode" value="opaque"/>
+                    </object>
+                    <!--<![endif]-->
+                </object>
+            </li>
+        </ol>
+    </div>
+    <script>
+        KISSY.ready(function(S) {
+            S.Slide('#demo1', {
+                effect: 'scrolly',
+                easing: 'easeOutStrong',
+                countdown: true,
+                countdownFromStyle: 'width:18px'
+            });
+        });
+    </script>
+</div><p>Slide 效果, 简简单单的使用 <tt class="docutils literal"><span class="pre">S.Slide(selector,</span> <span class="pre">cfg)</span></tt> 即可, 如:</p>
+<div class="highlight-javascript"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span class="nx">KISSY</span><span class="p">.</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">S</span><span class="p">.</span><span class="nx">Slide</span><span class="p">(</span><span class="s1">&#39;#demo1&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">effect</span><span class="o">:</span> <span class="s1">&#39;scrolly&#39;</span><span class="p">,</span>
+        <span class="nx">easing</span><span class="o">:</span> <span class="s1">&#39;easeOutStrong&#39;</span><span class="p">,</span>
+        <span class="nx">countdown</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="nx">countdownFromStyle</span><span class="o">:</span> <span class="s1">&#39;width:18px&#39;</span>
     <span class="p">});</span>
 <span class="p">});</span>
 </pre></div>
+</td></tr></table></div>
 </div>
-<p>这样扩展之后, 引入 <tt class="docutils literal"><span class="pre">kwicks.js</span></tt> , 通过 <tt class="docutils literal"><span class="pre">new</span> <span class="pre">S.Kwicks('#J_kwicks');</span></tt> 调用即可, 很简单吧~~</p>
+<div class="section" id="carousel">
+<h2>使用 Carousel<a class="headerlink" href="#carousel" title="Permalink to this headline">¶</a></h2>
+<p>Carousel , 中文名字叫 旋转木马, 比较奇怪为何叫这个?  不管如何, 反正还是一排东西切换来切换去的. 比如淘宝首页 Slide 下面的品牌广告展示:</p>
+<div class="demo">
+    <style>
+        .mall-content {
+            height:135px;
+            margin:0 0 0 15px;
+            overflow:hidden;
+            position:relative;
+            width:440px;
+        }
+        .mall-content ol {
+            float:left;
+            position:absolute;
+            width:1260px;
+        }
+        .mall-content .ks-switchable-content li {
+            border-top:1px solid #D8D8D8;
+            float:left;
+            font-size:0;
+            height:135px;
+            overflow:hidden;
+            position:relative;
+            width:440px;
+        }
+        .mall-content .ks-switchable-nav {
+            position: absolute;
+            right: 30px;
+            top: -10px;
+            margin: 0;
+            padding: 0;
+        }
+        .mall-content .ks-switchable-nav li {
+            float: left;
+            padding: 5px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .mall-content .ks-switchable-nav li.ks-active {
+            color: #C8282B;
+        }
+
+    </style>
+    <div id="demo2" class="mall-content">
+        <ol class="ks-switchable-content">
+            <li>
+                <div>
+                    <a title="独享VIP" href="#"><img height="135" width="110" alt="独享VIP" src="http://img02.taobaocdn.com/tps/i2/T1zFpJXlhNXXXXXXXX-110-135.png"></a>
+                    <a title="数码电器" href="#"><img height="135" width="110" alt="数码电器" src="http://img02.taobaocdn.com/tps/i2/T1MX8JXaBrXXXXXXXX-110-135.png"></a>
+                    <a title="食尚周末" href="#"><img height="135" width="110" alt="食尚周末" src="http://img01.taobaocdn.com/tps/i1/T1ZqVJXX0dXXXXXXXX-110-135.png"></a>
+                    <a title="八零九零" href="#"><img height="135" width="110" alt="八零九零" src="http://img02.taobaocdn.com/tps/i2/T1vF0JXcFvXXXXXXXX-110-135.png"></a>
+                </div>
+            </li>
+            <li>
+                <a class="bbrand" href="#" title=""><img src="http://img03.taobaocdn.com/tps/i3/T1ZHNJXdBrXXXXXXXX-440-135.png" width="440" height="135" alt="" /></a>
+            </li>
+        </ol>
+    </div>
+    <script>
+        KISSY.ready(function(S) {
+
+            var carousel = new S.Carousel('#demo2', {
+                contentCls: 'ks-switchable-content',
+                effect: "scrollx",
+                //hasTriggers: false,
+                activeIndex: parseInt(S.DOM.get('#demo2').getAttribute('data-active-index')) || 0
+            });
+
+        });
+
+    </script>
+</div><div class="highlight-javascript"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="nx">KISSY</span><span class="p">.</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">S</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="kd">var</span> <span class="nx">carousel</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">S</span><span class="p">.</span><span class="nx">Carousel</span><span class="p">(</span><span class="s1">&#39;#demo2&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="nx">contentCls</span><span class="o">:</span> <span class="s1">&#39;ks-switchable-content&#39;</span><span class="p">,</span>
+        <span class="nx">effect</span><span class="o">:</span> <span class="s2">&quot;scrollx&quot;</span><span class="p">,</span>
+        <span class="nx">activeIndex</span><span class="o">:</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">S</span><span class="p">.</span><span class="nx">DOM</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;#demo2&#39;</span><span class="p">).</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;data-active-index&#39;</span><span class="p">))</span> <span class="o">||</span> <span class="mi">0</span>
+    <span class="p">});</span>
+
+<span class="p">});</span>
+</pre></div>
+</td></tr></table></div>
+<p>就是这么简单~~ 更多关于 Switchable 相关的例子见 <a class="footnote-reference" href="#id6" id="id3">[2]</a> .</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ol class="last arabic simple">
+<li>切换组件默认是显示第一个内容块, 如果当前显示不是首个, 可以使用 <tt class="docutils literal"><span class="pre">switchTo(index)</span></tt> 切换到对应的内容块;</li>
+<li>一般情况下, 非当前显示内容中如果包含 异步请求 或者 iframe 或者 图片, 可以加入延迟加载插件 <tt class="docutils literal"><span class="pre">datalazyload</span></tt> ;</li>
+</ol>
 </div>
-<div class="section" id="suggest">
-<h2>Suggest<a class="headerlink" href="#suggest" title="Permalink to this headline">¶</a></h2>
-<p>搜索框提示组件, 功能多多, 文档 <a class="footnote-reference" href="#id10" id="id7">[2]</a> 上已经很详细了, 所以这边就不重复讲了.</p>
-<p>下一节将介绍, 如果你需要自己写个组件, 该注意写什么(其实已经在这节中出现了)? &#8211; <a class="reference internal" href="yourwidgets.html#yourwidgets"><em>自定义组件</em></a> ...</p>
+</div>
+<div class="section" id="kissy">
+<h2>KISSY 组件组织方式<a class="headerlink" href="#kissy" title="Permalink to this headline">¶</a></h2>
+<p>todo</p>
+<p>下一节将介绍, 如果你需要自己写个组件, 该注意写什么? &#8211; <a class="reference internal" href="yourwidgets.html#yourwidgets"><em>自定义组件</em></a> ...</p>
 <p class="rubric">参考链接</p>
-<table class="docutils footnote" frame="void" id="id8" rules="none">
+<table class="docutils footnote" frame="void" id="id4" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id5">2</a>)</em> <a class="reference external" href="http://kissyteam.github.com/kissy/docs/switchable/index.html">Switchable</a> ;</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td><a class="reference external" href="http://kissyteam.github.com/kissy/docs/switchable/index.html">Switchable</a> ;</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id10" rules="none">
+<table class="docutils footnote" frame="void" id="id6" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[2]</td><td><em>(<a class="fn-backref" href="#id3">1</a>, <a class="fn-backref" href="#id7">2</a>)</em> <a class="reference external" href="http://kissyteam.github.com/kissy/docs/suggest/index.html">Suggest</a> ;</td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id12" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[3]</a></td><td><a class="reference external" href="http://kissyteam.github.com/kissy/src/switchable/test.html">Switchable Demo</a> ;</td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id13" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id6">[4]</a></td><td><a class="reference external" href="http://eyedraw.eu/">kwicks</a> ;</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td><a class="reference external" href="http://kissyteam.github.com/kissy/src/switchable/test.html">Switchable Demo</a> ;</td></tr>
 </tbody>
 </table>
 </div>
 </div>
 
 
-          </div>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="yourwidgets.html" title="自定义组件"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="anim.html" title="Anim"
-             >previous</a> |</li>
-        <li><a href="http://kissyteam.github.com/kissy/docs/">Kissy Doc</a> |</li>
-        <li><a href="../index.html">Get Started With Kissy v0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2010, liz.
+        &copy; Copyright 2010, kissyteam.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.
     </div>
   </body>

@@ -6,8 +6,8 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Get Started With Kissy &mdash; Get Started With Kissy v0.1 documentation</title>
-    <link rel="stylesheet" href="static/sphinxdoc.css" type="text/css" />
+    <title>Getting Started With KISSY &mdash; Quick Start Guide v0.1 documentation</title>
+    <link rel="stylesheet" href="static/kissy.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -23,102 +23,105 @@
     <script type="text/javascript" src="static/jquery.js"></script>
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="Get Started With Kissy v0.1 documentation" href="#" />
+    <link rel="top" title="Quick Start Guide v0.1 documentation" href="#" />
     <link rel="next" title="Setup" href="docs/setup.html" /> 
   </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="docs/setup.html" title="Setup"
-             accesskey="N">next</a> |</li>
-        <li><a href="http://kissyteam.github.com/kissy/docs/">Kissy Doc</a> |</li>
-        <li><a href="#">Get Started With Kissy v0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div> 
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Get Started With Kissy</a><ul>
-<li><a class="reference internal" href="#kissy">Kissy资源</a></li>
-<li><a class="reference internal" href="#id4">主要内容</a><ul>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id5">索引及搜索</a></li>
-</ul>
-
-  <h4>Next topic</h4>
-  <p class="topless"><a href="docs/setup.html"
-                        title="next chapter">Setup</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="sources/index.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
+  <body><div class="headwrap">
+<div class="header">
+    <h1 class="logo"><!-- <a href="/"><img src="http://kissyteam.github.com/kissy.png" /></a> --></h1>
+    <!-- <ul class="navigation">
+        <li><a href="#">Doc1</a></li>
+        <li><a href="#">Doc1</a></li>
+        <li><a href="#">Doc1</a></li>
+    </ul> -->
+<div class="searchbox" style="display: none"  id="searchbox">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" size="18" />
-      <input type="submit" value="Go" />
+      <input type="text" name="q" size="18" class="ipt"/>
+      <input type="submit" value="搜索" class="btn"/>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
+</div>
+</div>
+ 
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li><a href="http://kissyteam.github.com/kissy/docs/">Kissy Doc</a> |</li>
+        <li><a href="#">Quick Start Guide v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
 
     <div class="document">
       <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+        <div class="toc">
+  <h3><a id="J_toc" href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Getting Started With KISSY</a><ul>
+<li><a class="reference internal" href="#kissy">KISSY愿景</a></li>
+<li><a class="reference internal" href="#id2">主要内容</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3">索引及搜索</a></li>
+</ul>
+
+        <script>
+            KISSY.ready(function(S){
+                var DOM = S.DOM,
+                    Event = S.Event;
+                
+                Event.on('#J_toc', 'click', function(e){
+                    e.halt();
+                    var p = DOM.parent(DOM.parent(this));
+                    DOM.toggleClass(p, 'tocshow');
+                });
+            });
+        </script>
+        </div>
+        <div class="body">
             
-  <div class="section" id="get-started-with-kissy">
-<h1>Get Started With Kissy<a class="headerlink" href="#get-started-with-kissy" title="Permalink to this headline">¶</a></h1>
-<p>这是一份介绍如何使用Kissy的入门教程, 教你从最基本的地方开始熟悉这可爱的Kissy.</p>
-<p>如果你是如下情况之一的开发人员, 都可以通过这份文档慢慢使用起Kissy!</p>
+  <div class="section" id="getting-started-with-kissy">
+<h1>Getting Started With KISSY<a class="headerlink" href="#getting-started-with-kissy" title="Permalink to this headline">¶</a></h1>
+<p>这是一份介绍如何使用KISSY的入门教程, 教你从最基本的地方开始熟悉这可爱的KISSY.</p>
+<p>如果你是如下情况之一的开发人员, 都可以通过这份文档慢慢使用起KISSY!</p>
 <blockquote>
 <ol class="arabic simple">
-<li>以前就学习过 <a class="reference external" href="http://jquery.com/">JQuery</a> , <a class="reference external" href="http://developer.yahoo.com/yui/">YUI</a> , <a class="reference external" href="http://www.sencha.com/products/js/">Ext</a> 等其他JS框架, 但现在想尝试个新鲜点的, 且还是国人开发的;</li>
+<li>以前就学习过 <a class="reference external" href="http://jquery.com/">JQuery</a> , <a class="reference external" href="http://developer.yahoo.com/yui/">YUI</a> , <a class="reference external" href="http://www.sencha.com/products/js/">Ext</a> 等其他JS框架, 但现在想尝试个新鲜点的框架;</li>
 <li>js新手, 只有可怜的一点js基础, 正好想学一个JS框架来提高自身技能;</li>
-<li>完全是个菜鸟, 也没关系! 学习Kissy会让你逐渐对前端技术产生足够的兴趣;</li>
-<li>至于前端大牛,,那就忽略本文档, 直接进入Kissy的 <a class="reference external" href="http://github.com/kissyteam/kissy/tree/master/src/">源码世界</a> 研究吧!</li>
+<li>完全是个菜鸟, 也没关系! 学习KISSY会让你逐渐对前端技术产生足够的兴趣;</li>
+<li>至于前端大牛,, 直接进入KISSY的 <a class="reference external" href="http://github.com/kissyteam/kissy/tree/master/src/">源码世界</a> 研究吧!</li>
 </ol>
 </blockquote>
 <div class="section" id="kissy">
-<h2>Kissy资源<a class="headerlink" href="#kissy" title="Permalink to this headline">¶</a></h2>
+<h2>KISSY愿景<a class="headerlink" href="#kissy" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<p>KISSY - An Enjoyable JavaScript Library</p>
-<ul class="simple">
-<li>Project Hosting in <a class="reference external" href="http://github.com/kissyteam/kissy/">GitHub</a>;</li>
-<li><a class="reference external" href="http://kissyteam.github.com/kissy/docs/">Kissy文档</a> , 不断更新中;</li>
-<li>Kissy之父, 淘宝UED的 <a class="reference external" href="http://lifesinger.org/">玉伯</a>;</li>
-</ul>
+<p>小巧灵活, 简洁实用, 使用起来让人感觉愉悦.</p>
+<blockquote>
+<dl class="docutils">
+<dt>Keep It</dt>
+<dd>Simple &amp; Stupid, Short &amp; Sweet, Slim &amp; Sexy...</dd>
+</dl>
+<p>Yeah!</p>
 </blockquote>
-<p>下面就开始我们的Kissy新奇之旅吧~~</p>
+</blockquote>
+<p>下面就开始我们的KISSY新奇之旅吧~~</p>
 </div>
-<div class="section" id="id4">
-<h2>主要内容<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h2>主要内容<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="docs/setup.html">Setup</a></li>
-<li class="toctree-l1"><a class="reference internal" href="docs/hellokissy.html">Hello Kissy</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="docs/hellokissy.html#hello-kissy-more">Hello Kissy More</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs/hellokissy.html">Hello KISSY</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="docs/hellokissy.html#id3">其他例子</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="docs/node.html">Node初步</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="docs/node.html#node-api">Node API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="docs/node.html#id3">Node使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/node.html#id2">Node使用</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="docs/ajax.html">Ajax</a><ul>
@@ -132,12 +135,18 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="docs/widgets.html">组件</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="docs/widgets.html#switchable">Switchable</a></li>
-<li class="toctree-l2"><a class="reference internal" href="docs/widgets.html#suggest">Suggest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/widgets.html#slide">使用 Slide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/widgets.html#carousel">使用 Carousel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/widgets.html#kissy">KISSY 组件组织方式</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="docs/yourwidgets.html">自定义组件</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="docs/yourwidgets.html#id2">为何要以组件形式</a></li>
 <li class="toctree-l2"><a class="reference internal" href="docs/yourwidgets.html#id3">组件开发示例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="docs/extendwidgets.html">组件</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="docs/extendwidgets.html#switchable">Switchable</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="docs/nextstep.html">下一步</a><ul>
@@ -149,8 +158,8 @@
 </div>
 </div>
 </div>
-<div class="section" id="id5">
-<h1>索引及搜索<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id3">
+<h1>索引及搜索<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
 <li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
@@ -159,26 +168,12 @@
 </div>
 
 
-          </div>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="docs/setup.html" title="Setup"
-             >next</a> |</li>
-        <li><a href="http://kissyteam.github.com/kissy/docs/">Kissy Doc</a> |</li>
-        <li><a href="#">Get Started With Kissy v0.1 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2010, liz.
+        &copy; Copyright 2010, kissyteam.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.
     </div>
   </body>
