@@ -9,9 +9,6 @@ KISSY DOCS
     
     <!-- 首页样式 -->
     <style>
-        div.document {
-            width: 800px;
-        }
         h1 {
             visibility: hidden;
         }
@@ -61,7 +58,7 @@ KISSY DOCS
             _height: 200px;
         }
         .fp .linklist li {
-            list-style: square inside url(http://cdn.iconfinder.net/data/icons/humano2/16x16/apps/tor-icon.png);
+            list-style: square inside ;
             padding-left: 10px;
         }
         .fp .linklist a {
@@ -113,9 +110,10 @@ KISSY DOCS
                 </ul>
             </div>
             <div class="link right">
-                <h5>Contact</h5>
+                <h5>Report&Contact</h5>
                 <ul>
                     <li><a href="mailto:kissyteam@gmail.com">kissyteam(at)gmail.com</a></li>
+                    <li><a href="http://github.com/kissyteam/kissy/issues">issues</a></li>
                 </ul>
             </div>
         </div>

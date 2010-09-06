@@ -261,7 +261,6 @@ Kissy 中, 通过 ``add( name, fn )`` 方法来添加新的模块, 这在 Kissy 
 .. literalinclude:: demo/starscore.js
    :language: javascript
    :lines: 7-
-   :linenos:
 
 .. note::
 

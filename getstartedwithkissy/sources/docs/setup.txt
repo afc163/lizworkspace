@@ -22,7 +22,6 @@ Setup
             .imgwrap {
                 position: relative;
                 padding: 10px;
-                background: #E9F4FF;
                 height: 110px;
             }
             #J_kissy {
