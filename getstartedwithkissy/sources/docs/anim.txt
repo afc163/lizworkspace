@@ -8,6 +8,9 @@ Anim
 相当简单的一行代码就可以出现元素的渐隐效果, 从那时她就已经深深吸引了当初只知道flash能做动画的我;
 
 
+S.Anim
+----------------------------
+
 KISSY 中也提供了基本的动画特效支持. 主要由三个子模块组成 [1]_ :
  #. ``anim``, 动画的基础模块;
  #. ``anim-easing``, 提供easeIn/Out, elasticIn/Out, backIn/Out, bounceIn/Out 等平滑函数;
@@ -20,264 +23,142 @@ KISSY 中也提供了基本的动画特效支持. 主要由三个子模块组成
  #. ``easing`` : 动画平滑函数, 可以取 [2]_ , 不同的函数呈现不同的变化效果;
  #. ``callback`` : 动画完毕后的回调函数;
 
+其实, 这两个函数很简单, 在这个文档的第一节就已经使用到了最基本的功能. 更多类似的小例子可见 [3]_ . 
 
-基本使用
------------------------------
-最简单的示例, 实现的效果就是, 点击开始之后, 图片元素从左移到右边之后, 同时会有放大效果.
-
-.. raw:: html
-   
-   <div class="demo">
-        <style>
-            .imgwrap {
-                position: relative;
-                padding: 10px;
-                border: 2px solid grey;
-                background: #E9F4FF;
-                height: 110px;
-            }
-            #J_img {
-                position: absolute;
-                left: 0;
-                top: 0;
-            }
-            
-        </style>
-        <button id="J_button-img" type="button">Start</button>
-        <br />
-        <div class="imgwrap">
-            <img id="J_img" src="http://img02.taobaocdn.com/tps/i2/T1QXVsXnFjXXXXXXXX-167-63.png" />
-        </div>
-        
-        <script>
-            KISSY.ready(function(S){
-                var btn = S.one('#J_button-img');
-                
-                btn.on('click', function(){
-                    btn.attr('disabled', true);
-                    var anim = S.Anim('#J_img', 
-                                        {'left': '400px', 'height': '100px'},
-                                        2,
-                                        S.Easing.easeOut,
-                                        function(){
-                                            btn.removeAttr('disabled');
-                                        });
-                    anim.run();
-                    // 或者使用 Node 方式, 如:
-                    /*S.one('#J_img').animate({'left': '400px', 'height': '100px'},
-                                2,
-                                S.Easing.easeOut,
-                                function(){
-                                    btn.removeAttr('disabled');
-                                });
-                    */
-                });
-            });
-        </script>
-   </div>
-
-这里面的动画分解一下的话, 主要有元素位置的变化(由 ``left`` 控制), 和 元素大小的变化(由 ``height`` 控制).
-
-.. code-block:: javascript
-   :linenos:
-   
-   KISSY.ready(function(S){
-       var btn = S.one('#J_button-img');
-       
-       btn.on('click', function(){
-           btn.attr('disabled', true);
-           var anim = S.Anim('#J_img', 
-                               {'left': '400px', 'height': '100px'},
-                               2,
-                               S.Easing.easeOut,
-                               function(){
-                                   btn.removeAttr('disabled');
-                               });
-           anim.run();
-           // 或者使用 Node 方式, 如:
-           /*S.one('#J_img').animate({'left': '400px', 'height': '100px'},
-                       2,
-                       S.Easing.easeOut,
-                       function(){
-                           btn.removeAttr('disabled');
-                       });
-           */
-       });
-   });
-
-
-
-很简单的例子, 貌似也没什么好说的了, 更多类似的小例子可以参见 [3]_ .
+动画的原理都是一样的, 但要实现一些很酷的动画效果, 首先得分析出动画每个部分的状态, 再把它们有顺序的组合起来. 
 
 
 
 show()/hide()/fadeIn()/fadeOut()
 ----------------------------------------------------------
-这里我们来模范的实现 JQuery中的 ``show()/hide()`` 和 ``fadeIn()/fadeOut()``  函数 (实现的比较粗糙..呵呵)
+看一下 JQuery 关于这部分的源码, 可以看到 ``show()/hide()`` 和 ``fadeIn()/fadeOut()`` 是操作 ``display``, ``overflow``, ``height``, ``width``, ``opacity`` 这几个 css 属性实现的. 比如: 元素 ``show`` 之前设置 ``display`` 为 ``block`` , 设置 ``overflow`` 为 ``hidden``, 防止溢出, 设置 ``opacity`` 为0, 使其不可见, 然后, 获取元素的原始宽高度, 之后宽高度清0, 动画开始, 从宽高度透明度渐变到元素正常的设置; 元素 ``hide`` 刚好相反;
+
+``fadeIn/fadeOut`` 比较 ``show/hide`` , 不需要重设宽高度, 只需要调节透明度即可;
+
+完整源码:
+
+.. literalinclude:: demo/show.js
+   :language: javascript
+   :lines: 7-
+   :linenos:
+   
+
+
+在上一节的图片获取的例子中, 点击按钮之后, 图片一下子的跑出来了, 感觉不是很好, 现在, 我们利用刚才实现好的 ``show()/hide()`` 和 ``fadeIn()/fadeOut()`` , 让图片完全加载完毕后逐渐显示出来;
+
 
 .. raw:: html
-   
-   <div class="demo">
-        <style>
-            #J_show {
-                margin: 10px;
-                padding: 10px;
-                text-align: center;
-                border: 2px solid grey;
-                background: #E9F4FF;
-                width:40%;
-                display: block;
-                overflow: hidden;
-            }
-            #J_fade {
-                border: 2px solid grey;
-                margin: 10px;
-                padding: 10px;
-                text-align: center;
-                background: #E9F4FF;
-                width:40%;
-                display: none;
-            }
-            
-        </style>
-        <button id="J_button-show" type="button">Hide</button>
-        
-        <div id="J_show">waiting...</div>
-        
-        <hr />
-        
-        <button id="J_button-fade" type="button">Fade</button>
-        <div id="J_fade">waiting...</div>
-        
-        <script>
-            KISSY.ready(function(S){
-                var btnShow = S.one('#J_button-show'),
-                    sw = S.one('#J_show'),
-                    hw = [sw.height(), sw.width()];
+      
+      <div class="demo">
+           <style>
+               #J_photo-list img  {
+                   display: none;
+                   border: 1px solid grey;
+                   padding: 4px;
+                   margin: 8px;
+                   float: left;
+               }
+               .ks-clear:after { content: '\20'; display: block; height: 0; clear: both; }
+               .ks-clear { *zoom: 1; }
+               
+               #J_button {
+                   height: 40px;
+                   width: 120px;
+                   text-align: center;
+                   border: none;
+                   cursor: pointer;
+               }
+               .loading {
+                   background: transparent url(http://www.iconfinder.com/design/images/ajax-loader10.gif) no-repeat;
+               }
+           </style>
+           <button id="J_button" type="button">Fetch Photo</button>
+           
+           <div id="J_photo-list" class="ks-clear"></div>
+           <script src="demo/show.js"></script>
+           
+           <script>
+               KISSY.ready(function(S){
+                    var btn = S.one('#J_button'),
+                        photoList = S.one('#J_photo-list');
+                   
+                    btn.on('click', function(){
+                        btn.attr('disabled', true);
+                        btn.html('');
+                        btn.addClass('loading');
+                        var data = {
+                            'method': 'flickr.favorites.getPublicList',
+                            'api_key': '5d93c2e473e39e9307e86d4a01381266',
+                            'user_id': '26211501@N07',
+                            'per_page': 10,
+                            'format': 'json',
+                            'jsoncallback': 'getFavorites'
+                            },
+                            URL = 'http://api.flickr.com/services/rest/?';
+                        S.getScript(URL+S.param(data), function(){
+                            btn.removeAttr('disabled');
+                        });
+                    });
                 
-                btnShow.on('click', function(){
-                    btnShow.attr('disabled', true);
-                    if (sw.css('display') === 'none') {
-                        sw.css('opacity', 0).css('display', 'block').height(0).width(0).css('opacity', 1);
-                        
-                        sw.animate({'height': hw[0]+'px', 'width': hw[1]+'px'},
-                                    2,
-                                    S.Easing.easeOut,
-                                    function(){
-                                        sw.html('Now, you can see me!').height(hw[0]).width(hw[1]);
-                                        btnShow.removeAttr('disabled').html('Hide');
-                                    });
-                    } else {
-                        sw.animate({'height': '0px', 'width': '0px'},
-                                    2,
-                                    S.Easing.easeOut,
-                                    function(){
-                                        sw.html('waiting...').css('display', 'none');
-                                        btnShow.removeAttr('disabled').html('Show');
-                                    });
+                    function imgOnLoad(img, callback) {
+                        if (img.complete) callback();
+                        else S.Event.on(img, 'load', callback);
                     }
-                });
-                
-                
-                var btnFade = S.one('#J_button-fade'),
-                    fd = S.one('#J_fade');
-                
-                btnFade.on('click', function(){
-                    btnFade.attr('disabled', true);
-                    if (fd.css('display') === 'none') {
-                        fd.css('opacity', 0).css('display', 'block');
-                        fd.animate('opacity: 1;',
-                                    2,
-                                    S.Easing.easeOut,
-                                    function(){
-                                        fd.html('Now, you can see me!');
-                                        btnFade.removeAttr('disabled').html('Hide');
-                                    });
-                    } else {
-                        fd.animate('opacity: 0;',
-                                    2,
-                                    S.Easing.easeOut,
-                                    function(){
-                                        fd.html('waiting...').css('display', 'none');
-                                        btnFade.removeAttr('disabled').html('Fade');
-                                    });
-                    }
-                });
-            });
-        </script>
-   </div>
+                    
+                   function getFavorites(jdata){
+                       var imgUrlList = [];
+                       if (jdata.stat === 'ok'){
+                            var s = '';
+                            if (jdata.stat === 'ok'){
+                                S.each(jdata.photos.photo, function(t,i){
+                                   s += '<img src="http://farm'+t.farm+'.static.flickr.com/'+t.server+'/'+t.id+'_'+t.secret+'_t.jpg" />';
+                                });
+                            } else {
+                               s = 'fetch photo failed, pls try again!'
+                            }
+                            photoList.html(s);
+                           
+                            S.each(photoList.all('img'), function(img){
+                                imgOnLoad(img, function(){
+                                    S.fadeIn(img);
+                                });
+                            });
+                            
+                       }
+                       setTimeout(function(){
+                           btn.removeClass('loading');
+                           btn.html('Fetch Photo');
+                       }, 1000);
+                   }
+                   window.getFavorites = getFavorites;
+               });
+           </script>
+      </div>
 
-
-部分代码:
+每张图片获取之后, 先不显示出来, 等图片加载完成之后, 调用 ``S.fadeIn`` 渐进显示, 部分代码:
 
 .. code-block:: javascript
    :linenos:
    
-   KISSY.ready(function(S){
-        // ...
-        btnShow.on('click', function(){
-            btnShow.attr('disabled', true);
-            
-            if (sw.css('display') === 'none') {
-                // show()
-                sw.css('opacity', 0).css('display', 'block').height(0).width(0).css('opacity', 1);
-                
-                sw.animate({'height': hw[0]+'px', 'width': hw[1]+'px'},
-                            2,
-                            S.Easing.easeOut,
-                            function(){
-                                sw.html('Now, you can see me!').height(hw[0]).width(hw[1]);
-                                btnShow.removeAttr('disabled').html('Hide');
-                            });
-            } else {
-                // hide()
-                sw.animate({'height': '0px', 'width': '0px'},
-                            2,
-                            S.Easing.easeOut,
-                            function(){
-                                sw.html('waiting...').css('display', 'none');
-                                btnShow.removeAttr('disabled').html('Show');
-                            });
-            }
-        });
-        
-        // ...
-        btnFade.on('click', function(){
-            btnFade.attr('disabled', true);
-            
-            if (fd.css('display') === 'none') {
-                // fadeIn()
-                fd.css('opacity', 0).css('display', 'block');
-                fd.animate('opacity: 1;',
-                            2,
-                            S.Easing.easeOut,
-                            function(){
-                                fd.html('Now, you can see me!');
-                                btnFade.removeAttr('disabled').html('Hide');
-                            });
-            } else {
-                // fadeOut()
-                fd.animate('opacity: 0;',
-                            2,
-                            S.Easing.easeOut,
-                            function(){
-                                fd.html('waiting...').css('display', 'none');
-                                btnFade.removeAttr('disabled').html('Fade');
-                            });
-            }
-        });
+   
+   S.each(photoList.all('img'), function(img){
+       imgOnLoad(img, function(){
+           S.fadeIn(img);
+       });
    });
+   
 
-这里面, 
- #. 动画属性 ``props`` 须是连续型的数值, 如果是 ``display`` 这种 "离散型" 的, 我想到的只有利用 ``opacity`` 设置透明度这种方式, 在 ``display: block`` 之前将元素设置为透明, 获取 ``height/width``, 设置元素高度宽度为0, 再设置元素不透明, 最后动画从高宽度为0到正常的高度和宽度;
+.. note:: 
+ 
+ #. 动画属性 ``props`` 须是连续型的数值, 如果是 ``display`` 这种 "离散型" 的, 可以利用 ``opacity`` 设置透明度这种方式, 在 ``display: block`` 之后获取 ``height/width``, 设置元素宽高度及透明度;
  #. 像 ``height/width`` 这种属性, 需要加上单位, 不能光光是数字;
  #. ``S.Easing`` 取值可以根据你的需要选取, 默认不写也是可以的;
 
 
 
-关于动画, 先介绍到这里吧, 其他深入的内容, 等你一起探索! 
+关于动画, 先介绍到这里吧, 其他更炫的效果, 等你来实现! 
 
-下一节, 将会介绍 KISSY 的第一个功能强大, 且在淘宝网上经常能够看到的组件 -- ``Switchable`` , 并会简单介绍 :ref:`KISSY组件 <widgets>`  的组织方式...
+下一节, 将会介绍 KISSY 的第一个功能强大, 且在 Taobao 上经常能够看到的组件 -- ``Switchable`` , 并会介绍 :ref:`KISSY组件 <widgets>`  的组织方式...
 
 
 .. rubric:: 参考链接

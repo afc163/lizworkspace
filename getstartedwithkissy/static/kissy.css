@@ -94,7 +94,7 @@ div.sphinxsidebar ul ul {
 
 div.footer {
     border-top: 1px solid #CCCCCC;
-    color: #86989B;
+    color: #15636c;
     padding: 3px 8px 20px 0;
     clear: both;
     font-size: 0.8em;
@@ -205,14 +205,13 @@ a tt:hover {
 }
 
 pre {
-    font-family: 'Consolas', 'Deja Vu Sans Mono',
-                 'Bitstream Vera Sans Mono', monospace;
+    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
     font-size: 0.95em;
     letter-spacing: 0.015em;
     line-height: 120%;
     padding: 0.5em;
     border: 1px solid #ccc;
-    background-color: #f8f8f8;
+    background-color: #DDFFEE;
 }
 
 pre a {
@@ -251,7 +250,7 @@ table.highlighttable {
 div.admonition, div.warning {
     font-size: 0.9em;
     margin: 1em 0 1em 0;
-    border: 1px solid #86989B;
+    border: 1px solid #15636c;
     background-color: #f7f7f7;
     padding: 0;
 }
@@ -270,9 +269,9 @@ div.warning p.admonition-title {
     margin: 0;
     padding: 0.1em 0 0.1em 0.5em;
     color: white;
-    border-bottom: 1px solid #86989B;
+    border-bottom: 1px solid #15636c;
     font-weight: bold;
-    background-color: #AFC1C4;
+    background-color: #24B3C3;
 }
 
 div.warning {
@@ -342,10 +341,10 @@ div.demo {
     display: none;
 }
 .tocshow {
-    background:rgba(22, 22, 22, 0.6);
-    _background: #222;
-    filter: alpha(opacity=40);
+    zoom: 1;
     padding:5px;
+    background:rgba(22, 22, 22, 0.6);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#7f161616',endColorStr='#7f161616');
     /*opacity: 0.4;*/
 }
 .tocshow ul {

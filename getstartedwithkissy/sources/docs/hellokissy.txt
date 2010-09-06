@@ -4,8 +4,9 @@
 Hello KISSY
 ===============================================
 
-在前一小节中的示例, 用到了 KISSY 常用的 ``DOM``, ``Event``, ``Anim`` 等功能, 完整代码如下:
+在前一小节中的示例, 用到了 KISSY 常用的 ``DOM``, ``Event``, ``Anim`` 等功能, 
 
+完整代码如下:
 
 .. code-block:: javascript
    :linenos:
@@ -46,7 +47,7 @@ Hello KISSY
             });
         });
         
-        
+
 
 这个例子中, 
  #. ``KISSY.ready()`` 指在DOM加载完毕之后执行代码. 就像jQuery中的 ``$(document).ready()`` ;
@@ -61,11 +62,91 @@ Hello KISSY
 
 其他例子
 ----------------------------
+下面, 再来看另外一个小例子, 在做导航栏时经常需要处理包含二级导航的情况, 例如下面的效果:
+
+.. raw:: html
+   
+    <div class="demo">
+        <style>
+            .menu, .menu li {
+                list-style: none;
+            }
+            .menu a {
+                color: white;
+                text-shadow: 1px 1px 2px black;
+            }
+            .menu li {
+                background: #e6221a;
+                background: -webkit-gradient(linear, left top, left bottom, from(#fedc89), to(#fd8c01));
+                background: -moz-linear-gradient(top, #fedc89, #fd8c01);
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#fedc89', endColorstr = '#fd8c01');
+                text-align:center;
+                width:100px;
+            }
+            
+            .menu .headlink {
+                display: inline-block;
+            }
+            .submenu {
+                padding-left: 0;
+                position: absolute;
+                border: 4px solid #CCC;
+            }
+            .hide {
+                display: none;
+            }
+        </style>
+        <ul id="J_menu" class="menu">
+            <li class="headlink"><a href="#">Home</a></li>
+            <li class="headlink">
+                <a href="#">Widgets</a>
+                <ul class="submenu hide">
+                    <li><a href="#">Switchable</a></li>
+                    <li><a href="#">Suggest</a></li>
+                </ul>
+            </li>
+            <li class="headlink">
+                <a href="#">Experiments</a>
+                <ul class="submenu hide">
+                    <li><a href="#">Editor</a></li>
+                    <li><a href="#">Overlay</a></li>
+                </ul>
+            </li>
+        </ul>
+        <script>
+            KISSY.ready(function(S){
+                var DOM = S.DOM,
+                    Event = S.Event;
+                
+                Event.on('.headlink', 'mouseenter', function(e) {
+                    DOM.removeClass(DOM.get('.submenu', this), 'hide');
+                });
+                Event.on('.headlink', 'mouseleave', function(e) {
+                    DOM.addClass(DOM.get('.submenu', this), 'hide');
+                });
+                
+            });
+        </script>
+    </div>
+
+虽说, 我们也可以用 ``:hover`` 伪类来实现二级导航, 但在IE6下只有 ``a`` 支持 ``hover`` 伪类, 所以还是得稍加一些 js 来实现:
+
+.. code-block:: javascript
+   :linenos:
+   
+   Event.on('.headlink', 'mouseenter', function(e) {
+       DOM.removeClass(DOM.get('.submenu', this), 'hide');
+   });
+   Event.on('.headlink', 'mouseleave', function(e) {
+       DOM.addClass(DOM.get('.submenu', this), 'hide');
+   });
+   
 
 
+这里, KISSY 内置了 ``mouseenter/mouseleave`` 事件, 可以像使用原生事件一样的使用她们.
 
 
-``DOM/Event`` 是最基本的功能了, 掌握了这两个, 就能最基本的使用KISSY了, 接下来将介绍和jQuery/YUI3中类似的 :ref:`Node <usenode>` 对象的使用.
+``DOM/Event`` 是最基本的功能了, 掌握了这两个, 就能最基本的使用KISSY了, 接下来将介绍和 jQuery/YUI3 中类似的 :ref:`Node <usenode>` 对象的使用.
 
 
 .. rubric:: 参考链接

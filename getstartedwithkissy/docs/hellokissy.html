@@ -20,6 +20,7 @@
     </script>
     <!-- add kissy lib by liz -->
     <script src="http://github.com/kissyteam/kissy/raw/master/build/packages/kissy.js"></script>
+    <script src="demo/show.js"></script>
     <script type="text/javascript" src="../static/jquery.js"></script>
     <script type="text/javascript" src="../static/underscore.js"></script>
     <script type="text/javascript" src="../static/doctools.js"></script>
@@ -51,7 +52,20 @@
       <h3>Navigation</h3>
       <ul>
         <li><a href="http://kissyteam.github.com/kissy/docs/">Kissy Doc</a> |</li>
-        <li><a href="../index.html">Quick Start Guide v0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">Quick Start Guide v0.1 documentation</a> &raquo;</li>
+        <li>
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </li>
+        <li>
+          <a href="node.html" title="Node初步"
+             accesskey="N">next</a>
+        </li>
+        <li>
+          <a href="setup.html" title="Setup"
+             accesskey="P">previous</a>
+        </li>
+        
       </ul>
     </div>
 
@@ -59,13 +73,13 @@
       <div class="documentwrapper">
         <div class="toc">
   <h3><a id="J_toc" href="../index.html">Table Of Contents</a></h3>
-  <ul>
+  <div id="J_tList"><ul>
 <li><a class="reference internal" href="#">Hello KISSY</a><ul>
 <li><a class="reference internal" href="#id3">其他例子</a></li>
 </ul>
 </li>
 </ul>
-
+</div>
         <script>
             KISSY.ready(function(S){
                 var DOM = S.DOM,
@@ -74,7 +88,15 @@
                 Event.on('#J_toc', 'click', function(e){
                     e.halt();
                     var p = DOM.parent(DOM.parent(this));
-                    DOM.toggleClass(p, 'tocshow');
+                    //DOM.toggleClass(p, 'tocshow');
+                    if (DOM.hasClass(p, 'tocshow')) {
+                        S.slideUp('#J_tList', 1, function(){
+                            DOM.removeClass(p, 'tocshow');
+                        });
+                    } else {
+                        DOM.addClass(p, 'tocshow');
+                        S.slideDown('#J_tList', 1);
+                    }
                 });
             });
         </script>
@@ -83,7 +105,8 @@
             
   <div class="section" id="hello-kissy">
 <span id="hellokissy"></span><h1>Hello KISSY<a class="headerlink" href="#hello-kissy" title="Permalink to this headline">¶</a></h1>
-<p>在前一小节中的示例, 用到了 KISSY 常用的 <tt class="docutils literal"><span class="pre">DOM</span></tt>, <tt class="docutils literal"><span class="pre">Event</span></tt>, <tt class="docutils literal"><span class="pre">Anim</span></tt> 等功能, 完整代码如下:</p>
+<p>在前一小节中的示例, 用到了 KISSY 常用的 <tt class="docutils literal"><span class="pre">DOM</span></tt>, <tt class="docutils literal"><span class="pre">Event</span></tt>, <tt class="docutils literal"><span class="pre">Anim</span></tt> 等功能,</p>
+<p>完整代码如下:</p>
 <div class="highlight-javascript"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -170,7 +193,84 @@
 </dl>
 <div class="section" id="id3">
 <h2>其他例子<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p><tt class="docutils literal"><span class="pre">DOM/Event</span></tt> 是最基本的功能了, 掌握了这两个, 就能最基本的使用KISSY了, 接下来将介绍和jQuery/YUI3中类似的 <a class="reference internal" href="node.html#usenode"><em>Node</em></a> 对象的使用.</p>
+<p>下面, 再来看另外一个小例子, 在做导航栏时经常需要处理包含二级导航的情况, 例如下面的效果:</p>
+<div class="demo">
+    <style>
+        .menu, .menu li {
+            list-style: none;
+        }
+        .menu a {
+            color: white;
+            text-shadow: 1px 1px 2px black;
+        }
+        .menu li {
+            background: #e6221a;
+            background: -webkit-gradient(linear, left top, left bottom, from(#fedc89), to(#fd8c01));
+            background: -moz-linear-gradient(top, #fedc89, #fd8c01);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#fedc89', endColorstr = '#fd8c01');
+            text-align:center;
+            width:100px;
+        }
+
+        .menu .headlink {
+            display: inline-block;
+        }
+        .submenu {
+            padding-left: 0;
+            position: absolute;
+            border: 4px solid #CCC;
+        }
+        .hide {
+            display: none;
+        }
+    </style>
+    <ul id="J_menu" class="menu">
+        <li class="headlink"><a href="#">Home</a></li>
+        <li class="headlink">
+            <a href="#">Widgets</a>
+            <ul class="submenu hide">
+                <li><a href="#">Switchable</a></li>
+                <li><a href="#">Suggest</a></li>
+            </ul>
+        </li>
+        <li class="headlink">
+            <a href="#">Experiments</a>
+            <ul class="submenu hide">
+                <li><a href="#">Editor</a></li>
+                <li><a href="#">Overlay</a></li>
+            </ul>
+        </li>
+    </ul>
+    <script>
+        KISSY.ready(function(S){
+            var DOM = S.DOM,
+                Event = S.Event;
+
+            Event.on('.headlink', 'mouseenter', function(e) {
+                DOM.removeClass(DOM.get('.submenu', this), 'hide');
+            });
+            Event.on('.headlink', 'mouseleave', function(e) {
+                DOM.addClass(DOM.get('.submenu', this), 'hide');
+            });
+
+        });
+    </script>
+</div><p>虽说, 我们也可以用 <tt class="docutils literal"><span class="pre">:hover</span></tt> 伪类来实现二级导航, 但在IE6下只有 <tt class="docutils literal"><span class="pre">a</span></tt> 支持 <tt class="docutils literal"><span class="pre">hover</span></tt> 伪类, 所以还是得稍加一些 js 来实现:</p>
+<div class="highlight-javascript"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span class="nx">Event</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;.headlink&#39;</span><span class="p">,</span> <span class="s1">&#39;mouseenter&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">DOM</span><span class="p">.</span><span class="nx">removeClass</span><span class="p">(</span><span class="nx">DOM</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;.submenu&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">),</span> <span class="s1">&#39;hide&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="nx">Event</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;.headlink&#39;</span><span class="p">,</span> <span class="s1">&#39;mouseleave&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">DOM</span><span class="p">.</span><span class="nx">addClass</span><span class="p">(</span><span class="nx">DOM</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;.submenu&#39;</span><span class="p">,</span> <span class="k">this</span><span class="p">),</span> <span class="s1">&#39;hide&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+</td></tr></table></div>
+<p>这里, KISSY 内置了 <tt class="docutils literal"><span class="pre">mouseenter/mouseleave</span></tt> 事件, 可以像使用原生事件一样的使用她们.</p>
+<p><tt class="docutils literal"><span class="pre">DOM/Event</span></tt> 是最基本的功能了, 掌握了这两个, 就能最基本的使用KISSY了, 接下来将介绍和 jQuery/YUI3 中类似的 <a class="reference internal" href="node.html#usenode"><em>Node</em></a> 对象的使用.</p>
 <p class="rubric">参考链接</p>
 <table class="docutils footnote" frame="void" id="id4" rules="none">
 <colgroup><col class="label" /><col /></colgroup>

@@ -20,6 +20,7 @@
     </script>
     <!-- add kissy lib by liz -->
     <script src="http://github.com/kissyteam/kissy/raw/master/build/packages/kissy.js"></script>
+    <script src="demo/show.js"></script>
     <script type="text/javascript" src="../static/jquery.js"></script>
     <script type="text/javascript" src="../static/underscore.js"></script>
     <script type="text/javascript" src="../static/doctools.js"></script>
@@ -51,7 +52,20 @@
       <h3>Navigation</h3>
       <ul>
         <li><a href="http://kissyteam.github.com/kissy/docs/">Kissy Doc</a> |</li>
-        <li><a href="../index.html">Quick Start Guide v0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">Quick Start Guide v0.1 documentation</a> &raquo;</li>
+        <li>
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </li>
+        <li>
+          <a href="anim.html" title="Anim"
+             accesskey="N">next</a>
+        </li>
+        <li>
+          <a href="node.html" title="Node初步"
+             accesskey="P">previous</a>
+        </li>
+        
       </ul>
     </div>
 
@@ -59,13 +73,13 @@
       <div class="documentwrapper">
         <div class="toc">
   <h3><a id="J_toc" href="../index.html">Table Of Contents</a></h3>
-  <ul>
+  <div id="J_tList"><ul>
 <li><a class="reference internal" href="#">Ajax</a><ul>
 <li><a class="reference internal" href="#id4">使用Ajax</a></li>
 </ul>
 </li>
 </ul>
-
+</div>
         <script>
             KISSY.ready(function(S){
                 var DOM = S.DOM,
@@ -74,7 +88,15 @@
                 Event.on('#J_toc', 'click', function(e){
                     e.halt();
                     var p = DOM.parent(DOM.parent(this));
-                    DOM.toggleClass(p, 'tocshow');
+                    //DOM.toggleClass(p, 'tocshow');
+                    if (DOM.hasClass(p, 'tocshow')) {
+                        S.slideUp('#J_tList', 1, function(){
+                            DOM.removeClass(p, 'tocshow');
+                        });
+                    } else {
+                        DOM.addClass(p, 'tocshow');
+                        S.slideDown('#J_tList', 1);
+                    }
                 });
             });
         </script>
