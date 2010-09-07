@@ -25,6 +25,7 @@
     <script type="text/javascript" src="../static/underscore.js"></script>
     <script type="text/javascript" src="../static/doctools.js"></script>
     <link rel="top" title="Quick Start Guide v0.1 documentation" href="../index.html" />
+    <link rel="up" title="Getting Started With KISSY" href="../quickstart.html" />
     <link rel="next" title="Node初步" href="node.html" />
     <link rel="prev" title="Setup" href="setup.html" /> 
   </head>
@@ -48,7 +49,7 @@
   <h3><a id="J_toc" href="../index.html">Table Of Contents</a></h3>
   <div id="J_tList"><ul>
 <li><a class="reference internal" href="#">Hello KISSY</a><ul>
-<li><a class="reference internal" href="#id3">其他例子</a></li>
+<li><a class="reference internal" href="#dom-event">DOM/Event</a></li>
 </ul>
 </li>
 </ul>
@@ -155,8 +156,8 @@
 <dt>这个例子中,</dt>
 <dd><ol class="first last arabic simple">
 <li><tt class="docutils literal"><span class="pre">KISSY.ready()</span></tt> 指在DOM加载完毕之后执行代码. 就像jQuery中的 <tt class="docutils literal"><span class="pre">$(document).ready()</span></tt> ;</li>
-<li><tt class="docutils literal"><span class="pre">KISSY.DOM</span></tt> , KISSY的DOM模块 <a class="footnote-reference" href="#id4" id="id1">[1]</a> , 提供基本的DOM操作功能, 如元素的选择和遍历, css 属性的获取和修改, 还能获取位置大小等;</li>
-<li><tt class="docutils literal"><span class="pre">KISSY.Event</span></tt> , KISSY的Event模块 <a class="footnote-reference" href="#id5" id="id2">[2]</a> , 提供事件处理功能, 如基本的事件添加删除功能, 另外还更好的支持 <tt class="docutils literal"><span class="pre">mouseenter/mouseleave</span></tt> , <tt class="docutils literal"><span class="pre">focusin/focusout</span></tt> 事件, 在这个例子中, 给按钮添加 <tt class="docutils literal"><span class="pre">click</span></tt> 事件;</li>
+<li><tt class="docutils literal"><span class="pre">KISSY.DOM</span></tt> , KISSY的DOM模块 <a class="footnote-reference" href="#id3" id="id1">[1]</a> , 提供基本的DOM操作功能, 如元素的选择和遍历, css 属性的获取和修改, 还能获取位置大小等;</li>
+<li><tt class="docutils literal"><span class="pre">KISSY.Event</span></tt> , KISSY的Event模块 <a class="footnote-reference" href="#id4" id="id2">[2]</a> , 提供事件处理功能, 如基本的事件添加删除功能, 另外还更好的支持 <tt class="docutils literal"><span class="pre">mouseenter/mouseleave</span></tt> , <tt class="docutils literal"><span class="pre">focusin/focusout</span></tt> 事件, 在这个例子中, 给按钮添加 <tt class="docutils literal"><span class="pre">click</span></tt> 事件;</li>
 <li><tt class="docutils literal"><span class="pre">DOM.get(selector,</span> <span class="pre">context)</span></tt> , 在 <tt class="docutils literal"><span class="pre">context</span></tt> 中, 根据给出的 <tt class="docutils literal"><span class="pre">selector</span></tt> 获取DOM树上对应的 <strong>一个节点</strong> , <tt class="docutils literal"><span class="pre">context</span></tt> 不是必需的; 另外还有一个类似的方法叫做 <tt class="docutils literal"><span class="pre">DOM.query(selector,</span> <span class="pre">context)</span></tt> , 与前者不同的是, 得到 <strong>所有</strong> 符合条件的元素;</li>
 <li><tt class="docutils literal"><span class="pre">DOM.css()</span></tt>, 获取/设置元素某个css属性, 这里获得元素的 <tt class="docutils literal"><span class="pre">left</span></tt> 属性;</li>
 <li><tt class="docutils literal"><span class="pre">DOM.attr()/DOM.removeAttr()</span></tt>, 获取/设置元素某个属性, 这里, 在动画开始前给按钮设置不可用状态, 当动画结束时恢复可用状态;</li>
@@ -164,9 +165,10 @@
 </ol>
 </dd>
 </dl>
-<div class="section" id="id3">
-<h2>其他例子<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p>下面, 再来看另外一个小例子, 在做导航栏时经常需要处理包含二级导航的情况, 例如下面的效果:</p>
+<div class="section" id="dom-event">
+<h2>DOM/Event<a class="headerlink" href="#dom-event" title="Permalink to this headline">¶</a></h2>
+<p>经过上面的例子, 应该让你了解了 KISSY 最基本的 <tt class="docutils literal"><span class="pre">DOM/Event</span></tt> 的使用. 下面, 再来看另外一个例子, 加深下映象吧!</p>
+<p>我们在做导航栏时经常需要处理包含二级导航的情况, 例如下面的效果:</p>
 <div class="demo">
     <style>
         .menu, .menu li {
@@ -253,13 +255,13 @@
 <p>这里, KISSY 内置了 <tt class="docutils literal"><span class="pre">mouseenter/mouseleave</span></tt> 事件, 可以像使用原生事件一样的使用她们.</p>
 <p><tt class="docutils literal"><span class="pre">DOM/Event</span></tt> 是最基本的功能了, 掌握了这两个, 就能最基本的使用KISSY了, 接下来将介绍和 jQuery/YUI3 中类似的 <a class="reference internal" href="node.html#usenode"><em>Node</em></a> 对象的使用.</p>
 <p class="rubric">参考链接</p>
-<table class="docutils footnote" frame="void" id="id4" rules="none">
+<table class="docutils footnote" frame="void" id="id3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://KISSYteam.github.com/KISSY/docs/dom/index.html">DOM文档</a> ;</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id5" rules="none">
+<table class="docutils footnote" frame="void" id="id4" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><a class="reference external" href="http://KISSYteam.github.com/KISSY/docs/event/index.html">Event文档</a> ;</td></tr>
@@ -289,8 +291,8 @@
          accesskey="P">previous</a>
     </li>
  -->
-    <li><a title="Setup" href="setup.html">上一节</a></li>
-    <li><a title="Node初步" href="node.html">下一节</a></li>
+    <li><a title="Setup" href="setup.html">Prev</a></li>
+    <li><a title="Node初步" href="node.html">Next</a></li>
 
 </ul>
 <script>
