@@ -93,15 +93,15 @@ KISSY DOCS
     </style>
     <div class="fp">
         <ul class="docs ks-clear">
-            <li class="gt"><a href="quickstart.html">Quick Start Guide</a></li>
+            <li class="gt"><a href="quickstart.html">快速入门教程</a></li>
             <li class="ref"><a href="#">Reference Guide</a></li>
-            <li class="api"><a href="http://kissyteam.github.com/kissy/docs/">API Docs</a></li>
+            <li class="api"><a href="http://kissyteam.github.com/kissy/docs/">API 文档</a></li>
         </ul>
         
         
         <div class="linklist ks-clear">
             <div class="link left">
-                <h5>Kissyteam Projects</h5>
+                <h5>Kissyteam 相关工程</h5>
                 <ul>
                     <li><a href="http://github.com/kissyteam">kissyteam projects</a></li>
                     <li><a href="http://github.com/kissyteam/kissy">kissy src</a></li>
@@ -114,14 +114,14 @@ KISSY DOCS
                 </ul>
             </div>
             <div class="link center">
-                <h5>Resource</h5>
+                <h5>资源</h5>
                 <ul>
                     <li><a href="http://kissyui.com/">Official Site</a></li>
                     <li><a href="http://github.com/kissyteam/kissy/issues">issues</a></li>
                 </ul>
             </div>
             <div class="link right">
-                <h5>Report&Contact</h5>
+                <h5>联系</h5>
                 <ul>
                     <li><a href="mailto:kissyteam@gmail.com">kissyteam邮件列表</a></li>
                     <!--<li><a href="mailto:lifesinger@gmail.com">玉伯</a></li>-->

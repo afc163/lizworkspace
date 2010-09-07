@@ -24,6 +24,7 @@
     <script type="text/javascript" src="../static/jquery.js"></script>
     <script type="text/javascript" src="../static/underscore.js"></script>
     <script type="text/javascript" src="../static/doctools.js"></script>
+    <script type="text/javascript" src="../static/translations.js"></script>
     <link rel="top" title="Quick Start Guide v0.1 documentation" href="../index.html" />
     <link rel="up" title="Getting Started With KISSY" href="../quickstart.html" />
     <link rel="next" title="Anim" href="anim.html" />
@@ -46,7 +47,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="toc">
-  <h3><a id="J_toc" href="../index.html">Table Of Contents</a></h3>
+  <h3><a id="J_toc" href="../index.html">內容目录</a></h3>
   <div id="J_tList"><ul>
 <li><a class="reference internal" href="#">Ajax</a><ul>
 <li><a class="reference internal" href="#id4">使用Ajax</a></li>
@@ -78,12 +79,12 @@
         <div class="body">
             
   <div class="section" id="ajax">
-<span id="id1"></span><h1>Ajax<a class="headerlink" href="#ajax" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Ajax<a class="headerlink" href="#ajax" title="永久链接至标题">¶</a></h1>
 <p>KISSY中提供了最基本的Ajax异步请求功能 <a class="footnote-reference" href="#id6" id="id2">[1]</a>, 目前虽然只有一个 <tt class="docutils literal"><span class="pre">getScript</span></tt> 方法, 但在小应用中已经足够了. 其他的ajax模块中方法, 如 <tt class="docutils literal"><span class="pre">get</span></tt> , <tt class="docutils literal"><span class="pre">post</span></tt> 后续补上.</p>
 <p><tt class="docutils literal"><span class="pre">getScript</span></tt> 异步请求之后, 会以js脚本执行请求回来的数据, 与 <tt class="docutils literal"><span class="pre">jQuery</span> <span class="pre">$.getScript</span></tt> 是一致的.</p>
 <p>这种请求方式, 我们一般称为 <tt class="docutils literal"><span class="pre">JSONP回调</span></tt> , 可以跨域请求, 关于跨域可参见 <a class="footnote-reference" href="#id8" id="id3">[2]</a> .</p>
 <div class="section" id="id4">
-<h2>使用Ajax<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<h2>使用Ajax<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
 <p>在日常Web应用中, 经常用到异步请求, 比如, 异步加载一些评论信息, 异步加载图片列表等, 这样可以减少不必要的请求, 减轻服务器压力, 也加快主页面的打开速度.</p>
 <p>下面介绍个如何通过 <tt class="docutils literal"><span class="pre">getScript</span></tt> 方法去请求flickr上提供的图片数据.</p>
 <p>先见示例:</p>
@@ -289,20 +290,20 @@
 <ul id="J_relbar" class="myrelbar">
 <!--
     <li>
-      <a href="../genindex.html" title="General Index"
-         accesskey="I">index</a>
+      <a href="../genindex.html" title="总目录"
+         accesskey="I">索引</a>
     </li>
     <li>
       <a href="anim.html" title="Anim"
-         accesskey="N">next</a>
+         accesskey="N">下一页</a>
     </li>
     <li>
       <a href="node.html" title="Node初步"
-         accesskey="P">previous</a>
+         accesskey="P">上一页</a>
     </li>
  -->
-    <li><a title="Node初步" href="node.html">Prev</a></li>
-    <li><a title="Anim" href="anim.html">Next</a></li>
+    <li><a title="Node初步" href="node.html">前一章</a></li>
+    <li><a title="Anim" href="anim.html">后一章</a></li>
 
 </ul>
 <script>
@@ -320,7 +321,6 @@
         else DOM.addClass(relbar, 'fixed');
         
     });
-    
 </script>
 <div class="searchbox" style="display: none"  id="searchbox">
     <form class="search" action="../search.html" method="get">
@@ -333,8 +333,8 @@
 <script type="text/javascript">$('#searchbox').show(0);</script>
 
     <div class="footer">
-        &copy; Copyright 2010, kissyteam.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.
+        &copy; 版权所有 2010, kissyteam.
+      使用 <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.
     </div>
   </body>
 </html>

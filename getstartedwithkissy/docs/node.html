@@ -24,6 +24,7 @@
     <script type="text/javascript" src="../static/jquery.js"></script>
     <script type="text/javascript" src="../static/underscore.js"></script>
     <script type="text/javascript" src="../static/doctools.js"></script>
+    <script type="text/javascript" src="../static/translations.js"></script>
     <link rel="top" title="Quick Start Guide v0.1 documentation" href="../index.html" />
     <link rel="up" title="Getting Started With KISSY" href="../quickstart.html" />
     <link rel="next" title="Ajax" href="ajax.html" />
@@ -46,7 +47,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="toc">
-  <h3><a id="J_toc" href="../index.html">Table Of Contents</a></h3>
+  <h3><a id="J_toc" href="../index.html">內容目录</a></h3>
   <div id="J_tList"><ul>
 <li><a class="reference internal" href="#">Node初步</a><ul>
 <li><a class="reference internal" href="#node-api">Node API</a></li>
@@ -79,11 +80,11 @@
         <div class="body">
             
   <div class="section" id="node">
-<span id="usenode"></span><h1>Node初步<a class="headerlink" href="#node" title="Permalink to this headline">¶</a></h1>
+<span id="usenode"></span><h1>Node初步<a class="headerlink" href="#node" title="永久链接至标题">¶</a></h1>
 <p>如果你已经熟悉了jQuery, YUI3.0 或是 Ext , 那就应该对其链式风格的使用非常了解.  链式风格的书写让人使用更加方便, 代码看起来也非常整洁.</p>
 <p>Kissy 也提供了这种链式风格的支持 <a class="footnote-reference" href="#id5" id="id1">[1]</a>.</p>
 <div class="section" id="node-api">
-<h2>Node API<a class="headerlink" href="#node-api" title="Permalink to this headline">¶</a></h2>
+<h2>Node API<a class="headerlink" href="#node-api" title="永久链接至标题">¶</a></h2>
 <dl class="docutils">
 <dt>Kissy提供两种使用方式:</dt>
 <dd><ol class="first last arabic simple">
@@ -100,7 +101,7 @@
 <p>基本上和 jQuery 的语法风格是一样的,甚至 API 也是一样的。</p>
 </div>
 <div class="section" id="id2">
-<h2>Node使用<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h2>Node使用<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
 <p>这里我们拿先前玉伯博客 <a class="footnote-reference" href="#id7" id="id3">[2]</a> 上的 <tt class="docutils literal"><span class="pre">KISSY.all('.good-student')</span></tt> 举个 node 使用的小例子.</p>
 <p>实现的效果就是, 点击按钮之后, 好多好学生都慢慢漂入 Taobao 中.</p>
 <div class="demo">
@@ -237,7 +238,7 @@
 </ol>
 </blockquote>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注解</p>
 <p>关于 node 的性能问题.</p>
 <p class="last">KISSY 目前采用的是类 jQuery 的原生 push 机制, 性能基本上不是问题, 函数层级之间的调用也不多. 这一点尽可放心, 目前测试下来, node 的性能问题不是问题. 可以看下 <a class="reference external" href="http://github.com/kissyteam/kissy/raw/master/src/node/node-attatch.js">http://github.com/kissyteam/kissy/raw/master/src/node/node-attatch.js</a> 的实现就明白了.</p>
 </div>
@@ -268,20 +269,20 @@
 <ul id="J_relbar" class="myrelbar">
 <!--
     <li>
-      <a href="../genindex.html" title="General Index"
-         accesskey="I">index</a>
+      <a href="../genindex.html" title="总目录"
+         accesskey="I">索引</a>
     </li>
     <li>
       <a href="ajax.html" title="Ajax"
-         accesskey="N">next</a>
+         accesskey="N">下一页</a>
     </li>
     <li>
       <a href="hellokissy.html" title="Hello KISSY"
-         accesskey="P">previous</a>
+         accesskey="P">上一页</a>
     </li>
  -->
-    <li><a title="Hello KISSY" href="hellokissy.html">Prev</a></li>
-    <li><a title="Ajax" href="ajax.html">Next</a></li>
+    <li><a title="Hello KISSY" href="hellokissy.html">前一章</a></li>
+    <li><a title="Ajax" href="ajax.html">后一章</a></li>
 
 </ul>
 <script>
@@ -299,7 +300,6 @@
         else DOM.addClass(relbar, 'fixed');
         
     });
-    
 </script>
 <div class="searchbox" style="display: none"  id="searchbox">
     <form class="search" action="../search.html" method="get">
@@ -312,8 +312,8 @@
 <script type="text/javascript">$('#searchbox').show(0);</script>
 
     <div class="footer">
-        &copy; Copyright 2010, kissyteam.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.
+        &copy; 版权所有 2010, kissyteam.
+      使用 <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.
     </div>
   </body>
 </html>

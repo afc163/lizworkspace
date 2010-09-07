@@ -24,6 +24,7 @@
     <script type="text/javascript" src="../static/jquery.js"></script>
     <script type="text/javascript" src="../static/underscore.js"></script>
     <script type="text/javascript" src="../static/doctools.js"></script>
+    <script type="text/javascript" src="../static/translations.js"></script>
     <link rel="top" title="Quick Start Guide v0.1 documentation" href="../index.html" />
     <link rel="up" title="Getting Started With KISSY" href="../quickstart.html" />
     <link rel="next" title="自定义组件" href="yourwidgets.html" />
@@ -46,7 +47,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="toc">
-  <h3><a id="J_toc" href="../index.html">Table Of Contents</a></h3>
+  <h3><a id="J_toc" href="../index.html">內容目录</a></h3>
   <div id="J_tList"><ul>
 <li><a class="reference internal" href="#">组件</a><ul>
 <li><a class="reference internal" href="#switchable">Switchable</a></li>
@@ -81,15 +82,15 @@
         <div class="body">
             
   <div class="section" id="widgets">
-<span id="id1"></span><h1>组件<a class="headerlink" href="#widgets" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>组件<a class="headerlink" href="#widgets" title="永久链接至标题">¶</a></h1>
 <p>KISSY UI库, 提供种类丰富的UI组件, 虽然目前发布的组件为数不多 , 但相信不久之后, 会有更多的组件开发完成.</p>
 <p>下面介绍下 KISSY 已有组件 <tt class="docutils literal"><span class="pre">Switchable</span></tt> <a class="footnote-reference" href="#id4" id="id2">[1]</a> .</p>
 <div class="section" id="switchable">
-<h2>Switchable<a class="headerlink" href="#switchable" title="Permalink to this headline">¶</a></h2>
+<h2>Switchable<a class="headerlink" href="#switchable" title="永久链接至标题">¶</a></h2>
 <p><tt class="docutils literal"><span class="pre">Switchable</span></tt> 是最基本的切换组件, 已有四种扩展组件 <tt class="docutils literal"><span class="pre">S.Tabs</span></tt> , <tt class="docutils literal"><span class="pre">S.Slide</span></tt> , <tt class="docutils literal"><span class="pre">S.Carousel</span></tt> , <tt class="docutils literal"><span class="pre">S.Accordin</span></tt> , 基本上这几种能够满足你大多数的应用需求.</p>
 </div>
 <div class="section" id="slide">
-<h2>使用 Slide<a class="headerlink" href="#slide" title="Permalink to this headline">¶</a></h2>
+<h2>使用 Slide<a class="headerlink" href="#slide" title="永久链接至标题">¶</a></h2>
 <p>Slide 效果就是 Taobao 上最最经常见的多张图片相互切换效果, 如:</p>
 <div class="demo">
     <script src="http://kissyteam.github.com/kissy/build/switchable/switchable-pkg-min.js"></script>
@@ -199,7 +200,7 @@
 </td></tr></table></div>
 </div>
 <div class="section" id="carousel">
-<h2>使用 Carousel<a class="headerlink" href="#carousel" title="Permalink to this headline">¶</a></h2>
+<h2>使用 Carousel<a class="headerlink" href="#carousel" title="永久链接至标题">¶</a></h2>
 <p>Carousel , 中文名字叫 旋转木马, 比较奇怪为何叫这个?  不管如何, 反正还是一排东西切换来切换去的. 比如淘宝首页 Slide 下面的品牌广告展示:</p>
 <div class="demo">
     <style>
@@ -290,7 +291,7 @@
 </pre></div>
 </td></tr></table></div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注解</p>
 <ol class="last arabic simple">
 <li>切换组件默认是显示第一个内容块, 如果当前显示不是首个, 可以使用 <tt class="docutils literal"><span class="pre">switchTo(index)</span></tt> 切换到对应的内容块;</li>
 <li>一般情况下, 非当前显示内容中如果包含 异步请求 或者 iframe 或者 图片, 可以加入延迟加载插件 <tt class="docutils literal"><span class="pre">datalazyload</span></tt> ;</li>
@@ -298,7 +299,7 @@
 </div>
 </div>
 <div class="section" id="config">
-<h2>Config 选项<a class="headerlink" href="#config" title="Permalink to this headline">¶</a></h2>
+<h2>Config 选项<a class="headerlink" href="#config" title="永久链接至标题">¶</a></h2>
 <p>Switchable 类组件, 提供了丰富的配置选项, 这里大体说明一下各选项的作用:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="cm">/**** 所有 Switchable 类通用配置   ****/</span>
 <span class="nx">markupType</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>                      <span class="c1">// markup 的类型，取值如下：</span>
@@ -418,20 +419,20 @@
 <ul id="J_relbar" class="myrelbar">
 <!--
     <li>
-      <a href="../genindex.html" title="General Index"
-         accesskey="I">index</a>
+      <a href="../genindex.html" title="总目录"
+         accesskey="I">索引</a>
     </li>
     <li>
       <a href="yourwidgets.html" title="自定义组件"
-         accesskey="N">next</a>
+         accesskey="N">下一页</a>
     </li>
     <li>
       <a href="anim.html" title="Anim"
-         accesskey="P">previous</a>
+         accesskey="P">上一页</a>
     </li>
  -->
-    <li><a title="Anim" href="anim.html">Prev</a></li>
-    <li><a title="自定义组件" href="yourwidgets.html">Next</a></li>
+    <li><a title="Anim" href="anim.html">前一章</a></li>
+    <li><a title="自定义组件" href="yourwidgets.html">后一章</a></li>
 
 </ul>
 <script>
@@ -449,7 +450,6 @@
         else DOM.addClass(relbar, 'fixed');
         
     });
-    
 </script>
 <div class="searchbox" style="display: none"  id="searchbox">
     <form class="search" action="../search.html" method="get">
@@ -462,8 +462,8 @@
 <script type="text/javascript">$('#searchbox').show(0);</script>
 
     <div class="footer">
-        &copy; Copyright 2010, kissyteam.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.
+        &copy; 版权所有 2010, kissyteam.
+      使用 <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.
     </div>
   </body>
 </html>

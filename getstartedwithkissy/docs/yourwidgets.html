@@ -24,6 +24,7 @@
     <script type="text/javascript" src="../static/jquery.js"></script>
     <script type="text/javascript" src="../static/underscore.js"></script>
     <script type="text/javascript" src="../static/doctools.js"></script>
+    <script type="text/javascript" src="../static/translations.js"></script>
     <link rel="top" title="Quick Start Guide v0.1 documentation" href="../index.html" />
     <link rel="up" title="Getting Started With KISSY" href="../quickstart.html" />
     <link rel="next" title="扩展已有组件" href="extendwidgets.html" />
@@ -46,7 +47,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="toc">
-  <h3><a id="J_toc" href="../index.html">Table Of Contents</a></h3>
+  <h3><a id="J_toc" href="../index.html">內容目录</a></h3>
   <div id="J_tList"><ul>
 <li><a class="reference internal" href="#">自定义组件</a><ul>
 <li><a class="reference internal" href="#id2">为何要以组件形式</a></li>
@@ -95,9 +96,9 @@
         <div class="body">
             
   <div class="section" id="yourwidgets">
-<span id="id1"></span><h1>自定义组件<a class="headerlink" href="#yourwidgets" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>自定义组件<a class="headerlink" href="#yourwidgets" title="永久链接至标题">¶</a></h1>
 <div class="section" id="id2">
-<h2>为何要以组件形式<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<h2>为何要以组件形式<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
 <dl class="docutils">
 <dt>将JS代码组件化的好处:</dt>
 <dd><ol class="first last arabic simple">
@@ -111,7 +112,7 @@
 <p>下面通过个小例子来说明如何开发自定义组件.</p>
 </div>
 <div class="section" id="id3">
-<h2>组件开发示例<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<h2>组件开发示例<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
 <p>在淘宝交易结束前有个评价环节, 里面有一个星星打分功能, 如下示例 , 在这里就把这个打分做成一个小Kissy组件.</p>
 <div class="demo">
     <style>
@@ -484,7 +485,7 @@
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注解</p>
 <p>关于组件的开发规则, 以前也有讨论过:</p>
 <ul class="last simple">
 <li>接口/公共方法的确定;</li>
@@ -497,7 +498,7 @@
 <p id="kissyflow">在动手写 KISSY 组件之前, 还需要了解一下 KISSY 组件的开发流程相信会对你有用的.</p>
 </div>
 <div class="section" id="kissy">
-<h2>KISSY 组件开发流程<a class="headerlink" href="#kissy" title="Permalink to this headline">¶</a></h2>
+<h2>KISSY 组件开发流程<a class="headerlink" href="#kissy" title="永久链接至标题">¶</a></h2>
 <p>在开发过程中, 开发者,,(就拿我来举例吧), 经常会出现:</p>
 <ol class="arabic simple">
 <li>需求过来: 稍加理清下思路, 急急忙忙就开始写代码了, 然后写到七八分了, 才发现貌似一开始就没完全明白需求是什么...然后只能重构.</li>
@@ -515,40 +516,40 @@
 <p>现在越来越觉得, 其实, 写代码和写文章一样, 一个代码完成, 给别人阅读, 就得像看书一样, 从头至尾地, 能清晰的让阅读的人知道这代码实现的功能是什么, 适合/不适合哪些情况, 在使用时有哪些需要注意的地方;</p>
 <p>在实际开发中, 除了给代码加注释外, 还有很多代码不能做的事情, 需要更多的文档来支持开发, 下面拿 ImageZoom slide <a class="footnote-reference" href="#id20" id="id5">[2]</a> 为例说明一下:</p>
 <div class="section" id="id6">
-<h3>应用场景分析<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<h3>应用场景分析<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
 <p>一个需求到来, 比如这个图片放大效果, 首先我们需要这个功能能用在哪些地方, 或哪些网站上已经使用了, 如果有的话, 就对比一下不同的情况下不同的要求, 如 #slide4 . 这样以后, 对比自己的需求, 想好要实现什么功能, 哪些功能保留, 哪些功能不需要, &#8212;- 明确需求;</p>
 </div>
 <div class="section" id="id7">
-<h3>同类组件调研<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<h3>同类组件调研<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
 <p>需求明确之后, 查找现有的同类组件, 看看他们针对这个问题, 是怎么实现的, 实现哪些功能, 哪些可以借鉴的地方, 哪些不足的地方要避免或者改进, 如 #slide6 , &#8212;- 明确要实现的功能有哪些;</p>
 </div>
 <div class="section" id="id8">
-<h3>功能点分析<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<h3>功能点分析<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
 <p>分离出完成整个功能需要的几个核心功能点, 并针对各个功能点逐个描述, 如 #slide8 , 这也可以帮你理清思路,  &#8212;- 进一步明确待实现功能;</p>
 </div>
 <div class="section" id="id9">
-<h3>技术方案<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<h3>技术方案<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h3>
 <p>针对上述的几个功能点, 分别给出实现方案, 或者其他的技术难点, 又或者是算法上的分析等, 如 #slide9 , &#8212; 明确如何实现;</p>
 </div>
 <div class="section" id="public-api">
-<h3>Public API<a class="headerlink" href="#public-api" title="Permalink to this headline">¶</a></h3>
+<h3>Public API<a class="headerlink" href="#public-api" title="永久链接至标题">¶</a></h3>
 <p>设计好的公共 API , 并在此说明, 也可以根据使用场景, 给出一些范例来说明 API 的使用, 如 #slide14 , 这里可以在开始时设计的尽量精简些, &#8212;- 明确 API 接口;</p>
 </div>
 <div class="section" id="id10">
-<h3>开发计划<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<h3>开发计划<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h3>
 <p>简略或者详细的制定一个开发计划, 及发布的版本和时间等, &#8212;- 明确进度;</p>
 </div>
 <div class="section" id="id11">
-<h3>其他<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<h3>其他<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h3>
 <p>可选的部分, 用于记录所有开发过程中碰到的杂类问题或者和其他同学的讨论.</p>
 <p>我们建议每个 KISSY 组件下, 都存放一个 slide.html <a class="footnote-reference" href="#id21" id="id12">[3]</a> , 其内容包含上述几部分内容. 这个 slide 随着你的开发过程的推进, 也会不断添加更新, 最后发布时连同组件源代码一起, 形成非常好的知识体系, 这样, 给别人或是几十年后的自己阅读, 也会像看文章一样的有条理.</p>
 </div>
 </div>
 <div class="section" id="id13">
-<h2>KISSY 组件目录及代码组织<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<h2>KISSY 组件目录及代码组织<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h2>
 <p>关于代码组织, <a class="footnote-reference" href="#id22" id="id14">[4]</a> 和 KISSY 工程 README 中都有些简单介绍, 在这里也完整列一下, 建议遵循:</p>
 <div class="section" id="id15">
-<h3>目录结构<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<h3>目录结构<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h3>
 <blockquote>
 <ul>
 <li><dl class="first docutils">
@@ -569,12 +570,12 @@
 </blockquote>
 </div>
 <div class="section" id="id16">
-<h3>代码结构<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<h3>代码结构<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h3>
 <p>内部代码组织: 采用 module, sub module 来分拆和组织代码
 外部调用接口: component 形式，包括工具型组件 utils 和 UI 型组件 widgets</p>
 </div>
 <div class="section" id="id17">
-<h3>命名约定<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<h3>命名约定<a class="headerlink" href="#id17" title="永久链接至标题">¶</a></h3>
 <dl class="docutils">
 <dt>原则: 尽量避免潜在冲突, 同时力求精简短小和见名知意.</dt>
 <dd><ul class="first last simple">
@@ -586,7 +587,7 @@
 </dd>
 </dl>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注解</p>
 <p class="last">为了避免太冗长, 在保持清晰和无潜在冲突的情况下, 可以打破原则, 比如:
 &lt;div class=&#8221;KS_Widget&#8221; data-widget-type=&#8221;Tabs&#8221; data-widget-config=&#8221;{...}&#8221;&gt;</p>
 </div>
@@ -629,20 +630,20 @@
 <ul id="J_relbar" class="myrelbar">
 <!--
     <li>
-      <a href="../genindex.html" title="General Index"
-         accesskey="I">index</a>
+      <a href="../genindex.html" title="总目录"
+         accesskey="I">索引</a>
     </li>
     <li>
       <a href="extendwidgets.html" title="扩展已有组件"
-         accesskey="N">next</a>
+         accesskey="N">下一页</a>
     </li>
     <li>
       <a href="widgets.html" title="组件"
-         accesskey="P">previous</a>
+         accesskey="P">上一页</a>
     </li>
  -->
-    <li><a title="组件" href="widgets.html">Prev</a></li>
-    <li><a title="扩展已有组件" href="extendwidgets.html">Next</a></li>
+    <li><a title="组件" href="widgets.html">前一章</a></li>
+    <li><a title="扩展已有组件" href="extendwidgets.html">后一章</a></li>
 
 </ul>
 <script>
@@ -660,7 +661,6 @@
         else DOM.addClass(relbar, 'fixed');
         
     });
-    
 </script>
 <div class="searchbox" style="display: none"  id="searchbox">
     <form class="search" action="../search.html" method="get">
@@ -673,8 +673,8 @@
 <script type="text/javascript">$('#searchbox').show(0);</script>
 
     <div class="footer">
-        &copy; Copyright 2010, kissyteam.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.
+        &copy; 版权所有 2010, kissyteam.
+      使用 <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.
     </div>
   </body>
 </html>

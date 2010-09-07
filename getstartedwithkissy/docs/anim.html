@@ -24,6 +24,7 @@
     <script type="text/javascript" src="../static/jquery.js"></script>
     <script type="text/javascript" src="../static/underscore.js"></script>
     <script type="text/javascript" src="../static/doctools.js"></script>
+    <script type="text/javascript" src="../static/translations.js"></script>
     <link rel="top" title="Quick Start Guide v0.1 documentation" href="../index.html" />
     <link rel="up" title="Getting Started With KISSY" href="../quickstart.html" />
     <link rel="next" title="组件" href="widgets.html" />
@@ -46,7 +47,7 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="toc">
-  <h3><a id="J_toc" href="../index.html">Table Of Contents</a></h3>
+  <h3><a id="J_toc" href="../index.html">內容目录</a></h3>
   <div id="J_tList"><ul>
 <li><a class="reference internal" href="#">Anim</a><ul>
 <li><a class="reference internal" href="#s-anim">S.Anim</a></li>
@@ -79,11 +80,11 @@
         <div class="body">
             
   <div class="section" id="anim">
-<span id="id1"></span><h1>Anim<a class="headerlink" href="#anim" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Anim<a class="headerlink" href="#anim" title="永久链接至标题">¶</a></h1>
 <p>关于js中的动画, 让我映象最为深刻的就是 JQuery 首页上最经典的例子 <tt class="docutils literal"><span class="pre">$(&quot;p.neat&quot;).addClass(&quot;ohmy&quot;).show(&quot;slow&quot;);</span></tt></p>
 <p>相当简单的一行代码就可以出现元素的渐隐效果, 从那时她就已经深深吸引了当初只知道flash能做动画的我;</p>
 <div class="section" id="s-anim">
-<h2>S.Anim<a class="headerlink" href="#s-anim" title="Permalink to this headline">¶</a></h2>
+<h2>S.Anim<a class="headerlink" href="#s-anim" title="永久链接至标题">¶</a></h2>
 <dl class="docutils">
 <dt>KISSY 中也提供了基本的动画特效支持. 主要由三个子模块组成 <a class="footnote-reference" href="#id5" id="id2">[1]</a> :</dt>
 <dd><ol class="first last arabic simple">
@@ -106,7 +107,7 @@
 <p>动画的原理都是一样的, 但要实现一些很酷的动画效果, 首先得分析出动画每个部分的状态, 再把它们有顺序的组合起来.</p>
 </div>
 <div class="section" id="show-hide-fadein-fadeout">
-<h2>show()/hide()/fadeIn()/fadeOut()<a class="headerlink" href="#show-hide-fadein-fadeout" title="Permalink to this headline">¶</a></h2>
+<h2>show()/hide()/fadeIn()/fadeOut()<a class="headerlink" href="#show-hide-fadein-fadeout" title="永久链接至标题">¶</a></h2>
 <p>看一下 JQuery 关于这部分的源码, 可以看到 <tt class="docutils literal"><span class="pre">show()/hide()</span></tt> 和 <tt class="docutils literal"><span class="pre">fadeIn()/fadeOut()</span></tt> 是操作 <tt class="docutils literal"><span class="pre">display</span></tt>, <tt class="docutils literal"><span class="pre">overflow</span></tt>, <tt class="docutils literal"><span class="pre">height</span></tt>, <tt class="docutils literal"><span class="pre">width</span></tt>, <tt class="docutils literal"><span class="pre">opacity</span></tt> 这几个 css 属性实现的. 比如: 元素 <tt class="docutils literal"><span class="pre">show</span></tt> 之前设置 <tt class="docutils literal"><span class="pre">display</span></tt> 为 <tt class="docutils literal"><span class="pre">block</span></tt> , 设置 <tt class="docutils literal"><span class="pre">overflow</span></tt> 为 <tt class="docutils literal"><span class="pre">hidden</span></tt>, 防止溢出, 设置 <tt class="docutils literal"><span class="pre">opacity</span></tt> 为0, 使其不可见, 然后, 获取元素的原始宽高度, 之后宽高度清0, 动画开始, 从宽高度透明度渐变到元素正常的设置; 元素 <tt class="docutils literal"><span class="pre">hide</span></tt> 刚好相反;</p>
 <p><tt class="docutils literal"><span class="pre">fadeIn/fadeOut</span></tt> 比较 <tt class="docutils literal"><span class="pre">show/hide</span></tt> , 不需要重设宽高度, 只需要调节透明度即可;</p>
 <p>完整源码:</p>
@@ -391,7 +392,7 @@
 </pre></div>
 </td></tr></table></div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="first admonition-title">注解</p>
 <ol class="last arabic simple">
 <li>动画属性 <tt class="docutils literal"><span class="pre">props</span></tt> 须是连续型的数值, 如果是 <tt class="docutils literal"><span class="pre">display</span></tt> 这种 &#8220;离散型&#8221; 的, 可以利用 <tt class="docutils literal"><span class="pre">opacity</span></tt> 设置透明度这种方式, 在 <tt class="docutils literal"><span class="pre">display:</span> <span class="pre">block</span></tt> 之后获取 <tt class="docutils literal"><span class="pre">height/width</span></tt>, 设置元素宽高度及透明度;</li>
 <li>像 <tt class="docutils literal"><span class="pre">height/width</span></tt> 这种属性, 需要加上单位, 不能光光是数字;</li>
@@ -431,20 +432,20 @@
 <ul id="J_relbar" class="myrelbar">
 <!--
     <li>
-      <a href="../genindex.html" title="General Index"
-         accesskey="I">index</a>
+      <a href="../genindex.html" title="总目录"
+         accesskey="I">索引</a>
     </li>
     <li>
       <a href="widgets.html" title="组件"
-         accesskey="N">next</a>
+         accesskey="N">下一页</a>
     </li>
     <li>
       <a href="ajax.html" title="Ajax"
-         accesskey="P">previous</a>
+         accesskey="P">上一页</a>
     </li>
  -->
-    <li><a title="Ajax" href="ajax.html">Prev</a></li>
-    <li><a title="组件" href="widgets.html">Next</a></li>
+    <li><a title="Ajax" href="ajax.html">前一章</a></li>
+    <li><a title="组件" href="widgets.html">后一章</a></li>
 
 </ul>
 <script>
@@ -462,7 +463,6 @@
         else DOM.addClass(relbar, 'fixed');
         
     });
-    
 </script>
 <div class="searchbox" style="display: none"  id="searchbox">
     <form class="search" action="../search.html" method="get">
@@ -475,8 +475,8 @@
 <script type="text/javascript">$('#searchbox').show(0);</script>
 
     <div class="footer">
-        &copy; Copyright 2010, kissyteam.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.
+        &copy; 版权所有 2010, kissyteam.
+      使用 <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.0.
     </div>
   </body>
 </html>
