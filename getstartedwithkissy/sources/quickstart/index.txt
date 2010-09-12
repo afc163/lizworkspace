@@ -34,15 +34,15 @@ KISSY愿景
 .. toctree::
    :maxdepth: 3
 
-   docs/setup.rst
-   docs/hellokissy.rst
-   docs/node.rst
-   docs/ajax.rst
-   docs/anim.rst
-   docs/widgets.rst
-   docs/yourwidgets.rst
-   docs/extendwidgets.rst
-   docs/nextstep.rst
+   setup.rst
+   hellokissy.rst
+   node.rst
+   ajax.rst
+   anim.rst
+   widgets.rst
+   yourwidgets.rst
+   extendwidgets.rst
+   nextstep.rst
 
 
 

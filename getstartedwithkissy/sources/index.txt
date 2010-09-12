@@ -8,7 +8,9 @@ KISSY DOCS
 .. toctree::
    :maxdepth: 1
 
-   quickstart.rst
+   quickstart/index.rst
+   reference/index.rst
+   api/index.rst
 
 
 .. raw:: html
@@ -93,12 +95,11 @@ KISSY DOCS
     </style>
     <div class="fp">
         <ul class="docs ks-clear">
-            <li class="gt"><a href="quickstart.html">快速入门教程</a></li>
-            <li class="ref"><a href="#">Reference Guide</a></li>
-            <li class="api"><a href="http://kissyteam.github.com/kissy/docs/">API 文档</a></li>
+            <li class="gt"><a href="quickstart/index.html">快速入门教程</a></li>
+            <li class="ref"><a href="reference/index.html">Reference Guide</a></li>
+            <li class="api"><a href="api/index.html">API 文档</a></li>
         </ul>
-        
-        
+
         <div class="linklist ks-clear">
             <div class="link left">
                 <h5>Kissyteam 相关工程</h5>
@@ -130,12 +131,4 @@ KISSY DOCS
         </div>
     </div>
     
-    <script>
-        /*KISSY.ready(function(S){
-            var DOM = S.DOM,
-                Event = S.Event;
-            DOM.html(DOM.get('ul', DOM.get('.related')), '<li><a href="http://github.com/kissyteam/kissy">KISSY - An Enjoyable JavaScript Library </a></li>');
-            
-        });*/
-    </script>
     
