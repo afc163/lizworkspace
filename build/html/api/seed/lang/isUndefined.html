@@ -1,0 +1,159 @@
+
+<!doctype html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+
+<title>S.isUndefined &mdash; KISSY Docs v2.0 documentation</title>
+
+<link rel="stylesheet" href="../../../_static/base.css"/>
+<link rel="stylesheet" href="../../../_static/kissy.css"/>
+<link rel="stylesheet" href="../../../_static/pygments.css"/>
+<script>
+    var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+    };
+</script>
+<script src="http://yiminghe.github.com/kissy/build/kissy.js"></script>
+<!--
+    <script src="http://localhost/kissy_git/kissy/build/kissy.js"></script>
+--> 
+</head>
+<body><a href="http://github.com/kissyteam" style="display:block; position: absolute; top: 0; right: 0; width: 150px; height: 150px; z-index: 10000;border: none;">
+    <img src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub">
+</a>
+<div id="header" class="ks-clear">
+    <h1 class="logo"><a href="http://kissyteam.github.com/"><img src="http://kissyteam.github.com/kissy.png"/></a></h1>
+    <p class="sub-title">小巧灵活、简洁实用、愉悦编码、快乐开发</p>
+    <ul class="navigation">
+        <li><a href="http://kissyteam.github.com/">Home</a><b></b><s></s></li>
+        <li><a href="http://kissyui.com/blog/">Blog</a><b></b><s></s></li>
+        <li><a href="http://github.com/kissyteam/kissy#readme">About</a></li>
+    </ul>
+</div>
+
+
+<div id="content"  class="layout grid-s6m0">
+        <div class="col-main">
+            <div class="main-wrap">
+                
+  <div class="section" id="s-isundefined">
+<span id="seed-lang-isundefined"></span><h1>S.isUndefined<a class="headerlink" href="#s-isundefined" title="永久链接至标题">¶</a></h1>
+</div>
+
+
+
+                <div class="bottom">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'kissy-docs'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+     //var disqus_identifier = '/anim';
+     //var disqus_url = window.location;
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+</div>
+            </div>
+        </div>
+<div class="col-sub">
+    <div class="sidebar">
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="isPlainObject.html" title="上一章">S.isPlainObject</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="isString.html" title="下一章">S.isString</a></p>
+
+
+
+        <div class="global-toc">
+        <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../example/index.html">文档索引示例(该标题可不写)</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">KISSY API Docs</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Seed API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../kissy/version.html">S.version - <tt class="docutils literal"><span class="pre">String</span></tt></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../kissy/config.html">S.Config - <tt class="docutils literal"><span class="pre">Object</span></tt></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../kissy/mix.html">S.mix(r, s, ov, wl) - <tt class="docutils literal"><span class="pre">Object</span></tt></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../kissy/merge.html">S.merge</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../kissy/augment.html">S.augment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../kissy/extend.html">S.extend</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../kissy/namespace.html">S.namespace</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../kissy/app.html">S.app</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../kissy/config_fn.html">S.Config</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../kissy/log.html">S.log</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../kissy/error.html">S.error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../kissy/guid.html">S.guid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="type.html">S.type</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isEmptyObject.html">S.isEmptyObject</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isFunction.html">S.isFunction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isNull.html">S.isNull</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isPlainObject.html">S.isPlainObject</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">S.isUndefined</a></li>
+<li class="toctree-l3"><a class="reference internal" href="isString.html">S.isString</a></li>
+<li class="toctree-l3"><a class="reference internal" href="clone.html">S.clone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="trim.html">S.trim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="substitute.html">S.substitute</a></li>
+<li class="toctree-l3"><a class="reference internal" href="each.html">S.each</a></li>
+<li class="toctree-l3"><a class="reference internal" href="indexOf.html">S.indexOf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lastIndexOf.html">S.lastIndexOf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unique.html">S.unique</a></li>
+<li class="toctree-l3"><a class="reference internal" href="inArray.html">S.inArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="filter.html">S.filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="now.html">S.now</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../loader/add.html">S.add</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../loader/use.html">S.use</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../loader/getScript.html">S.getScript</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../web/isWindow.html">S.isWindow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../web/makeArray.html">S.makeArray</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../web/param.html">S.param</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../web/unparam.html">S.unparam</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../web/globalEval.html">S.globalEval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../web/later.html">S.later</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../web/ready.html">S.ready</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../web/available.html">S.available</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../core/index.html">Core API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../components/index.html">Components API</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+        
+        <div id="google-search-box">
+            <div id="cse" style="width: 100%;">Loading</div>
+            <script src="http://www.google.com/jsapi" type="text/javascript"></script>
+            <script type="text/javascript">
+                google.load('search', '1', {language : 'zh-CN', style : google.loader.themes.MINIMALIST});
+                google.setOnLoadCallback(function() {
+                    var customSearchControl = new google.search.CustomSearchControl('012347804910294994683:n4uzb24gqdm');
+                    customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);
+                    customSearchControl.draw('cse');
+                }, true);
+            </script>
+        </div>
+
+    </div>
+</div>
+</div>
+<div id="footer">
+    &copy; Copyright 2010~2011, KISSY Team. Created using <a href="http://sphinx.pocoo.org/">Sphinx</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,36 @@
+.. 下面的名字为全局唯一的id, 用于内部链接的标识 :
+.. _example:
+
+
+文档索引示例(该标题可不写)
+=============================
+
+索引结构, 可以有两种方式:
+
+一种是, 子模块也包含索引
+
+.. toctree::
+   :maxdepth: 2
+
+   moduleA/index
+   moduleB/index
+
+
+
+另一种是, 子模块只分目录, 但不需要子索引
+
+.. toctree::
+   :maxdepth: 2
+
+   moduleA/a1
+   moduleA/a2
+   moduleB/b1
+   moduleB/b2
+
+
+PS: toctree 的 参数 maxdepth 是指 索引的深度, 二级时表示在此索引中包含模块的一级/二级目录 :
+
+
+
+
+

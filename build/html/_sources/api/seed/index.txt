@@ -1,0 +1,51 @@
+.. _seed:
+
+Seed API
+===============================
+
+.. toctree::
+   :maxdepth: 1
+
+   kissy/version
+   kissy/config
+   kissy/mix
+   kissy/merge
+   kissy/augment
+   kissy/extend
+   kissy/namespace
+   kissy/app
+   kissy/config_fn
+   kissy/log
+   kissy/error
+   kissy/guid
+
+   lang/type
+   lang/isEmptyObject
+   lang/isFunction
+   lang/isNull
+   lang/isPlainObject
+   lang/isUndefined
+   lang/isString
+   lang/clone
+   lang/trim
+   lang/substitute
+   lang/each
+   lang/indexOf
+   lang/lastIndexOf
+   lang/unique
+   lang/inArray
+   lang/filter
+   lang/now
+
+   loader/add
+   loader/use
+   loader/getScript
+
+   web/isWindow
+   web/makeArray
+   web/param
+   web/unparam
+   web/globalEval
+   web/later
+   web/ready
+   web/available

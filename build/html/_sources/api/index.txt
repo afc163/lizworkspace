@@ -1,0 +1,32 @@
+.. _api:
+
+
+KISSY API Docs
+=============================
+
+.. seed :
+
+.. toctree::
+   :maxdepth: 2
+
+   seed/index
+
+
+
+.. core : 包括 DOM, Event, Anim, Ajax
+
+.. toctree::
+   :maxdepth: 2
+
+   core/index
+
+
+
+.. components : 组件
+
+.. toctree::
+   :maxdepth: 2
+
+   components/index
+
+

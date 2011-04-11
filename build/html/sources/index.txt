@@ -1,0 +1,16 @@
+.. _index:
+
+
+KISSY Docs
+=============================
+
+
+.. toctree::
+   :maxdepth: 2
+
+   example/index
+   api/index
+
+
+
+
