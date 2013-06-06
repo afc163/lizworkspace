@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Liz's Blog</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="json2.js"></script>
+    <script type="text/javascript">
+    /* javascript demo (Firefox), require "http://www.json.org/json2.js" */
+
+var API_URL = 'http://api2.diigo.com/bookmarks';
+
+var xmlHttp = false;
+if(window.XMLHttpRequest){
+  xmlHttp = new XMLHttpRequest();
+  xmlHttp.onreadystatechange = onResponse;
+}
+
+function onResponse() {
+  if (xmlHttp.readyState == 4) {
+    
+    alert(xmlHttp.responseText);
+  }
+  else{
+  alert("Problem");
+  }
+}
+
+/* GET: query bookmarks */
+
+function queryBookmarks() {
+  
+  if(xmlHttp){
+    try {
+      xmlHttp.open("GET", "http://api2.diigo.com/bookmarks", false);
+      xmlHttp.send(null);
+    } catch (e) {
+      alert("Error:"+e)
+    }
+  }else{
+    alert('ss')
+  }
+}
+
+/* POST: create bookmarks */
+
+function createBookmarks() {
+  bookmarks = [
+                {
+                  "title":"Test Bookmark", 
+                  "url":"http://www.example.com", 
+                  "shared":"yes", 
+                  "tags":"test", 
+                  "desc":"just test"
+                }
+               ];
+  xmlHttp.open("POST", API_URL, true);
+  xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+  xmlHttp.send("bookmarks=" + encodeURIComponent(JSON.stringify(bookmarks)));
+}
+
+/* PUT: update bookmarks */
+
+function updateBookmarks() {
+  bookmarks = [
+                {
+                  "title":"Test Bookmark 2", 
+                  "url":"http://www.example.com", 
+                  "shared":"no", 
+                  "tags":"test", 
+                  "desc":"just test"
+                }
+               ];
+  xmlHttp.open("PUT", API_URL, true);
+  xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+  xmlHttp.send("bookmarks=" + encodeURIComponent(JSON.stringify(bookmarks)));
+}
+
+/* DELETE: delete bookmarks */
+
+function deleteBookmarks() {
+  urls = ["http://www.example.com", "http://www.example.com/1.html"];
+  xmlHttp.open("DELETE", API_URL, true);
+  xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
+  xmlHttp.send("urls=" + encodeURIComponent(JSON.stringify(urls)));
+}
+
+    </script>
+</head>
+<body>
+<h1 onclick="queryBookmarks()">Diigo   http://stevenharman.net/blog/archive/2006/08/04/The_ATLAS_Framework__Callback_Handler_JavaScript_Bug.aspx   http://www.mnot.net/javascript/xmlhttprequest/   http://www.w3.org/TR/XMLHttpRequest/   http://www.w3schools.com/XML/xml_http.asp</h1>
+</body>

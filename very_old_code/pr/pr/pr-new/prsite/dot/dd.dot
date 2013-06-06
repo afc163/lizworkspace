@@ -1,0 +1,11 @@
+digraph G {
+f5[label = "5: mp3buildDB.sh"];
+f6[label = "6: mp3cluster"];
+f7[label = "7: miningtitle.sh"];
+f8[label = "8: sitestatic.sh"];
+f9[label = "9: mp3switchDB.sh"];
+f5 -> f6;
+f5 -> f7;
+f5 -> f8;
+f5 -> f9;
+}

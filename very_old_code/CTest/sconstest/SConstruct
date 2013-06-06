@@ -1,0 +1,1 @@
+Program('add_main', ['main.cpp', 'func.cpp'])

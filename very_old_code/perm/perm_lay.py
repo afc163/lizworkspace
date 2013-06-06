@@ -1,0 +1,30 @@
+ret = []
+for i in xrange(0, 10):
+   for j in xrange(i+1, 10):
+       for k in xrange(j+1, 10):
+           for l in xrange(k+1, 10):
+               ret.append((i, j, k, l))
+               ret.append((i, j, l, k))
+               ret.append((i, k, j, l))
+               ret.append((i, k, l, j))
+               ret.append((i, l, j, k))
+               ret.append((i, l, k, j))
+               ret.append((j, i, k, l))
+               ret.append((j, i, l, k))
+               ret.append((j, k, i, l))
+               ret.append((j, k, l, i))
+               ret.append((j, l, i, k))
+               ret.append((j, l, k, i))
+               ret.append((k, i, j, l))
+               ret.append((k, i, l, j))
+               ret.append((k, j, i, l))
+               ret.append((k, j, l, i))
+               ret.append((k, l, i, j))
+               ret.append((k, l, j, i))
+               ret.append((l, i, j, k))
+               ret.append((l, i, k, j))
+               ret.append((l, j, i, k))
+               ret.append((l, j, k, i))
+               ret.append((l, k, i, j))
+               ret.append((l, k, j, i))
+print len(ret)

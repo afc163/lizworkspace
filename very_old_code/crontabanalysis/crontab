@@ -1,0 +1,8 @@
+05 00 * * * cd /home/XXX/optools/d-crontab/XXX; sh -x backuplog.sh > /home/XXX/optools/d-crontab/logs/out.backuplog
+01 00 * * * cd /home/XXX/optools/d-crontab/XXX; sh -x backup_log.sh >/home/XXX/optools/d-crontab/logs/out.backup_log.XXX
+00 04 * * 1 cd /home/XXX/optools/d-crontab/XXX; sh -x updateXXXrightimg.sh >/home/XXX/optools/d-crontab/logs/out.updateXXXrightimg
+30 04 * * * cd /home/XXX/optools/d-crontab/XXX; sh -x updateXXXsynword.sh >/home/XXX/optools/d-crontab/logs/out.updateXXXsynword
+00 12 * * * cd /home/XXX/optools/d-crontab/XXX; sh -x updateXXXcountword.sh >/home/XXX/optools/d-crontab/logs/out.updateXXXcountword
+10 12 * * * cd /home/XXX/optools/d-crontab/XXX; sh -x updateXXXpornword.sh >/home/XXX/optools/d-crontab/logs/out.updateXXXpornword
+*/10 * * * * cd /home/XXX/optools/d-crontab/XXX; sh -x updsck.sh >/home/XXX/optools/d-crontab/logs/out.updsck
+*/10 0,9-23 * * * cd /home/XXX/optools/d-crontab/XXX; sh -x updlck.sh >/home/XXX/optools/d-crontab/logs/out.updlck

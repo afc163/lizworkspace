@@ -1,0 +1,35 @@
+注意点＝＝＝＝＝＝＝＝＝＝＝＝
+1、密码：prscript是pr脚本，把pr.py中628行密码改掉
+		 prsite是站点文件夹，同样里面的prapp/myDB.py中7行密码改掉
+2、路径：prsite中的settings.py里的68行路径改掉(我后来改成相对路径了，就不用管了)
+
+运行＝＝＝＝＝＝＝＝＝＝＝＝＝
+1、运行mysqld_safe，还是要保证prdb存在。
+2、运行script中的脚本python pr.py -l dump，写入prdb数据
+3、进入 prsite，runserver后，站点url直接是localhost:8000/
+4、查询“db”，出现结果。
+
+结果解释＝＝＝＝＝＝＝＝＝＝＝
+      * Script查询结果。
+          1\关系图中节点是其中涉及到的所有文件，是文件名中包含keyword的，及其调用的相关文件。同样下面列出来的related file是图中所有exist为True的Bash脚本文件，如果exist为False的就不显示出来了。
+          2\可以看到搜索结果中有些文件是不包含keyword的，她们只是被包含keyword的文件调用到了。
+          3\每条搜索结果信息依次为：脚本文件名；Script files或Program files或Configure files或Other files中列出该脚本调用的相应文件名；Path表示该脚本中用到的路径名。Machines表示该脚本调用了哪些机器上的文件。其实数据库中还包含调用文件的行号信息。
+      * Program查询结果。
+          1\每条搜索结果信息依次为：文件名，只有名字，没有路径。
+          2\路径，这个程序文件的所在路径。
+          3\是否存在，还有其他信息。其实是filetables中的信息。
+      * Configure查询结果。
+          1\先显示匹配的文件名，得到结果依次为Path：该配置文件的路径；Script files：表示调用该配置文件的脚本文件；Exist：表示该配置文件是否存在。同样在prapp/view.pr中search_configure(searchname)中从数据库中获得了更多的信息，只是在页面 conf_result.html中没有显示出来。可以根据需要显示。
+      * Machine查询结果。显示依次为：机器名字；Path：该机器上用到的路径。即filetables中每个文件info信息中有host的，这个文件的路径。
+      * Path查询结果。显示依次为：包含关键字的路径；Machine：表示哪些机器上存在这个路径；Script：该路径中有哪些shell脚本。  
+      
+改进的地方＝＝＝＝＝＝＝＝＝＝＝
+1、输入关键字。以前输入包含.sh的脚本文件名字，则结果是找不出来的。现改进为，若keyword中已经有.sh或.py等后缀名则先去掉后缀名。具体在view.py中的def start(request)中。
+2、在查找machine时，以前输入baidu，是无法找到tc-mp3-cache03.tc.baidu.com这种的，现将sql的like语句改为REGEXP了。
+3、prscript/pr.py脚本增加一选项-r/-remove，表示把prdb清空。这里的清空是直接调用some_prepare函数直接删掉prdb，在重新创建，目前还没找到可以一次性删掉prdb中所有表的语句。
+
+待改进的地方和疑问＝＝＝＝＝＝＝
+1、因为当初写view.py时，从数据库中搜索的信息有一小部分没有在搜索结果中显示出来，不知道这边是否有必要展现更多的数据？
+2、Machine和Path的查询结果没有做js效果，是当初考虑到没有合适的id，现在是否有必要加入？
+3、今后一定要写注释，不然太惨了，得花好多时间才能知道当初是怎么想的。充分理解你在看别人代码，尤其是我的代码时的痛苦！
+4、and anything else？

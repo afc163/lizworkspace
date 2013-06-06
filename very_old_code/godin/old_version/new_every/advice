@@ -1,0 +1,95 @@
+
+如果你是20秒的话，主要集中在你把数据导来导去这种不必要的操作上：你在构造Lattice的时候，吧BR的内容再读到self.obj_dic中了
+
+你有没有测试过
+for obj in range(0, len(BR.object_list)):
+				tmpSet = set()
+				for att in range(0, len(BR.attribute_list)):
+					if BR.value_list[obj][att] == 1:
+						tmpSet.add(BR.attribute_list[att])
+				self.obj_dic[BR.object_list[obj]] = tmpSet
+			print self.obj_dic
+(16时34分56秒) 蔡俊杰gtalk: 这段代码的耗时？
+
+
+用timeit模块来测试时间
+
+另外，我教你个办法，你应该对每个函数的消耗时间有个大概的了解
+我建议你都测试下
+比如addOneObject()函数
+还是用timeit模块来测试
+运行1000次，看看平均消耗多长时间
+每个函数都要测试
+
+
+另外，我建议你这样来做，把对象0101010这种转化成二进制来做
+(16时41分07秒) 蔡俊杰: 进行与或运算
+(16时41分13秒) 蔡俊杰: 不要用集合
+
+(16时42分46秒) 蔡俊杰: 你先测试那个addOneObject函数的时间
+(16时42分55秒) 蔡俊杰: 然后告诉我下运行时间
+
+(16时43分27秒) 蔡俊杰: 另外，我再建议下
+(16时43分50秒) 蔡俊杰: 这里面在概念层有些查找
+(16时43分52秒) 蔡俊杰: 计算
+(16时44分04秒) 蔡俊杰: 我建议你使用字典来保存一层的概念
+
+
+
+
+
+/////////////////////////////////////////////////////////////
+你把集合先用二进制与或运算代替
+21:21 我: 要的，另外还想把BR去掉
+21:23 蔡俊杰gtalk: 恩，在getChild（）函数简化，用字典来代替这个函数
+  给每个concept增加一个字典类型，存储所有的child
+21:24 你现在瓶颈在cpu上了。程序的优化方向是尽量开大内存
+21:25 你用1G的内存跑
+  然后在并行机上用4G内存跑
+
+ 蔡俊杰gtalk: 数据结构尽量增多，把运算才能找到的关系用数据结构来存储起来，减少运算
+21:28 蔡俊杰gtalk: 百度建一个歌手，歌曲，专辑关系字典，用了10来个数据结构
+  这样，根据歌手，很快定位出所有的歌曲和专辑
+21:29 你也可以这样，数据结构不要省，多建，不过尽量建字典
+
+21:31 蔡俊杰gtalk: 另外这个Godin算法下一步可以引入多线程来优化
+  把cpu的利用率提高
+  但引入多线程不要去把形式背景并行化计算
+21:32 依然立足godin算法上进行多线程优化
+  你尽量吧godin算法达到最优化
+21:33 基层很优化了后，往上走基本会顺利很多
+21:34 我: 是的
+
+ 蔡俊杰gtalk: 你优化好后，我把程序放公司服务器上去运行，看看效果
+21:38 我: 哦～因为师兄有个文章上要用到这个来作实验，里面还得加东西，是关于序列模糊格的，我还没怎么看那篇文章，不过好像还有更多的信息
+  要存入格中
+21:39 蔡俊杰gtalk: 东西越多，代价可是会很高的
+21:40 另外，我再介绍个优化技巧给你
+  你在计算新曾概念的时候，一般是不需要遍历所有的节点的，是吧
+21:43 我: 我现在的这个程序是遍历了所有的概念
+ 蔡俊杰gtalk: 不需要阿
+  不需要遍历所有概念的
+21:44 晕，Godin算法中，没计算一个对象，不需要遍历所有的概念节点
+21:46 我: 哦，对的，我那时是根据基本的godin算法，后面有个改进的没有实现，下次我去看看
+
+
+visited_flag = {}
+visited_flag[self.botConcept] = 1
+C = {}
+C[len(self.botConcept.intent)] = [self.botConcept]
+for x in fxSet:
+	if x in Px.intent:
+		search(Px)
+def search(H):
+    visited_flag[H] = 1
+	i = len(H.intent)
+	if C.has_key(i):
+		C[i].append(H)
+	else:
+		C[i] = [H]
+	for Hd in H.child_list:
+	    if visited_flag[Hd] == 0:
+		    search(Hd)
+
+	
+iris.shen@msn.com,jiaqian.yang@maisonworleyparsons.com,vsa_li@hotmail.com,yu.jie.sun@hotmail.com,yzcaijunjie@gmail.com

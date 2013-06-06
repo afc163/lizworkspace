@@ -1,0 +1,9 @@
+digraph G {
+	node1;
+	node2;
+	node3;
+
+	node1 -> node2 [label="s"];
+	node1 -> node3 [lable="c"];
+	node2 -> node3 [lable="p"];
+}

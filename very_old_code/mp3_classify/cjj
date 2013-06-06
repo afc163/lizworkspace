@@ -1,0 +1,42 @@
+cjj.c：
+#include <stdio.h>
+void amaze()
+{
+        FILE *fp;
+        int i,num;
+        fp = fopen("test_cjj","w");
+        for(i=0;i<5000000;i++)
+        {
+                num = (rand()%9000000+1000000) % 3;
+                fprintf(fp,"%d\n",num);   
+        }
+        fclose(fp);
+}
+
+cjj.i：
+%module cjj
+%{
+extern void amaze();
+%}
+extern void amaze();
+
+swig -python cjj.i
+gcc -c cjj.c cjj_wrap.c -I/usr/include/python2.5
+ld -shared cjj.o cjj_wrap.o -o _cjj.so
+
+a.py：
+import cjj
+__revision__ = '0.1'
+if __name__ == "__main__" :
+    try:
+        import psyco
+        psyco.full()
+    except ImportError:
+        pass
+    cjj.amaze()
+
+time ./a.py
+
+real    0m1.271s
+user    0m1.228s
+sys     0m0.036s

@@ -1,0 +1,56 @@
+标志意义:
+ * C: 完整代码
+ * U: 不是完整代码, 有待扩展
+ * N: 还没看懂的
+ * O: 旧的, 表示还有另一份新的代码
+ * D: 作废
+ * T: 临时
+
+
+
+|-- Backup: 备份两台机子上的监视文件以保持同步 ++ U
+|-- BloomFilter: 布隆过滤器 ++ N
+|-- FP: 函数式编程相关学习资料 ++ N
+|-- streamdata: 流数据算法系列实现, 还包括:zipf数据, 蒙特卡罗随机数 ++ C
+|-- 32sorted: 对1000000个随机数进行排序, 是python老大写的博客上, 里面有用到array ++ C
+|-- perm: 排列组合算法, 也包括邮件列表中讨论过的一个组合算法, 里面还有java实现  ++ C
+|-- litterprogram: 分组算法, aprior, tail, star, bday.sh, blog_encode, md5, 0101重排
+|-- mp3_classify: 将mp3歌曲根据歌手分类, 里面还有boost相关, cjj之前邮件列表测试的一个  ++ U
+|-- powerset: 产生集合的幂集, 和perm有点类似, 还包括使用十进制数转换成二进制数求幂集的方法  ++ C
+|-- socket: 学习socket相关  ++ U
+|-- pyinotify: 学习inotify的例子  ++ C
+|-- rsh&ssh: 有关rsh和ssh的资料    ++ C
+|-- mpi: 学习mpi时的一些例子  ++ U
+|-- boost: 学习boost  ++ N
+|-- spider: 之前做本体实验时写的爬虫  ++ C   ++ U
+|-- search: 分析google搜索结果, 和GAE上的search一样   ++ U
+|-- crontabanalysis: 分析crontab文件  ++ C
+|-- rmfilebaseondate: 根据文件名上的日期删除文件  ++ C
+|-- PDF: reportlib生成pdf文档  ++ U
+|-- XMLHttpRequest: js    ++ O
+|-- pythonspace: 这是当初学learning python时的代码  ++ C
+|-- corba:   ++ O
+|-- django_step_by_step: 学习django时的代码  ++ C
+|-- pantnew: ws的蚁群算法   ++ N
+|-- twisted:   ++ N
+|-- wxpython:   ++ N
+|-- Galicia: 概念格的一个开源软件, cjj有所扩展  ++ C
+|-- CTest: 一些C程序, 包括以前os时学习的bash脚本和进程相关代码  ++ T
+|-- JavaTest: java代码, 很少  ++ T
+|-- BinaryTree: sunlianglei的二叉树测试  ++ C
+|-- XMPP_Jabber: XMPP/Jabber协议相关代码和示例, 及编写的...机器人 ++ U
+|-- graphviz: dot使用, 生成图表 ++ C
+|-- godin: godin算法, 序列, 模糊, 粗糙等等都在 ++ C
+|-- FSproj: 特征选择相关, 用于文本分类 ++ U
+|-- pr: prscript和prsite, 还没真正上传,,,,有待考虑
+|-- Multi_Relation: 多关系贝叶斯分类
+|-- ncbi: NCBI自动下载程序
+|-- wsgi: 学wsgi的例子
+|-- ir: 协作信息检索
+|-- django_sqlalchemy: github上的关于sqlalchemy的笔记
+|-- mootools: 学习mootools的笔记
+|-- sphinx: 测试工程
+
+
+
+

@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for lang in langs %}
+  <p>{{ lang }}</p>
+{% endfor %}
+<p>{{ user.username }}</p>
+{% endblock %}

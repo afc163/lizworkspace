@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>禽流感病毒基因组生物信息学分析平台</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="/site_media/css/main.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/site_media/css/yui/fonts/fonts.css"> 
+    <link rel="stylesheet" type="text/css" href="/site_media/css/yui/grids/grids.css"> 
+    
+    <script type="text/javascript" src="/site_media/js/jquery-1.2.2.js"></script>
+    {% block js %}{% endblock %}
+</head>
+<body>
+<div id="doc3" class="main">
+    <div id="head">
+         <embed height="183" width="1000" align="middle" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" allowscriptaccess="always" name="menu" bgcolor="#ffffff" quality="high" menu="false" wmode="transparent" flashvars="" src="/site_media/img/banner.swf"/>
+         <h1 id="sitename">禽流感病毒基因组生物信息学分析平台</h1>
+    </div>
+    <div class="yui-gf">
+        <div class="yui-u first">
+            <div id="sidebar">
+                <div id="menu" class="moduale">
+                <h3>所有工具</h3>
+                <ul>
+                    <li><a href="http://127.0.0.1/blast/">BLAST</a></li>
+                    <li><a href="http://127.0.0.1/sms2/">SMS2</a></li>
+                    <li><a href="/clustalx/">Clustalx-2.0.10</a></li>
+                    <li><a href="/main/query/">查询工具</a></li>
+                    <li><a href="/main/add/">序列上传</a></li>
+                </ul>
+                
+                </div>
+                <div id="sites" class="moduale">
+                <h3>国内外站点</h3>
+                <ul>
+                    <li><a href="http://www.ncbi.nlm.nih.gov/">NCBI</a></li>
+                    <li><a href="http://www.ebi.ac.uk/">EBI</a></li>
+                    <li><a href="http://www.expasy.ch/">ExPASy</a></li>
+                    <li><a href="http://www.biosino.org/">上海生物信息中心</a></li>
+                    <li><a href="http://www.cbi.pku.edu.cn/chinese/">北京大学生物信息中心</a></li>
+                </ul>
+                </div>
+                
+                <div id="link" class="moduale">
+                <h3>友情链接</h3>
+                <ul>
+                    <li><a href="http://www.ncbi.nlm.nih.gov/genomes/FLU/FLU.html">Influenza Virus Resource</a></li>
+                    <li><a href="http://www.flugenome.org/">Influenza A Virus Genotype Tool</a></li>
+                    <li><a href="http://www.oie.int/eng/en_index.htm">OIE</a></li>
+                    <li><a href="http://www.bio-soft.net/">生物软件网</a></li>
+                    <li><a href="http://www.yzu.edu.cn/">扬州大学</a></li>
+                    <li><a href="http://syxy.yzu.edu.cn/">扬州大学兽医学院</a></li>
+                </ul>
+                </div>
+                
+                <div id="searchegine" class="moduale">
+                <h3>搜索引擎</h3>
+                <ul>
+                    <li><a href="http://www.google.com/">Google</a></li>
+                    <li><a href="http://e.pku.edu.cn/">北大天网</a></li>
+                </ul>
+                </div>
+            </div>
+        </div>
+        <div class="yui-u">
+            <div id="result">
+            <div class="greybar"><h3 class="top">{% block title %}{% endblock %}</h3></div>
+            {% block main %}{% endblock %}
+            <div class="greybar"><h3 class="bottom">&nbsp;</h3></div>
+            </div>
+        </div>
+    </div>
+    <div id="foot">
+         扬州大学农业部畜禽传染病学重点开放实验室
+    </dvi>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,36 @@
+
+如果你是20秒的话，主要集中在你把数据导来导去这种不必要的操作上：你在构造Lattice的时候，吧BR的内容再读到self.obj_dic中了
+
+你有没有测试过
+for obj in range(0, len(BR.object_list)):
+				tmpSet = set()
+				for att in range(0, len(BR.attribute_list)):
+					if BR.value_list[obj][att] == 1:
+						tmpSet.add(BR.attribute_list[att])
+				self.obj_dic[BR.object_list[obj]] = tmpSet
+			print self.obj_dic
+(16时34分56秒) 蔡俊杰gtalk: 这段代码的耗时？
+
+
+用timeit模块来测试时间
+
+另外，我教你个办法，你应该对每个函数的消耗时间有个大概的了解
+我建议你都测试下
+比如addOneObject()函数
+还是用timeit模块来测试
+运行1000次，看看平均消耗多长时间
+每个函数都要测试
+
+
+另外，我建议你这样来做，把对象0101010这种转化成二进制来做
+(16时41分07秒) 蔡俊杰: 进行与或运算
+(16时41分13秒) 蔡俊杰: 不要用集合
+
+(16时42分46秒) 蔡俊杰: 你先测试那个addOneObject函数的时间
+(16时42分55秒) 蔡俊杰: 然后告诉我下运行时间
+
+(16时43分27秒) 蔡俊杰: 另外，我再建议下
+(16时43分50秒) 蔡俊杰: 这里面在概念层有些查找
+(16时43分52秒) 蔡俊杰: 计算
+(16时44分04秒) 蔡俊杰: 我建议你使用字典来保存一层的概念
+

@@ -1,0 +1,31 @@
+感谢 可爱的Python 作者之一 liz MM 主动要求加入 docsport.org 的改造工作！
+在此先公布一下设想，以及和 liz 的配合:
+- docsport 将使用 全新的 openbookplatform 驱动
+- 基本假设:
+ + 作译者面对整篇的文档时，才可以自在的进行主动调整，更加自然的取舍以及批量替换什么
+ + 在线环境对于读者非常自然，也是简化意见反馈的重要形式
+- 所以，如附图所示(源代码在:
+http://openbookplatform.googlecode.com/svn/tangle/Zoom.Quiet/dot/)
+ + 作者协同将只通过SVN进行
+ + 读者反馈将只在网站页面，参考以下两种方式:
+   和gg 联动
+       http://kanrs.com/3_0.html
+   独立段落评注
+       关于本书的编写 — http://hyry.dip.jp/pydoc/pydoc_write_tools.html
+ + 以上两者通过后台脚本通过 Sphinx 关联起来，自动生成
+
+所以, liz 当前的任务将是:
++ 研究 Sphinx 设计出几款吻合中国人习惯的样式
++ 开发可以将SVN 和Sphinx 结合起来的自动脚本,可以完成:
+   - 自动提取指定目录的 reST 文档
+   - 自动部署Sphinx 工程
+   - 自动启动Sphinx 编译过程
+   - 自动发布编译结果到指定目录
+   可以参考以前为啄木鸟的docbook 工程组织的svn hooks 脚本:
+   http://openbookplatform.googlecode.com/svn/tangle/Zoom.Quiet/hooks/post-commit.py
+   当然不限于一定要用作 svn 的hooks
+
+
+http://djangobook.py3k.cn/2.0/chapter01/
+
+

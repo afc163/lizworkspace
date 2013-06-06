@@ -1,0 +1,14 @@
+module MESSAGING
+{
+	typedef sequence<string> msgLines;
+	struct msg
+	{
+		string fr;
+		string to;
+		msgLines body;
+	};
+	interface mail
+	{
+		void submit (in msg message);
+	};
+};

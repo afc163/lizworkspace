@@ -1,0 +1,89 @@
+1,
+设每方团队有N人则共有2N人参赛, 创建一循环链表L, L共有M-2N+1个节点, 每个节点的数据值为1..M-2N+1, p指向头节点
+for(int i=1,i<2N,i++) {
+    p向后移两个节点
+    新建一temp节点,值为M-2N+1+i
+    将temp节点插入循环链表
+}
+count=0;tag置为假;p指向头节点
+do {
+    如果p节点的值为M 则 tag置为真
+    否则p向后移并且count++
+}
+从牛头人 的位置开始顺时针到第count+1个位置为所求的第一个选择的位置.
+ 
+2,
+def mySlice(mystr, start, length):
+    """Python实现基本的字符串子串: mystr[start:start+length]
+    @param mystr: 参数mystr 为目标字符串
+    @type mystr: 字符串
+    @param start: 开始位置
+    @type start: 整型
+    @param length: 长度
+    @type length: 整型
+    @return: None或者子字符串
+    @todo: mystr[-2:-1]逆截取子串情况.
+    """
+    if type(start) <> type(1) or type(length) <> type(1):
+        return None
+    len_str = len(mystr)
+    if start<0 or start>=len_str:
+        return None
+    end = start+length
+    if end<0 or end>len_str:
+        return None
+    if start>end:
+        temp = start
+        start = end
+        end = temp
+    idx = -1
+    substr = ''
+    for s in mystr:
+        idx += 1
+        if idx>=end:
+            break
+        elif idx<start:
+            continue
+        else:
+            substr += s
+    return substr
+
+简单测试:
+print mySlice("abcdefghi", -1, 3) # None
+print mySlice("abcdefghi", 2, 4)  # cdef
+print mySlice("abcdefghi", 2, 8)  # None
+print mySlice("abcdefghi", 16, 4) # None
+print mySlice("abcdefghi", 6, -4) # cdef
+
+3,
+1) 对于小规模的链表, 一种方式是依次遍历整个单向链表, 对于每个元素设置一个标志, 未访问为0, 访问过为1, 如果存在环, 势必该元素的标志为1, 这样即可判断是否有环. 时间复杂度O(n), 空间复杂度O(n)
+2) 但对于大规模的链表, 不可能将整个链表加载到内存中. 在这种情况下, 可以设置一个滑动窗口, 整个链表可以看成是源源不断进入窗口的数据流. 假设设置窗口大小为n, 链表元素m个远远大于n, 再次假设环的大小不会超过n, 这样的话, 只需要判断窗口中是否重复出现两个同样的数据, 是则表示有环, 否则继续看后面的数据, 直到所有数据滑过窗口. 时间复杂度O(m), 空间复杂度O(n), 因为这里面基于环的大小是小于窗口大小的, 理论上窗口大小可以足够大, 但实际上不怎么可行, 所以可以考虑可变大小的滑动窗口, 即是根据某种策略动态调整窗口大小等等.
+ 
+ 
+二, 系统设计题
+1,
+内存池可以用一byte数组来表示.
+分配: 需要分配多少字节的空间就查看有没有连续的空间分配出去, 如果有, 则返回头指针, 并记录这段空间已经被占用; 如果没有, 抛出溢出异常.释放: 释放内存空间的时候就删除使用记录.安全: 多线程安全, 可以对分配空间的方法加一个同步锁以保持某一时刻只有一个线程进行, 或者更加底层的实现方法, 可以使用PV原语.
+
+
+ 
+2,
+可利用Stassen矩阵求积公式, 分治技术, 便于递归. 
+首先拿简单的例子来说, 对于2个2阶方阵, 其乘积可利用架桥技术, 尽量减少乘法次数, 具体公式如下:
+m_1 = a_11*(b_12 - b_22)
+m_2 = (a_11 + a_12)*b_22
+m_3 = a_22*(b_21 - b_11)
+m_4 = (a_21+a_22)*b_11
+m_5 = (a_11+a_22)*(b_11 + b_22)
+m_6 = (a_12 - a_22)*(b_21+b_22)
+m_7 = (a_21 - a_11)*(b_11+b_12)
+c_11 = m_5+m_6-m_2+m3
+c_12 = m_1+m_2
+c_21 = m_3+m_4
+c_22 = m_5+m7+m_1-m_4
+2阶矩阵乘积即为c_11~c_22, 而对于n阶矩阵(n>2), 可以继续将子矩阵分块, 直到子矩阵的阶降为2. 这样, 就产生了一个分治降阶的递归算法. 依此计算2个n阶方阵的乘积转化为计算8个n/2阶方阵的乘积和4个n/2阶方阵的加法. 2个n/2×n/2矩阵的加法显然可以在c*n^2/4时间内完成, c为常数.
+
+
+
+
+

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block typearea %}
+                    <a href="/script">Script</a>
+                    <a href="/program">Program</a>
+                    <a href="/conf">Configure</a>
+                    <b>Machine</b>
+                    <a href="/path">Path</a>
+{% endblock %}
+{% block searcharea %}
+                <form id="searchform" action="/search/" method="post">
+                    <input id="searchname" type="text" name="searchname" value=""/>
+                    <input id="searchsubmit" type="submit" value=""/>
+                    <input type="hidden" value="M" name="filetype"/>
+                </form>
+{% endblock %}

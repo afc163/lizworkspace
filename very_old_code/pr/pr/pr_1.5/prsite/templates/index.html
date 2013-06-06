@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>PR</title>
+    <link href="/site_media/css/main.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+    function change(my)
+    {
+        var ft = document.getElementsByTagName('filetype');
+        alert(my.value);
+        if (ft.value <> my.value)
+        {
+            var old = document.getElementById('type'+ft.value);
+            old.innerHTML = 'dfg';
+            ft.value = my.value;
+            my.innerHTML = 'sdgf';
+        } 
+    }
+    </script>
+</head>
+
+<body>
+    <center>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/> 
+        <table id="t" cellpadding="0" cellspacing="0">
+        <tbody align="center">
+            <tr>
+            <td>
+                <div id="type">
+                    <label class="type" id="typeS" value="S" onClick="change(this)">Script</label>
+                    <label class="type" id="typeP" value="P">Program</label>
+                    <label class="type" id="typeC" value="C">Configure</label>
+                    <label class="type" id="typeM" value="M">Machine</label>
+                    <label class="type" id="typep" value="p">Path</label>
+                </div>
+            </td>
+            </tr>
+            <tr>
+            <td>
+                <form id="searchform" action="/search/" method="post">
+                    <input id="searchname" type="text" name="searchname" value=""/>
+                    <input id="searchsubmit" type="submit" value=""/>
+                    <input type="hidden" value="{{ filetype }}" name="filetype"/>
+                </form>
+            </td>
+            </tr>
+        </tbody>
+    </center>
+</body>
+</html>

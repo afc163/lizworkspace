@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<!-- 
+  Copyright 2010 Google Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  Original slides: Marcin Wichary (mwichary@google.com)
+  Modifications: Ernest Delgado (ernestd@google.com)
+                 Alex Russell (slightlyoff@chromium.org)
+                 Brad Neuberg
+-->
+<html manifest="/html5/src/slides_manifest.php">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <title>CSS Border</title>
+    <link href=' http://fonts.googleapis.com/css?family=Droid+Sans|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+    
+    <!-- <link type="text/css" href="./src/scrollbar.css" rel="stylesheet"> -->
+    
+    <style>
+      .notes { display: none; }
+      .stroke {
+        -webkit-text-stroke-color: red;
+        -webkit-text-stroke-width: 1px;
+        -moz-text-stroke-color: red;
+        -moz-text-stroke-width: 1px;
+      }
+      
+      body {
+        font: 14px "Lucida Grande", "Trebuchet MS", Verdana, sans-serif;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0px; top: 0px;
+      }
+      
+      .presentation {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        left: 0px;
+        top: 0px;
+        display: block;
+        overflow: hidden;
+        background: #778;
+      }
+      
+      .slides {
+        width: 100%;
+        height: 100%;
+        /*
+        overflow: hidden;
+        */
+        left: 0;
+        top: 0;
+        position: absolute;
+        display: block;  
+        -webkit-transition: -webkit-transform 1s ease-in-out; 
+        -moz-transition: -moz-transform 1s ease-in-out;
+        -o-transition: -o-transform 1s ease-in-out;
+      }
+
+      .slide {
+        display: none;
+        position: absolute;
+        overflow: hidden;
+        width: 900px;
+        height: 700px;
+        left: 50%;
+        top: 50%;
+        margin-top: -350px;
+        background: -webkit-gradient(linear, left bottom, left top, from(#bbd), to(#fff));
+        -webkit-transition: margin 0.25s ease-in-out; 
+        background-color: #eee;
+        background: -moz-linear-gradient(bottom, #bbd, #fff);
+        -moz-transition: margin 0.25s ease-in-out;
+        -o-transition: margin 0.25s ease-in-out;
+      }
+      
+      .slide:nth-child(even) {
+        border-top-left-radius: 20px;
+        -moz-border-radius-topleft: 20px;
+        -webkit-border-top-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        -moz-border-radius-bottomright: 20px;
+        -webkit-border-bottom-right-radius: 20px;
+      }
+      
+      .slide:nth-child(odd) {
+        border-top-right-radius: 20px;
+        -moz-border-radius-topright: 20px;
+        -webkit-border-top-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+        -moz-border-radius-bottomleft: 20px;
+        -webkit-border-bottom-left-radius: 20px;
+      }
+
+      .slide p {
+        font-size: 20px;
+      }
+
+      .slide .counter {
+        color: #999999;
+        position: absolute;
+        left: 20px;
+        bottom: 20px;
+        display: block;
+        font-size: 12px;
+      }
+
+      .slide.title > .counter,
+      .slide.segue > .counter,
+      .slide.mainTitle > .counter {
+        display: none;
+      }
+
+      .force-render {
+        display: block;
+        margin-top: -10000px;
+      }
+
+      section.intro p {
+        font-size: 35px;
+      }
+
+      button {
+        font-size: 20px;
+      }
+      
+      .summary {
+       font-size: 30px;
+      }
+
+      .bullets {
+       font-size: 40px;
+      }
+      
+      .slide.far-past {
+        display: block;
+        margin-left: -2400px;
+      }
+      
+      .slide.past {
+        display: block;
+        margin-left: -1400px;
+      }
+      
+      .slide.current {
+        display: block;
+        margin-left: -450px;
+      }
+      
+      .slide.future {
+        display: block;
+        margin-left: 500px;
+      }
+      
+      .slide.far-future {
+        display: block;
+        margin-left: 1500px;
+      }
+
+      body.three-d div.presentation {
+        /*background: -webkit-gradient(radial, 50% 50%, 10, 50% 50%, 1000, from(#333), to(#000));        */        
+      }
+      
+      body.three-d div.slides {
+        -webkit-transform: translateX(50px) scale(0.8) rotateY(10deg);        
+        -moz-transform: translateX(50px) scale(0.8) rotateY(10deg);
+        -o-transform: translateX(50px) scale(0.8) rotateY(10deg);
+      }
+      
+      
+      /* Content */
+      
+      @font-face { font-family: 'Junction'; src: url(src/Junction02.otf); }
+      @font-face { font-family: 'LeagueGothic'; src: url(src/LeagueGothic.otf); }
+      
+      header {
+        font-family: 'Droid Sans';
+        font-weight: normal;
+        font-size: 50px;
+        letter-spacing: -.05em;
+        color: white;        
+        color: black;
+        text-shadow: rgba(0, 0, 0, 0.2) 0 2px 5px;  
+        position: absolute;
+        left: 30px;
+        top: 25px;
+        margin: 0;
+        padding: 0;
+      }
+      
+      .intro h1 {
+        color: black;
+        padding: 0;
+        margin: 0;
+        letter-spacing: -2px;
+        font-size: 96px;
+      }
+      
+      .intro h2 {
+        color: black;
+        padding: 0;
+        margin: 0;
+        margin-top: -5px;
+        font-size: 40px;
+        letter-spacing: -1px;  
+      }
+      
+      h1 {
+        display: inline;
+        font-size: 100%;
+      	font-weight: normal;
+      	padding: 0;
+      	margin: 0;
+      }
+      
+      h2 {
+        font-family: 'Droid Sans';
+        color: black;
+        font-size: 20px;
+        margin-left: 20px;
+        margin-top: 50px;
+      }
+      
+      h2:first-child {
+        margin-top: 0;
+      }
+
+      section {
+        font-family: 'Droid Sans';
+        font-size: 50px;
+        color: #3f3f3f;
+        text-shadow: rgba(0, 0, 0, 0.2) 0 2px 5px;         
+        margin-left: 30px;
+        margin-right: 30px;
+        margin-top: 100px;
+        display: block;
+        overflow: hidden;
+        line-height:1.5;
+      }
+
+      a {
+        color: inherit;
+        display: inline-block;
+        text-decoration: none;
+        line-height: 110%;
+        border-bottom: 2px solid #3f3f3f;
+      }
+
+      #wmap a {
+        line-height: 100%;
+        border-bottom: none;
+      }
+      
+      section.left {
+        float: left;
+        width: 390px;
+      }
+      
+      section.small {
+        font-size: 24px;
+      }
+      
+      section.small ul {
+        margin: 0 0 0 15px;
+        padding: 0;
+      }
+      
+      section.small li {
+        padding-bottom: 0;
+      }
+      
+      h2 {
+        padding: 0;
+        margin: 15px 0 5px 0;
+/*        font-family: GG240;*/
+      }
+      
+      section.center {
+        line-height: 180%;
+        text-align: center;
+        display: table-cell;
+        vertical-align: middle;
+        height: 700px;
+        width: 900px;
+      }
+      
+      pre {
+        text-align: left;
+        font-size: 16px;
+        font-family: 'Droid Sans Mono', Courier;
+        padding-bottom: 10px;
+        
+        padding: 10px 20px;
+        background: rgba(255, 0, 0, 0.05);
+        border-radius: 8px;
+        border: 1px solid rgba(255, 0, 0, 0.2);
+      }
+      .two-column {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+      }
+      
+      pre select {
+        font-size: 16px;
+        font-family: Monaco, Courier;
+        border: 1px solid #c61800;        
+      }
+        
+      input {
+        font-size: 16px;
+        font-family: Helvetica;
+        padding: 3px;
+      }
+      input[type="range"] {
+        width: 100%;
+      }
+      
+      button {
+        font-family: Verdana;
+      }
+      
+      button.large {
+        font-size: 32px;        
+      }
+        
+      pre b {
+        font-weight: normal;
+        color: #c61800;
+        text-shadow: #c61800 0 0 1px; 
+        /*letter-spacing: -1px;*/
+      }
+      pre em {
+        font-weight: normal;
+        font-style: normal;
+        color: #18a600;
+        text-shadow: #18a600 0 0 1px; 
+      }
+      pre input[type="range"] {
+        height: 6px;
+        cursor: pointer;
+        width: auto;
+      }      
+      example {
+        font-size: 16px;
+        display: block;
+        padding: 10px 20px;
+        color: black;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 8px;
+        margin-bottom: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+      }
+      video {
+        border-radius: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.2);        
+      }
+      
+      .css,
+      .js,
+      .html,
+      .key {
+        font-family: 'Droid Sans';
+        color: black;
+        display: inline-block;
+        padding: 6px 10px 3px 10px;
+        font-size: 25px;
+        line-height: 30px;
+        text-shadow: none;
+        letter-spacing: 0;
+        bottom: 10px;
+        position: relative;
+        border-radius: 10px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        background: white;
+        box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px; 
+        -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px; 
+        -moz-box-shadow: rgba(0, 0, 0, 0.1) 0 2px 5px; 
+      }
+      
+      .key { font-family: Arial; }
+      
+      :not(header) > .css,
+      :not(header) > .js,
+      :not(header) > .html,
+      :not(header) > .key {
+        margin: 0 5px;
+        bottom: 4px;
+      }
+      
+      .css {
+        background: -webkit-gradient(linear, left top, left bottom, from(#ff4), to(#ffa));
+        background-color: #ff4;
+        background: -moz-linear-gradient(left top, #ff4, #ffa);        
+      }
+      .js {
+        background: -webkit-gradient(linear, left top, left bottom, from(#4f4), to(#afa));        
+        background-color: #4f4;
+        background: -moz-linear-gradient(left top, #4f4, #afa);
+      }
+      .html {
+        background: -webkit-gradient(linear, left top, left bottom, from(#e88), to(#fee));
+        background-color: #e88;
+        background: -moz-linear-gradient(left top, #e88, #fee);
+      }
+      
+      li {
+        list-style: none;
+        padding: 10px 0;
+      }
+      
+      .summary li::before, .bullets li::before {
+        content: '· ';
+      }
+      
+      info {
+        display: block;
+        font-size: 50%;
+        text-align: center;
+      }
+      
+      
+      span.year {
+        display: inline-block;
+        text-align: right;
+        width: 120px;
+        letter-spacing: -2px;
+        padding-right: 10px;
+      }
+      hr {
+        visibility: hidden;
+        padding: 0;
+        margin: 0 0 -20px 0;
+      }
+      #timeline li {
+        padding: 0;
+      }
+      
+    </style>
+    
+    <style>
+        .ttttt {
+            overflow: hidden;
+        }
+        .test1 {
+            border-width: 20px;
+            border-style: solid;
+            border-color: red blue green yellow;
+            width: 0px;
+            height: 0px;
+        }
+        
+        .test2 {
+            border-width: 20px;
+            border-style: dashed dashed dashed solid;
+            border-color: transparent transparent transparent yellow;
+            width: 0px;
+            height: 0px;
+        }
+        
+        .test3 {
+            border-color:transparent transparent transparent yellow;
+            border-style:dashed dashed dashed solid;
+            border-width:20px;
+            height:10px;
+            width:0;
+        }
+        .test5 {
+            border-color:transparent transparent transparent blue;
+            border-style:dashed dashed dashed solid;
+            border-width:0 0 20px 20px;
+            width: 0px;
+            height: 0px;
+        }
+        
+        .org_box{
+            height:80px;
+            line-height:80px; 
+            margin-bottom:30px; 
+            padding-left:2em;
+            background: #BECEEB; 
+            position:relative; 
+        }
+        .org_bot_cor{
+            width:0; 
+            height:0; 
+            font-size:0; 
+            border-width:15px; 
+            border-style:solid; 
+            border-color: #BECEEB transparent transparent; 
+            _border-color: #BECEEB white white; 
+            overflow:hidden; 
+            position:absolute; 
+            left:60px; 
+            bottom:-30px;
+        }
+        
+        .org_bot_cor_2{
+            height:30px;
+            line-height:0; 
+            font-size:36px; 
+            color: #BECEEB; 
+            position:absolute; 
+            left:60px; 
+            bottom:-30px;
+        }
+        
+        div, p, b{margin:0;padding:0;}
+        b{display:block;}
+        .rc{display:inline-block;#display:inline;#zoom:1;}
+        /* float 效果相同
+        .rc{float:left;} */
+        .rc1, .rc2, .rc .bd{border-style:solid;border-color:black;background-color:yellow;}
+        .rc1, .rc2{height:1px;overflow:hidden;}
+        .rc2, .rc .bd{border-width:0 1px;}
+        .rc1{margin:0 2px;height:0;border-width:1px 0 0;}
+        .rc2{margin:0 1px;}
+        .rc .bd{padding:0 6px;line-height:1.5;}
+        
+        
+        .div1, .div2, .div3{display:inline-block;#display:inline;#zoom:1;position:relative;border-style:solid;border-color:black;}
+        .div1{border-width:1px;}
+        .div2, .div3{#left:-2px;border-width:0 1px;background-color:yellow;}
+        .div2{margin:0 -2px;}
+        .div3{margin:1px -2px;padding:0 6px;line-height:1.5;}
+        .pointer1, .pointer2{position:absolute;top:7px;width:0;height:0;overflow:hidden;border-top:20px transparent dotted;border-bottom:20px transparent dotted;}
+        .pointer1{left:-9px;border-right:20px black solid;}
+        .pointer2{left:-8px;border-right:20px yellow solid;}
+        
+        
+        .pointer {
+            height:60px;
+            margin:0 0 0 60px;
+            position:relative;
+        }
+        
+        .testb{
+            width:300px;
+            padding:50px 20px;
+            margin-left:100px;
+            background:#beceeb;
+            -webkit-border-top-left-radius:220px 120px;
+            -webkit-border-top-right-radius:220px 120px;
+            -webkit-border-bottom-right-radius:220px 120px;
+            -webkit-border-bottom-left-radius:220px 120px;
+            -moz-border-radius:220px / 120px;
+            border-radius:220px / 120px;
+            position:relative;
+        }
+        .testb span{width:0; height:0; font-size:0; background:#beceeb; overflow:hidden; position:absolute;}
+        .testb span.bot{
+            width:20px;
+            height:20px;
+            -moz-border-radius:20px;
+            -webkit-border-radius:20px;
+            border-radius:20px;
+            left:20px;
+            bottom:2px;
+        }
+        .testb span.top{
+            width:15px;
+            height:15px;
+            -moz-border-radius:15px;
+            -webkit-border-radius:15px;
+            border-radius:15px;
+            left:0px;
+            bottom:0px;
+        }
+        
+        .boxR{width:500px;}
+        .topR{border-bottom:3px solid; border-top-color: #BECEEB; border-bottom-color: #BECEEB; border-left:3px dotted transparent; border-right:3px dotted transparent;}
+        .centerR{padding:10px 20px; color:white; font-size:14px; background: #BECEEB;}
+        .botR{border-top:3px solid; border-top-color: #BECEEB; border-bottom-color:#cccccc; border-left:3px dotted transparent; border-right:3px dotted transparent;}
+        
+    </style>
+
+    
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script> 
+  </head><body>
+    <div class="presentation">
+      <div class="slides">
+        <div class="slide">
+          <section class="center intro">
+            <p>CSS Border使用小分享</p>
+            <p>---- <span class="year">2010/06</span> 乔花</p>
+          </section>
+        </div>
+                
+        <div class="slide">
+            <header>原理</header>
+            <section>
+                <p>css盒模型</p>
+                <p><img src="cssbox.png" /></p>
+                <p>margin+border+padding+content</p>
+                
+                <p> - 上下左右边框交界处出呈现平滑的斜线. 利用这个特点, 通过设置不同的上下左右边框宽度或者颜色可以得到小三角, 小梯形等.</p>
+                <p> - 调整宽度大小可以调节三角形形状.</p>
+                
+                <div class="ttttt">
+                    <span class="html">border斜线</span>
+                    <div class="test1"></div>
+                </div>
+                
+            </section>
+        </div>      
+
+
+        <div class="slide">
+            <header>应用之boder小三角</header>
+            <section>
+                <p>   - 边框</p>
+                <div class="ttttt">
+                    <span class="html">border小三角</span>
+                    <div class="test2"></div>
+                </div>
+                <pre>
+                    .test2 {
+                        border-width: 20px;
+                        border-style: dashed dashed dashed solid;
+                        border-color: transparent transparent transparent yellow;
+                        width: 0px;
+                        height: 0px;
+                    }
+                </pre>
+                
+                <div class="ttttt">
+                    <span class="html">border小梯形</span>
+                    <div class="test3"></div>
+                </div>
+                
+            </section>
+        </div>      
+
+        <div class="slide">
+            <header>应用之boder小三角</header>
+            <section>
+                <div class="ttttt">
+                    <span class="html">另一种</span>
+                    <div class="test5"></div>
+                </div>
+                
+                <div class="ttttt">
+                    <span class="html">border小三角</span>
+                    <div class="org_box">
+                        <span class="org_bot_cor"></span>
+                        ...
+                    </div>
+                </div>
+                <div class="ttttt">
+                    <span class="html">有边框线的小三角</span>
+                    <div class="pointer">
+                        <div class="pointer1"></div>
+                        <div class="pointer2"></div>
+                    </div>
+                </div>
+            </section>
+        </div>      
+        
+        <div class="slide">
+            <header>应用之boder小三角</header>
+            <section>
+                <p>   - 字符</p>
+                <p>       可以使用棱形字符(◆)来实现, 设置其font-size, 颜色和背景色一致, 定位可以使用margin负值和absolute绝对定位来实现</p>
+                <div class="ttttt">
+                    <span class="html">字符法实现等腰直角三角形</span>
+                    <div class="org_box">
+                        <span class="org_bot_cor_2">◆</span>
+                        ...
+                    </div>
+                </div>
+            </section>
+        </div>      
+        
+        <div class="slide">
+            <header>应用之圆角生成</header>
+            <section>
+                <p>    - 上梯形(无上边框,下左右3px宽度, 左右颜色去掉)+矩形+下梯形</p>
+                <div class="ttttt">
+                    <span class="html">普通圆角</span>
+                    <div class="boxR">
+                        <div class="topR"></div>
+                        <div class="centerR">...</div>
+                        <div class="botR"></div>
+                    </div>
+                </div>
+                
+                <p>    - 自适应圆角1: 整个rc设置为float: left 或 display: inline-block 分为top,bd,bottom, top中又有两个层rc1和rc2, rc1只设置border-top, 高度为0, 并设置左右margin呈短小的一横线, rc2只设置左右border并且左右margin小于rc1, height为1px, 中间bd设置左右border,不设置左右margin;</p>
+                <div class="ttttt">
+                    <span class="html">自适应圆角way1</span>
+                    <div class="rc">
+                        <b class="top"><b class="rc1"></b><b class="rc2"></b></b>
+                        <div class="bd">
+                            ...
+                        </div>
+                        <b class="bottom"><b class="rc2"></b><b class="rc1"></b></b>
+                    </div>
+                </div>
+                <p>    - 不过 IE 6&7 出现 bug：rc在IE6中依然显示为dispaly:block，而IE7中top 和 bottom缩成一坨，不肯扩展开来，而在 rc1/rc2/rc3 中插入文字xxx后只能扩展到文字宽度,不能与bd对齐.</p>
+                <p>    - 自适应圆角2: 自 Google 系产品的 1px 圆角按钮,,,三层div, 最外层div1正常设置边框宽度1px, 呈现出上下边框线, 中间div2只设置左右边框, 且把左右margin设置成负值, 呈现出圆角处的4个圆点 内层div3同样只设置左右边框, 同时margin上下空出div2的高度, margin左右也设置与div2相同的负值.</p>
+                <div class="ttttt">
+                    <span class="html">自适应圆角way2</span>
+                    <div class="div1">
+                        <div class="div2">
+                            <div class="div3">
+                                ...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>      
+        
+        <div class="slide">
+            <header>应用之气泡对话框效果</header>
+            <section>
+                <p>- css2 border</p>
+                <p>- css3 border-radius</p>
+                <div class="ttttt">
+                    <span class="html">圆角气泡</span>
+                    <div class="testb">
+                        <span class="bot"></span>
+                        <span class="top"></span>
+                        ...
+                    </div>
+                </div>
+                
+            </section>
+        </div>
+              
+        <div class="slide">
+            <header>其他</header>
+            <section>
+                <p style="margin-bottom: 10px">- 透明: IE6浏览器不支持transparent透明属性，就border生成三角技术而言，直接设置对应的透明边框的border-style属性为dotted或是dashed即可解决这一问题，原因是在IE6下, 点线与虚线均以边框宽度为基准，点线长度必须是其宽度的3倍以上（height>=border-width*3），虚线宽长度必须是其宽度的5倍以上（height>=border-width*5），否则点线和虚线都不会出现。
+                </p>
+                <p style="margin-bottom: 10px">- IE6的奇偶bug: 如果定位外框高度或是宽度为奇数，则IE6下，绝对定位元素的低定位和右定位会有1像素的误差。所以，尽量保证外框的高度或宽度为偶数值。
+                </p>
+                <p style="margin-bottom: 10px">- IE6的空div莫名高度bug: IE6下，空div会有莫名的高度，也就是说height:0;不顶用，此时形成的尖角的实际占高于其他浏览器是有差异的。可使用font-size:0;  overflow:hidden;修复此问题。
+                </p>
+                <p style="margin-bottom: 10px">- filter: chroma滤镜, 该属性属性可以设置一个对象中指定的颜色为透明色, 如:
+                <pre>
+                   border-color: pink;
+                   filter: chroma(color=pink);
+                </pre>
+                </p>
+            </section>
+        </div>      
+        
+        <div class="slide">
+            <header>资料</header>
+            <section>
+                <ul class="summary">
+                    <li><a href="http://koyoz.com/blog/?action=show&id=282">http://koyoz.com/blog/?action=show&id=282</a></li>
+                    <li><a href="http://isd.tencent.com/?p=1530">http://isd.tencent.com/?p=1530</a></li>
+                    <li><a href="http://www.zhangxinxu.com/wordpress/?p=794">http://www.zhangxinxu.com/wordpress/?p=794</a></li>
+                    <li><a href="http://www.zhangxinxu.com/wordpress/?p=651">http://www.zhangxinxu.com/wordpress/?p=651</a></li>
+                    <li><a href="http://blog.silentash.com/2009/12/ie6-border-transparent/">http://blog.silentash.com/2009/12/ie6-border-transparent/</a></li>
+                </ul>
+            </section>
+        </div>
+              
+        <div class="slide"> 
+          <section class='center'> 
+            <h1> 
+              Thank you~
+            </h1> 
+          </section> 
+        </div>
+        
+      </div> <!-- slides -->
+       
+    </div> <!-- presentation -->
+    
+    <script> 
+      (function() {
+        // bail in IE
+        var doc = document;
+        if (doc.all) { return; }
+
+        var disableBuilds = true; //true;
+
+        var ctr = 0;
+        var spaces = /\s+/, a1 = [""];
+
+        var toArray = function(list) {
+          return Array.prototype.slice.call(list||[], 0);
+        };
+
+        var byId = function(id) {
+          if (typeof id == "string") { return doc.getElementById(id); }
+          return id;
+        };
+
+        var query = function(query, root) {
+          if (!query) { return []; }
+          if (typeof query != "string") { return toArray(query); }
+          if (typeof root == "string"){
+            root = byId(root);
+            if(!root){ return []; }
+          }
+
+          root = root||document;
+          var rootIsDoc = (root.nodeType == 9);
+          var doc = rootIsDoc ? root : (root.ownerDocument||document);
+
+          // rewrite the query to be ID rooted
+          if (!rootIsDoc || (">~+".indexOf(query.charAt(0)) >= 0)) {
+            root.id = root.id||("qUnique"+(ctr++));
+            query = "#"+root.id+" "+query;
+          }
+          // don't choke on something like ".yada.yada >"
+          if (">~+".indexOf(query.slice(-1)) >= 0) { query += " *"; }
+
+          return toArray(doc.querySelectorAll(query));
+        };
+
+        var strToArray = function(s) {
+          if (typeof s == "string" || s instanceof String) {
+            if (s.indexOf(" ") < 0) {
+              a1[0] = s;
+              return a1;
+            } else {
+              return s.split(spaces);
+            }
+          }
+          return s;
+        };
+
+        var trim = function(str) {
+          return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+        };
+
+        var addClass = function(node, classStr) {
+          classStr = strToArray(classStr);
+          var cls = " " + node.className + " ";
+          for (var i = 0, len = classStr.length, c; i < len; ++i) {
+            c = classStr[i];
+            if (c && cls.indexOf(" " + c + " ") < 0) {
+              cls += c + " ";
+            }
+          }
+          node.className = trim(cls);
+        };
+
+        var removeClass = function(node, classStr) {
+          var cls;
+          if (classStr !== undefined) {
+            classStr = strToArray(classStr);
+            cls = " " + node.className + " ";
+            for (var i = 0, len = classStr.length; i < len; ++i) {
+              cls = cls.replace(" " + classStr[i] + " ", " ");
+            }
+            cls = trim(cls);
+          } else {
+            cls = "";
+          }
+          if (node.className != cls) {
+            node.className = cls;
+          }
+        };
+
+        var toggleClass = function(node, classStr) {
+          var cls = " " + node.className + " ";
+          if (cls.indexOf(" " + trim(classStr) + " ") >= 0) {
+            removeClass(node, classStr);
+          } else {
+            addClass(node, classStr);
+          }
+        };
+
+        var ua = navigator.userAgent;
+        var isFF = parseFloat(ua.split("Firefox/")[1]) || undefined;
+        var isWK = parseFloat(ua.split("WebKit/")[1]) || undefined;
+        var isOpera = parseFloat(ua.split("Opera/")[1]) || undefined;
+
+        var canTransition = (function() {
+          var ver = parseFloat(ua.split("Version/")[1]) || undefined;
+          // test to determine if this browser can handle CSS transitions.
+          var cachedCanTransition = 
+            (isWK || (isFF && isFF > 3.6 ) || (isOpera && ver >= 10.5));
+          return function() { return cachedCanTransition; }
+        })();
+
+        //
+        // Slide class
+        //
+        var Slide = function(node, idx) {
+          this._node = node;
+          if (idx >= 0) {
+            this._count = idx+1;
+          }
+          if (this._node) {
+            addClass(this._node, "slide distant-future");
+          }
+          this._makeCounter();
+          this._makeBuildList();
+        };
+
+        Slide.prototype = {
+          _node: null,
+          _count: 0,
+          _buildList: [],
+          _visited: false,
+          _currentState: "",
+          _states: [ "distant-past", "far-past",
+                     "past", "current", "future",
+                     "far-future", "distant-future" ],
+          setState: function(state) {
+            if (typeof state != "string") {
+              state = this._states[state];
+            }
+            if (state == "current" && !this._visited) {
+              this._visited = true;
+              this._makeBuildList();
+            }
+            removeClass(this._node, this._states);
+            addClass(this._node, state);
+            this._currentState = state;
+
+            // delay first auto run. Really wish this were in CSS.
+            /*
+            this._runAutos();
+            */
+            var _t = this;
+            setTimeout(function(){ _t._runAutos(); } , 400);
+          },
+          _makeCounter: function() {
+            if(!this._count || !this._node) { return; }
+            var c = doc.createElement("span");
+            c.innerHTML = this._count;
+            c.className = "counter";
+            this._node.appendChild(c);
+          },
+          _makeBuildList: function() {
+            this._buildList = [];
+            if (disableBuilds) { return; }
+            if (this._node) {
+              this._buildList = query("[data-build] > *", this._node);
+            }
+            this._buildList.forEach(function(el) {
+              addClass(el, "to-build");
+            });
+          },
+          _runAutos: function() {
+            if (this._currentState != "current") {
+              return;
+            }
+            // find the next auto, slice it out of the list, and run it
+            var idx = -1;
+            this._buildList.some(function(n, i) {
+              if (n.hasAttribute("data-auto")) {
+                idx = i;
+                return true;
+              }
+              return false;
+            });
+            if (idx >= 0) {
+              var elem = this._buildList.splice(idx, 1)[0];
+              var transitionEnd = isWK ? "webkitTransitionEnd" : (isFF ? "mozTransitionEnd" : "oTransitionEnd");
+              var _t = this;
+              if (canTransition()) {
+                var l = function(evt) {
+                  elem.parentNode.removeEventListener(transitionEnd, l, false);
+                  _t._runAutos();
+                };
+                elem.parentNode.addEventListener(transitionEnd, l, false);
+                removeClass(elem, "to-build");
+              } else {
+                setTimeout(function() {
+                  removeClass(elem, "to-build");
+                  _t._runAutos();
+                }, 400);
+              }
+            }
+          },
+          buildNext: function() {
+            if (!this._buildList.length) {
+              return false;
+            }
+            removeClass(this._buildList.shift(), "to-build");
+            return true;
+          },
+        };
+
+        //
+        // SlideShow class
+        //
+        var SlideShow = function(slides) {
+          this._slides = (slides||[]).map(function(el, idx) {
+            return new Slide(el, idx);
+          });
+
+          var h = window.location.hash;
+          try {
+            this.current = parseInt(h.split('#slide')[1], 10);
+          }catch (e) { /* squeltch */ }
+          this.current = isNaN(this.current) ? 1 : this.current;
+          var _t = this;
+          doc.addEventListener('keydown', 
+              function(e) { _t.handleKeys(e); }, false);
+          doc.addEventListener('mousewheel', 
+              function(e) { _t.handleWheel(e); }, false);
+          doc.addEventListener('DOMMouseScroll', 
+              function(e) { _t.handleWheel(e); }, false);
+          doc.addEventListener('touchstart', 
+              function(e) { _t.handleTouchStart(e); }, false);
+          doc.addEventListener('touchend', 
+              function(e) { _t.handleTouchEnd(e); }, false);
+          window.addEventListener('popstate', 
+              function(e) { _t.go(e.state); }, false);
+          this._update();
+          
+          // hide those slides we forced to render on load time for positioning purposes
+          [].forEach.call(document.querySelectorAll('.force-render'), function(elem,i){
+            setTimeout(function() {
+              removeClass(elem, 'force-render');
+            }, 2000);
+          });
+        };
+
+        SlideShow.prototype = {
+          _slides: [],
+          _update: function(dontPush) {
+            if (history.pushState) {
+              if (!dontPush) {
+                history.pushState(this.current, "Slide " + this.current, "#slide" + this.current);
+              }
+            } else {
+              window.location.hash = "slide" + this.current;
+            }
+            for (var x = this.current-1; x < this.current+7; x++) {
+              if (this._slides[x-4]) {
+                this._slides[x-4].setState(Math.max(0, x-this.current));
+              }
+            }
+          },
+
+          current: 0,
+          next: function() {
+            if (!this._slides[this.current-1].buildNext()) {
+              this.current = Math.min(this.current+1, this._slides.length);
+              this._update();
+            }
+          },
+          prev: function() {
+            this.current = Math.max(this.current-1, 1);
+            this._update();
+          },
+          go: function(num) {
+            if (history.pushState && this.current != num) {
+              history.replaceState(this.current, "Slide " + this.current, "#slide" + this.current);
+            }
+            this.current = num;
+            this._update(true);
+          },
+
+          _notesOn: false,
+          showNotes: function() {
+            var isOn = this._notesOn = !this._notesOn;
+            query(".notes").forEach(function(el) {
+              el.style.display = (notesOn) ? "block" : "none";
+            });
+          },
+          switch3D: function() {
+            toggleClass(document.body, "three-d");
+          },
+          handleWheel: function(e) {
+            var delta = 0;
+            if (e.wheelDelta) {
+              delta = e.wheelDelta/120;
+              if (isOpera) {
+                delta = -delta; 
+              }
+            } else if (e.detail) { 
+              delta = -e.detail/3;
+            }
+
+            if (delta > 0 ) {
+              this.prev();
+              return;
+            }
+            if (delta < 0 ) {
+              this.next();
+              return;
+            }
+          },
+          handleKeys: function(e) {
+            switch (e.keyCode) {
+              case 37: // left arrow
+                this.prev(); break;
+              case 39: // right arrow
+              // case 32: // space
+                this.next(); break;
+              case 50: // 2
+                this.showNotes(); break;
+              case 51: // 3
+                this.switch3D(); break;
+            }
+          },
+          _touchStartX: 0,
+          handleTouchStart: function(e) {
+            this._touchStartX = e.touches[0].pageX;
+          },
+          handleTouchEnd: function(e) {
+            var delta = this._touchStartX - e.changedTouches[0].pageX;
+            var SWIPE_SIZE = 150;
+            if (delta > SWIPE_SIZE) {
+              this.next();
+            } else if (delta< -SWIPE_SIZE) {
+              this.prev();
+            }
+          },
+        };
+
+        // Initialize
+        var slideshow = new SlideShow(query(".slide"));
+      })();
+    </script> 
+
+</body>
+</html>

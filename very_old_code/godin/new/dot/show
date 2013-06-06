@@ -1,0 +1,55 @@
+BR-----------
+object_list is ['1', '2', '3', '4', '5']
+attribute_list is ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+value_list is
+[[0, 2, 5, 7], [0, 2, 6], [0, 3, 6], [1, 2, 5, 7], [1, 4, 6]]
+
+Lattice-----------
+Concept------>>
+Concept 1: { 1 }, { a  c  f  h }
+    his children is:  3 
+     his parent is:  4  10 
+Concept 2: { 1  2  3  4 }, {}
+    his children is:  6  9 
+     his parent is: 
+Concept 3: {}, { a  b  c  d  f  g  h }
+    his children is: 
+     his parent is:  1  5  8  11 
+Concept 4: { 1  2 }, { a  c }
+    his children is:  1  5 
+     his parent is:  6  9 
+Concept 5: { 2 }, { a  c  g }
+    his children is:  3 
+     his parent is:  4  7 
+Concept 6: { 1  2  3 }, { a }
+    his children is:  4  7 
+     his parent is:  2 
+Concept 7: { 2  3 }, { a  g }
+    his children is:  5  8 
+     his parent is:  6 
+Concept 8: { 3 }, { a  d  g }
+    his children is:  3 
+     his parent is:  7 
+Concept 9: { 1  2  4 }, { c }
+    his children is:  4  10 
+     his parent is:  2 
+Concept 10: { 1  4 }, { c  f  h }
+    his children is:  1  11 
+     his parent is:  9 
+Concept 11: { 4 }, { b  c  f  h }
+    his children is:  3 
+     his parent is:  10 
+
+Edge is------>>
+layer 0: 
+concept is:3 
+layer 1: 
+concept is:1 5 8 11 
+layer 2: 
+concept is:4 7 10 
+layer 3: 
+concept is:6 9 
+layer 4: 
+concept is:2 
+
+

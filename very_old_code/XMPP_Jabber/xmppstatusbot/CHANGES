@@ -1,0 +1,13 @@
+0.3
+- Remote control!
+- Fix Unicode status - by Anton Khirnov.
+
+0.2
+Added features suggested by Alexander Schaber (uranellus):
+- Notification Delay - rapid song changes will not flood status description 
+  and status will change after decision has been made
+- KWallet Integration - your xmpp/jabber account password is safe now - 
+  right in your wallet!
+
+0.1
+Initial release.

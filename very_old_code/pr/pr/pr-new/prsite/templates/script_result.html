@@ -1,0 +1,5 @@
+{% extends "result.html" %}
+{% block resultarea %}
+                {% if pic %}                    <img border="0" title="result_img" alt="result_img" src="/site_media/img/{{ pic }}"/>                {% endif %}                {% load my_filter %}                {% for key_item in result.items %}<!-- {{ key_item.0.3  }}   -->                <div class="{% cycle onefile,anotherfile %}">                    <h3 id="r{{ key_item.0.0 }}">Find related file:  {{ key_item.0.0  }}-->{{ key_item.0.1|get_name|show_key:searchname  }}</h3>                    <div class="filecontent" id="content{{ key_item.0.0 }}">                    {{ key_item.1|get_inform }}                    </div>                </div>                {% endfor %}
+{% endblock %}
+

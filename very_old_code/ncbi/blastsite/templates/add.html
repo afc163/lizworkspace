@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block js %}
+<script type="text/javascript" src="/site_media/js/add.js"></script>
+{% endblock %}
+
+{% block title %}
+序列上传
+{% endblock %}
+
+{% block main %}
+<div class="ui-dialog ui-dialog-content">
+{% if msg %}
+<h4 id="msg">{{ msg }}</h4>
+{% endif %}
+
+<form id="add_form" name="add_form" action="/main/add/" method="post" ><fieldset>
+        <label>Sequencer</label>
+        <input name="sequencer" type="text" class="text ui-corner-all" value="_XF_001"/>
+
+        <label>Strain Name1</label>
+        <input name="strain_name_1" type="text" class="text ui-corner-all" value="Qu"/>
+
+        <label>Segment Name</label>
+        <select name="segment_name" class="text ui-corner-all" >
+        <option>segment 1 polymerase basic protein 2 (PB2) gene</option>
+        <option>segment 2 polymerase basic protein 1 (PB1) gene</option>
+        <option>segment 3 polymerase acidic protein (PA) gene</option>
+        <option>segment 4 haemagglutinin (HA) gene</option>
+        <option>segment 5 nucleoprotein (NP) gene</option>
+        <option>segment 6 neuraminidase (NP) gene</option>
+        <option>segment 7 matrix (M) gene</option>
+        <option>segment 8 nonstructural protein (NS) gene</option>
+        </select><br/>
+        
+        <label>Subtype</label>
+        <input name="subtype" type="text" class="text ui-corner-all" value="H5N1"/>
+
+        <label>Isolation City</label>
+        <input name="isolation_city" type="text" class="text ui-corner-all" value="YangZhou"/>
+
+        <label>Strain Name2</label>
+        <input name="strain_name_2" type="text" class="text ui-corner-all" value="A10"/>
+
+        <label>Isolation year</label>
+        <input name="isolation_year" type="text" class="text ui-corner-all" value="2006"/>
+
+        <label>Formatted sequence annotation</label>
+        <input name="final_name" type="text" class="text ui-corner-all" value=""/>
+        
+        <label>Sequence Content</label>
+        <textarea name="seq" class="text ui-corner-all" rows="4" cols="46"></textarea>
+</fieldset>
+<div class="ui-dialog-buttonpane ui-widget-content clearfix">
+    <button type="submit" class="ui-state-default ui-corner-all">确定</button>
+    <button type="reset" class="ui-state-default ui-corner-all">取消</button>
+</div>
+</form>
+</div>
+{% endblock %}

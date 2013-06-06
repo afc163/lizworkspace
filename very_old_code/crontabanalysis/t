@@ -1,0 +1,219 @@
+#!/usr/bin/env python
+#coding=utf-8
+
+import sys
+import re
+import os
+from optparse import OptionParser
+
+class CrontabAnalysis:
+
+    def __init__(self, cFile):
+        '''init'''
+        self.cFile = cFile
+        self.resultList = []
+        self.fileOptionDic = {}
+        self.completeResult = {}
+        self.count = 0
+
+        self.ptNot = re.compile(r'^[#\n]+')
+        #self.ptFileName = re.compile(r'(\./)?\w+\.(sh|c)\b')
+        self.ptFileNameWithOption = re.compile(r'(?P<filename>(\./)?\w+\.(sh|c))(?P<options>[^12>]*)')
+        #self.ptDate1 = re.compile(r'''
+        #   \s*                                                # Skip leading whitespace
+        #   (?P<minute>(\d{1,2}-\d{1,2}|\*)(/\d{1,2})?|\d{1,2}|(\d{1,2},?\s*)+)    # minute
+        #   \s+                                                # space
+        #   (?P<hour>(\d{1,2}-\d{1,2}|\*)(/\d{1,2})?|\d{1,2}|(\d{1,2},?\s*)+)      # hour
+        #   \s+                                                # space
+        #   (?P<day>(\d{1,2}-\d{1,2}|\*)(/\d{1,2})?|\d{1,2}|(\d{1,2},?\s*)+)       # day
+        #   \s+                                                # space
+        #   (?P<month>(\d{1,2}-\d{1,2}|\*)(/\d{1,2})?|\d{1,2}|(\d{1,2},?\s*)+)     # month
+        #   \s+                                                # space
+        #   (?P<week>([0-6]-[0-6]|\*)(/[0-6])?|[0-6]{1,2}|([0-6],?\s*)+)           # week
+        #   \s*                                                #\s* Trailing whitespace
+        #   ''', re.VERBOSE)
+        part0 = r'(((\d{1,2}-\d{1,2}|\*)(/\d{1,2})?|\d{1,2})(,\s*)?)+'
+        part1 = r'((([0-6]{1,2}-[0-6]{1,2}|\*)(/[0-6]{1,2})?|[0-6]{1,2})(,\s*)?)+'
+        self.ptDate = re.compile(r'\s*(?P<minute>' + part0
+                                + r')\s+(?P<hour>' + part0
+                                + r')\s+(?P<day>' + part0
+                                + r')\s+(?P<month>' + part0
+                                + r')\s+(?P<week>' + part1
+                                + r')\s*')
+        self.ptPath = re.compile(r'\bcd(?P<path>[ .~/a-zA-Z0-9_-]*);')
+        self.ptOption = re.compile(r'\s+')
+
+    def doAnalyze(self):
+        '''Analaze %s and get list''' % self.cFile
+        while True:
+            oneline = self.cFile.readline()                 # try except
+            if len(oneline) == 0:
+                break
+            else:
+                if  self.ptNot.search(oneline):
+                    continue
+                else:
+                    self.analyzeOne(oneline)
+
+    def analyzeOne(self, aline):
+        def getParentPath(cp):
+            pass#--------------------------------------------------------------
+        
+        try:
+            f = self.ptFileNameWithOption.search(aline)
+            if f != None:                                   # use findall is wrong??
+                fileName = f.group('filename').strip()
+                minute = self.ptDate.search(aline).group('minute')
+                hour = self.ptDate.search(aline).group('hour')
+                day = self.ptDate.search(aline).group('day')
+                month = self.ptDate.search(aline).group('month')
+                week = self.ptDate.search(aline).group('week')
+                #print minute, hour, day, month, week
+                #print self.getTime(minute, '分钟'),
+                #print self.getTime(hour, '小时'),
+                #print self.getTime(day, '天'),
+                #print self.getTime(month, '月'),
+                #print self.getTime(week, '星期')
+                #excuteTime = '%s__%s__%s__%s__%s' % (self.getTime(month, '月'), \
+                #                                     self.getTime(week, '星期'), \
+                #                                     self.getTime(day, '天'), \
+                #                                     self.getTime(hour, '小时'), \
+                #                                     self.getTime(minute, '分钟'))
+                excuteTime = ' -- '.join((self.getTime(month, '月'),
+                                        self.getTime(week, '星期'),
+                                        self.getTime(day, '天'),
+                                        self.getTime(hour, '小时'),
+                                        self.getTime(minute, '分钟')
+                                        ))
+
+                if fileName.startswith('.'):                # ./someFile
+                    fileName = fileName[2:]
+                #print 'filename',fileName
+                optionLists = self.ptOption.split(f.group('options').strip())
+                if '' in optionLists:
+                    optionLists.remove('')
+                if optionLists:                             # save options
+                    self.fileOptionDic[fileName] = optionLists
+               
+                currentPath = ''                            # get path
+                pathList = self.ptPath.findall(aline)
+                for path in pathList:
+                    path = path.strip()
+                    #print 'path',path
+                    if path == '':                          # cd; or cd ;
+                        currentPath = os.getenv('HOME')
+                    elif path.startswith('..'):             # cd .. or cd ../somepath;?
+                        #currentPath = os.getcwd()
+                        currentPath = getParentPath(currentPath)
+                    elif path.startswith('.'):              # cd .; or cd ./somepath?
+                        currentPath = os.getcwd()
+                    elif path.startswith('~'):              # ~/somePath
+                        currentPath = os.getenv('HOME') + '/' + path[2:]
+                    elif path.startswith('/'):
+                        currentPath = path
+                    else:
+                        currentPath += '/' + path
+
+                if currentPath[-1] == '/':                  # rm '/'
+                    currentPath = currentPath[:-1] 
+                completeName = "/".join((currentPath, fileName))
+                self.resultList.append(completeName)
+                self.completeResult[self.count] = [excuteTime, completeName, optionLists]
+                self.count += 1
+        except:
+            print "ERROR IN FUNCTION : analyzeOne"
+            print aline
+
+    def getString(self, s, rest):
+        monthList = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')
+        weekList = ('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')
+        if rest == '分钟':            #minute
+            return '第%d分钟' % int(s)
+        elif rest == '小时':          #hour
+            return '%d点' % int(s)
+        elif rest == '天':            #day
+            return '第%d天' % int(s)
+        elif rest == '月':            #month
+            return monthList[int(s)-1]
+        else:                         #week
+            return weekList[int(s)]
+
+    def getOneTime(self, sometime, rest):
+        '''(((\d{1,2}-\d{1,2}|\*)(/\d{1,2})?|\d{1,2})(,\s*)?)+'''
+        ptTemp1 = re.compile(r'(?P<a>\d{1,2})-(?P<b>\d{1,2})/(?P<n>\d{1,2})')
+        ptTemp2 = re.compile(r'(?P<a>\d{1,2})-(?P<b>\d{1,2})')
+
+        if sometime.startswith('*/'):               # case: */n
+            return '每' + sometime[2:] + rest
+        elif sometime == '*':                       # case: *
+            return '每' + rest
+        elif '/' in sometime:                       # case: a-b/n
+            abn = ptTemp1.search(sometime)
+            return '从' + self.getString(abn.group('a'), rest) + '到' + self.getString(abn.group('b'), rest) + '内每' + abn.group('n') + rest + '时间间隔执行一次'
+        elif '-' in sometime:                       # case: a-b
+            ab = ptTemp2.search(sometime)
+            return '从' + self.getString(ab.group('a'), rest) + '到' + self.getString(ab.group('b'), rest)
+        else:                                       # case: n
+            return self.getString(sometime, rest)
+
+    def getTime(self, sometime, rest):
+        timeList = sometime.split(',')
+        timeString = ''
+        for onetime in timeList:
+            timeString += self.getOneTime(onetime, rest) + ','
+        return timeString[:-1]
+
+    def __str__(self):
+        return '\n'.join(self.resultList)
+
+    def showCompleteResult(self):
+        ''' Show Complete Result '''
+        print '\n---------------All Result---------------\n'
+        #for i in self.completeResult:
+        for i in range(0, len(self.completeResult)):
+            print 'Program %d :' % i
+            print '------the Time that program excute : %s' % self.completeResult[i][0]
+            print '------the FileName : %s' % self.completeResult[i][1]
+            optionList = self.completeResult[i][2]
+            if optionList:
+                options = ''
+                for j in optionList:
+                    options += j + ' '
+                print '------the Options : %s' % options
+
+def execute_from_command_line(argv=None):
+    if argv is None:
+        argv = sys.argv
+    # Parse the command-line arguments.
+    parser = OptionParser(usage="""cront_filter.py [options] file""")
+    #parser.add_option('--version', help='Show Version Information')
+    parser.add_option('-f', '--file', help='Give the File Name, Default: ./crontab',default='./crontab')
+    #........
+
+    options, args = parser.parse_args(argv[1:])
+
+    fullName = os.path.abspath(options.file)
+    print 'the FullName is: %s\n' % fullName
+    if os.path.exists(fullName):
+        # doAnalyze
+        crontabFile = file(fullName, 'r')
+        CA = CrontabAnalysis(crontabFile)
+        CA.doAnalyze()
+        crontabFile.close()
+        print CA
+
+        CA.showCompleteResult()
+        # save to file
+        #resultFile = file('CrontabAnalysis_result', 'w')
+        #resultFile.write(CA.__str__())
+        #resultFile.close()
+    else:
+        # the file is not exist
+        print 'File: %s is not Exist' % fullName
+        sys.exit(0)
+
+# Start Here
+if __name__ == "__main__":
+    execute_from_command_line()
+
+    print '\nDone\n'

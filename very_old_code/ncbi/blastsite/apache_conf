@@ -1,0 +1,42 @@
+LoadModule python_module modules/mod_python.so
+
+Alias /wwwblast/ "/home/shengyan/blast/"
+<Directory "/home/shengyan/blast/">
+    Options all
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+</Directory>
+
+Alias /sms2/ "/home/shengyan/sms2/"
+<Directory "/home/shengyan/sms2/">
+    Options all
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+</Directory>
+
+
+<Directory "/home/shengyan">
+    Options FollowSymLinks
+    AllowOverride None
+    Order deny,allow
+</Directory>
+
+<location "/">
+	SetHandler python-program
+	PythonPath "['/home/shengyan'] + sys.path"
+	PythonHandler django.core.handlers.modpython
+	SetEnv DJANGO_SETTINGS_MODULE blastsite.settings
+	PythonAutoReload Off
+	PythonDebug On
+</location>
+Alias "/site_media" "/home/shengyan/blastsite/media"
+<Location "/site_media">  
+    SetHandler None  
+</Location>
+<Directory "/home/shengyan/blastsite/media/">  
+    Order Deny,Allow  
+    Allow from all  
+ </Directory>
+

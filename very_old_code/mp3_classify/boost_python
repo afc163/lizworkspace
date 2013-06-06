@@ -1,0 +1,446 @@
+用Boost.Python构建混合系统
+
+摘要
+
+Boost． Python是一个开源的C++程序库，提供类似IDL的接口来把C++类和函数绑定到Python。借助于C++强大的编译时内省 (introspection)能力和最新的元编程(metaprogramming)技术，它完全用C++来实现，而不用引入新的语法。 Boost.Python丰富的特性和高级接口使从底层起按混合系统的方式设计组件成为可能，从而使程序员可以轻松和连贯的同时使用C++高效的编译时多态和Python极其方便的运行时多态。
+简介
+
+作为两门语言，python和C++在很多方面不一样。C++被编译为机器码，python被解释(interpreted)执行。Python的动态类型 (type)系统经常被认为是灵活性的基础，C++的静态类型是效率的基石。C++有复杂艰深的编译时元语言(meta-language)，而在 python里，实际上一切都在运行时发生。然而对很多程序员来说，这些不同恰好意味着Python和C++是彼此的完美补足。Python 程序里的性能瓶颈部分可以用C++来重写，从而最大化速度。强大的C++程序库的作者选择Python作为中间件(middleware)语言，从而获得灵活的系统集成能力。此外，表面的不同掩盖了二者非常类似的一些地方：
+
+    * ‘C’-家族的控制结构 (if，while，for…)
+    * 支持面向对象(object-orientation)，函数式编程(functional programming)，泛型编程(generic programming)(它们都是多范 式语言(multi-paradigm languages))
+    * 认同语法可变性(syntactic variability)在提高代码的可读性和表达力上的重要作用，提供了对操作符重载的广泛支持
+    * 高级概念，如集合(collections)，迭代器(iterators)等
+    * 高级封装机制(C++: namespaces，Python: modules)支持可重用程序库的设计
+    * 异常处理机制提供了有效的错误管理
+    * 被普遍使用的C++习惯用语，如handle/body classes和引用被计数的智能指针(reference-counted smart pointers)对应Python 的引用语义(reference semantics) 
+
+考虑到Python丰富的’C'协作API，原则上把C++的类型和函数以类似于暴露给C++的接口暴露给Python是可能的。然而，单是Python提供的这种设施对集成C++的支持比较弱。和C++，Python相比，’C'的抽象机制非常初级，而且完全不支持异常处理。’C'扩展模块的作者必须手动管理引用计数，这不但让人恼火的麻烦和单调，还极度容易出错。传统的扩展模块容易产生重复的样板代码(boilerplate code)，从而难于维护，尤其是要包装的API很复杂时。
+
+上述限制导致了一些包装系统的开发。SWIG_ 可能是集成C/C++和Python的包装系统中最流行的。一个更近的例子是 SIP ，它专门设计来提供 Qt 图形用户界面库的Python接口。SWIG和SIP都引入了它们专有的语言来实现语言间绑定。这当然有它的好处，但不得不应付三种不同的语言(Python，C/C++和接口语言)也带来了实际的和心理上的困难。 CXX 软件包展示出它是一个有趣的包装系统。它说明了至少一部份Python ‘C’ API可以通过用户友好得多的C++接口来包装和表现。然而，和SWIG和SIP不一样，CXX不支持把C++类包装成新的Python类型。
+
+Boost.Python 的特性和目标和很多这样的系统有相当程度的重叠。就是说，Boost.Python试图最大化便利性和灵活性，而不引入单独的包装语言。相反，它在幕后用静态元编程技术管理很多复杂问题，赋予了用户通过高级C++接口来包装C++类和函数的能力，Boost.Python也在如下领域超越了早期的系统：
+
+    * C++虚函数支持，虚函数可以用Python来覆盖(override)
+    * 在整个生命周期内对低级指针和引用进行全面管理的设施
+    * 对把扩展(extensions)组织成Python packages的支持，通过中心注册表(central registry)来进行语言间类型转换
+    * 安全而便利的连接强大的Python序列化引擎(pickle)的机制
+    * C++的lvalue和rvalue的一致的处理规则，这只能来自对Python和C++两者的类型系统的深入理解。 
+
+鼓舞Boost.Python开发的关键发现是，传统扩展开发中的大量样板代码都可以通过C++编译时内省来消除。被包装的C++函数的每个参数都必须根据参数类型从Python对象里取出来。类似地，函数返回值的类型决定了返回值如何从C++转换成Python。参数类型和返回值类型当然都是每个函数的类型的一部分，正是从这里，Boost.Python推导出了大部分需要的信息。
+
+这种方法导向了 用户引导的包装 ：尽可能的用纯C++的框架直接从要包装的代码里取得信息，这以外的信息由用户显式提供。大多数引导是自动的，很少需要真正的干涉。因为写接口规范和写被暴露的代码的是同一门全功能语言，当需要取得控制时用户有了空前强大的能力。
+Boost.Python 设计目标
+
+Boost.Python的首要目标是让用户只用C++编译器就能向Python暴露C++类和函数。大体来讲，允许用户直接从Python操作C++对象。
+
+然而，有一点很重要，那就是不要 过于 按字面翻译所有接口：必须考虑每种语言的惯用语。例如，虽然C++和Python都有迭代器的概念，表达方式却很不一样。Boost.Python必须能连接这些不同的接口。
+
+必须把Python用户和C++接口的微小误用造成的崩溃隔离。出于同样原因，应该把C++用户和低级Python ‘C’ API隔离，容易出错的C接口，比如手动引用计数管理，原始的(raw)PyObject指针，应该用更加健壮的(more-robust)替代物来取代。
+
+支持基于组件的开发是至关重要的，因此被暴露在一个扩展模块里的C++类型应该能够被传递给被暴露在另一个模块中的函数，而不丢失重要的信息，比如说C++继承关系。
+
+最后，所有的包装必须是 非侵入的(non-intrusive) ，不能修改甚至看不到原始的C++代码。对只能看见它头文件和二进制文件的第三方，现有的C++库必须是可包装的。
+Hello Boost.Python World
+
+现在来预览一下Boost.Python，并看看它如何改进Python的原始包装功能。下面是我们想暴露的一个函数:
+
+char const* greet(unsigned x)
+{
+   static char const* const msgs[] = { "hello"，"Boost.Python"，"world!" };
+
+   if (x > 2)
+       throw std::range_error("greet: index out of range");
+
+   return msgs[x];
+}
+
+用Python的C API和标准C++来包装这个函数，我们需要像这样:
+
+extern "C" // 所有Python交互都使用C链接和调用习惯
+{
+    // 处理参数/结果转换和检查的包装层
+    PyObject* greet_wrap(PyObject* args，PyObject * keywords)
+    {
+         int x;
+         if (PyArg_ParseTuple(args，"i"，&x))    // 取出/检查参数
+         {
+             char const* result = greet(x);      // 调用被包装的函数
+             return PyString_FromString(result); // 结果转换成Python
+         }
+         return 0;                               // 发生了错误
+    }
+
+    // 待包装函数表，函数用这个模块来暴露
+    static PyMethodDef methods[] = {
+        { "greet"，greet_wrap，METH_VARARGS，"return one of 3 parts of a greeting" }
+        ，{ NULL，NULL，0，NULL } // sentinel
+    };
+
+    // 模块初始化函数
+    DL_EXPORT init_hello()
+    {
+        (void) Py_InitModule("hello"，methods); // 添加成员函数(method)到模块
+    }
+}
+
+现在看看我们使用Boost.Python来暴露它时的包装代码:
+
+#include <boost/python.hpp>
+using namespace boost::python;
+BOOST_PYTHON_MODULE(hello)
+{
+    def("greet"，greet，"return one of 3 parts of a greeting");
+}
+
+下面是使用它的代码:
+
+>>> import hello
+
+>>> for x in range(3):
+...     print hello.greet(x)
+...
+hello
+Boost.Python
+world!
+
+C API版本要冗长的多，此外，一些它没有正确处理的地方值得提到：
+
+    * 原来的函数接受无符号整数， Python ‘C’ API仅仅提供了提取有符号整数的方式。如果我们试图向hello.greet传递负数Boost.Pyt hon版将抛出Python异常，而Python ‘C’ API版则会继续像在C++实现中那样转换负数到无符号数(通常包装成某种很大的数)，然后把不正确的转换结果传给被包装函数。
+    * 这引起了第二个问题：如果函数的参数大于2，C++ greet()被调用时会抛出异常。典型的，如果C++异常跨越C编译器生成的代码的边界传递，会导致崩溃。正如你在第一个版本中看到的，那儿没有C++脚手架(scaffolding)来防止崩溃发生。被Boost.Python包装过的函数自动包含了异常处理层，它把未处理的C++异常翻译成相应的Python异常，从而保护了Python用户。
+    * 一个更微妙的限制是，Python ‘C’ API的参数转换机制只能以一种方式取得整数x。如果一个Python long 对象(任意精度整数) 碰巧可以转换成(fit in)unsigned int而不能转换成signed long，PyArg_ParseTuple不能对其进行转换。同样如果被包装的C++ 类包含用户定义的隐式operator unsigned int()转换，它永远不能处理。Boost.Python的动态类型转换注册表允许用户任意添加 转换方法。 
+
+库概览
+
+这部分简要描述了库的主要特性。为了避免混淆，忽略了实现细节。
+暴露类(Exposing Classes)
+
+C++类和结构以类似的简洁的接口来暴露。假设有:
+
+struct World
+{
+    void set(std::string msg) { this->msg = msg; }
+    std::string greet() { return msg; }
+    std::string msg;
+};
+
+下面的代码将在我们的扩展模块里暴露它:
+
+#include <boost/python.hpp>
+
+BOOST_PYTHON_MODULE(hello)
+{
+    class_<World>("World")
+        .def("greet"，&World::greet)
+        .def("set"，&World::set)
+    ;
+}
+
+尽管上述代码有某种熟悉的Pythonic的感觉，但语法有时还是有点令人迷惑，因为它看起来不像人们习惯的C++代码。但是，这仍然只是标准C++。因为它们灵活的语法和操作符重载，C++和Python都很适于定义特定领域(子)语言( domain-specific (sub)languages) (DSLs)。那就是我们在Boost.Python里所做的。把代码拆开来看:
+
+class_<World>("World")
+
+构造类型class_<World>的未命名对象，把"World"传给它的构造器。这将在扩展模块里创建一个叫 World的new-style Python类，并把它和C++类型World在Boost.Python的类型转换注册表里关联起来。我们也可以这么写:
+
+class_<World> w("World");
+
+但那样做的话会更繁琐，因为我们不得不再次命名w以调用它的def()成员函数:
+
+w.def("greet"，&World::greet)
+
+原来的例子里表示成员进入的点的位置没有什么特别的：C++允许任意的空白符出现在表意符号(token)的任一边，把点放在每行的开始允许用统一的语法把连续的调用都串起来，不管我们想串多少都行。另一个允许的串接的事实是class_<>成员函数都返回对*this的引用。
+
+因此原来的例子等同于:
+
+class_<World> w("World");
+w.def("greet"，&World::greet);
+w.def("set"，&World::set);
+
+能这样拆分Boost.Python类包装层的组成部分有时候是有用的，但本文的剩下部分将一直使用简洁的语法。
+
+最后来看包装类被使用的情况:
+
+>>> import hello
+>>> planet = hello.World()
+>>> planet.set('howdy')
+>>> planet.greet()
+'howdy'
+
+构造器(Constructors)
+
+因为我们的World类只是一个简单的struct，它有一个隐式的无参数(no-argument)(nullary)构造器。Boost.Python默认暴露nullary构造器，这就是我们可以像下面这样写的原因:
+
+>>> planet = hello.World()
+
+然而不管哪门语言，设计得好的类可能都需要构造器参数，以建立他们的不变量(invariants)。在Python里， __init__只是一个特殊名称的成员函数(method)，与这不同，C++里的构造器不能像普通成员函数那样处理。特别是我们不能取它的地址: &World::World这样会被报错。库提供了一个不同的接口来指定构造器。假设有:
+
+struct World
+{
+    World(std::string msg); // 添加的构造器
+    ...
+
+我们可以这样修改包装代码:
+
+class_<World>("World"，init<std::string>())
+    .def(init<double，double>())
+    ...
+
+当然，C++类可能还有其他的构造器，我们也可以暴露他们，只需要向def()传递更多init<…>的实例:
+
+class <World>("World"，init<std::string>())
+        .def(init<double，double>())
+        ...
+
+Boost.Python允许被包装的函数，成员函数以及构造器被重载，以映射C++重载。
+数据成员和属性(Properties)
+
+C++中的任何可公共的访问的数据成员都能轻易的被包装成只读或者只写属性(attributes):
+
+class_<World>("World"，init<std::string>())
+    .def_readonly("msg"，&World::msg)
+    ...
+
+并直接在Python里使用:
+
+>>> planet = hello.World('howdy')
+>>> planet.msg
+'howdy'
+
+这不会导致添加属性到World实例__dict__，从而在包装大型数据结构时节省大量的内存。实际上，除非从Python显式添加属性，否则实例__dict__根本不会被创建。Python的这种能力来源于新的Python 2.2 类型系统，尤其是descriptor接口和property类型。
+
+在C++里，可公共的访问的数据成员被认为是糟糕设计的表现，因为他们破坏了封装(encapsulation)，文体向导(style guides)通常指示代之以"getter" 和 "setter"函数。然而在Python里，__getattr__，__setattr__和从2.2开始有的property意味着属性进入只是程序员控制下的封装得更好的语法工具。通过让Python property对用户直接可用，Boost.Python连接了二者的不同惯用语。如果msg是私有的，我们仍然能把它暴露为Python里的属性:
+
+class_<World>("World"，init<std::string>())
+    .add_property("msg"，&World::greet，&World::set)
+    ...
+
+上面的例子映射了人们熟悉的Python 2.2+里的property用法:
+
+>>> class World(object):
+...     __init__(self，msg):
+...         self.__msg = msg
+...     def greet(self):
+...         return self.__msg
+...     def set(self，msg):
+...         self.__msg = msg
+...     msg = property(greet，set)
+
+操作符重载
+
+能给用户定义类型定义算术操作符一直是两门语言的数值计算取得成功一个重要因素。像 Numpy 这样的软件包的成功证明了在扩展模块中暴露操作符能产生巨大能量。Boost.Python给包装操作符重载提供了简洁的机制。下面是包装Boost的有理数库( rational number library)的代码的片断:
+
+class_<rational<int> >("rational_int")
+  .def(init<int，int>()) // constructor，e.g. rational_int(3，4)
+  .def("numerator"，&rational<int>::numerator)
+  .def("denominator"，&rational<int>::denominator)
+  .def(-self)        // __neg__ (unary minus)
+  .def(self + self)  // __add__ (homogeneous)
+  .def(self * self)  // __mul__
+  .def(self + int()) // __add__ (heterogenous)
+  .def(int() + self) // __radd__
+
+这种魔法是通过简单的应用"表达式模板"("expression templates") [VELD1995] 来施加的，"表达式模板"是一种最初为优化高性能矩阵代数表达式而开发的技术。本质是不立即进行计算，而重载操作符来构造描述计算的类型。在矩阵代数里，当考虑整个表达式的结构，而不是"贪婪的"对每步操作求值时，经常可以获得戏剧性的优化。Boost.Python用同样的技术来构建基于包含 self 的表达式的适当的Python 成员函数对象(method object)。
+继承
+
+要在Boost.Python里描述C++继承关系，可以像下面这样把可选的bases<…>参数添加到class_<…>模板参数表里:
+
+class_<Derived，bases<Base1，Base2> >("Derived")
+     ...
+
+这样有两个效果：
+
+   1. 当class_<…>被创建时，在Boost.Python的注册表里查找对应于Base1和Base2的Python类型对象，然后作为新的Python衍生类型对象的基类。因而暴露给Base1和Base2的成员函数自动成为了衍生类型的成员。因为注册表是全局的，即使暴露衍生类型的模块和它的任一基类的模块不同，继承同样有效。
+   2. 衍生类到基类的C++转换被添加到Boost.Python注册表。因此期待任一基类对象(的指针或引用)的被包装C++成员函数可以被包装 了任一基类的衍生实例的对象调用。类T的被包装成员函数被视为具有隐式的第一个参数T&，那么为了让衍生对象能调用基类成员函数，这些转换是必需的。 
+
+当然从被包装的C++类实例衍生新的Python类是可能的。这是因为 Boost.Python使用了new-style class系统，这套系统在Python内置类型上工作良好。但有一个重要细节不同： Python内置类型一般在__new__函数里建立不变量(invariants)，从而衍生类不用在调用它的成员函数前调用基类的__init__:
+
+>>> class L(list):
+...      def __init__(self):
+...          pass
+...
+>>> L().reverse()
+>>>
+
+因为C++对象构造是一步操作(one-step operation)，直到参数可用C++实例数据才能被构造，在__init__函数里:
+
+>>> class D(SomeBoostPythonClass):
+...      def __init__(self):
+...          pass
+...
+>>> D().some_boost_python_method()
+Traceback (most recent call last):
+  File "<stdin>"，line 1，in ?
+TypeError: bad argument type for built-in operation
+
+发生错误的原因是Boost.Python 在实例D里找不到类型SomeBoostPythonClass的实例数据；D的__init__函数遮盖了基类的构造函数。可以通过删除D的 __init__函数或是让它显式的调用SomeBoostPythonClass.__init__(…)来纠正错误。
+虚函数
+
+在Python 里从扩展类衍生新的类型没太大意思，除非它们在C++里能被多态的使用。换句话说，当在C++里通过基类指针/引用调用Python成员函数时， Python成员函数的实现应该看起来像是覆盖(override)了C++虚函数的实现。因为要改变虚函数的行为的唯一方法是在衍生类里覆盖 (override)它，用户必须构造一个特殊的衍生类来分派(dispatch)多态类的虚函数。:
+
+//
+// 要包装的接口:
+//
+class Base
+{
+ public:
+    virtual int f(std::string x) { return 42; }
+    virtual ~Base();
+};
+
+int calls_f(Base const& b，std::string x) { return b.f(x); }
+
+//
+// 包装代码
+//
+
+// 分派者类(Dispatcher class)
+struct BaseWrap : Base
+{
+    // 储存指向Python对象的指针
+    BaseWrap(PyObject* self_) : self(self_) {}
+    PyObject* self;
+
+    // 当f没有被覆盖(override)时的缺省实现
+    int f_default(std::string x) { return this->Base::f(x); }
+    // 分派实现
+    int f(std::string x) { return call_method<int>(self，"f"，x); }
+};
+
+...
+    def("calls_f"，calls_f);
+    class_<Base，BaseWrap>("Base")
+        .def("f"，&Base::f，&BaseWrap::f_default)
+        ;
+
+下面是一些python演示代码:
+
+>>> class Derived(Base):
+...     def f(self，s):
+...          return len(s)
+...
+>>> calls_f(Base()，'foo')
+42
+>>> calls_f(Derived()，'forty-two')
+9
+
+对分派者类(Dispatcher class)，要注意:
+
+    * 允许用Python进行覆盖(override) 的关键因素是call_method调用，它使用了和用来包装C++函数的注册表相同的全局类型转换注册 表(global type conversion registry)，来把参数从C++转换成Python，把返回类型从Python转换成C++
+    * 任何你希望包装的构造器署名(signatures)必须有一个的相同的初始PyObject*参数。
+    * 分派者必须保存这个参数以便调用call_method时使用。
+    * 当被暴露的函数不是纯虚函数时，需要f_default成员函数。在类型BaseWrap的对象里，没有其他方式可以调用Base::f，因为它被 覆盖(override)了。 
+
+更深层次的反射即将出现(Deeper Reflection on the Horizon)?
+
+无可否认，重复这种公式化的流程是冗长乏味的。尤其是项目里有大量多态类的时候。这反映了C++编译时内省能力的必然限制:无法枚举类的成员来判断哪个是虚函数。不过，一个很有希望的项目已经启动，致力于写一个前端程序来从C++头文件自动生成这些分派者类(以及其它包装代码)。
+
+Pyste 是由Bruno da Silva de Oliveira开发的，基于 GCC_XML 构建。GCC_XML可以生成XML版本的GCC内部程序描述。GCC是一种高度符合(译注：C++标准)的编译器，从而确保了对最复杂的模板代码的正确处理和对底层类型系统的完全访问。和Boost.Python的哲学一致，Pyste接口描述既不侵入被包装的代码，也不用某种不熟悉的语言来表达，相反：它是100%的纯Python脚本。如果Pyste成功的话，将标志着我们的很多用户不用再什么都直接用C++包装。它将允许我们选择把一些元程序 (metaprogram)代码从C++移动到Python。我们期待不久后不仅用户，Boost.Python开发者自己也能以混合的思路来考虑 ("thinking hybrid")他们自己的代码。
+序列化(Serialization)
+
+序列化是把内存中的对象转换成可以保存到磁盘上或通过网络传送的格式的过程。序列化后的对象(最常见的是简单字符串)可以被重新取得并转换回原来的对象。好的序列化系统能够自动转换整个对象层次(object hierarchies)。Python的标准pickle模块正是这样的系统。它利用语言强大的运行时内省来序列化几乎是任意的用户定义对象。加上一些简单的非侵入限定，这种强大的设施可以被扩展成对被包装的C++对象也有效。下面是一个例子:
+
+#include <string>
+
+struct World
+{
+    World(std::string a_msg) : msg(a_msg) {}
+    std::string greet() const { return msg; }
+    std::string msg;
+};
+
+#include <boost/python.hpp>
+using namespace boost::python;
+
+struct World_picklers : pickle_suite
+{
+  static tuple
+  getinitargs(World const& w) { return make_tuple(w.greet()); }
+};
+
+BOOST_PYTHON_MODULE(hello)
+{
+    class_<World>("World"，init<std::string>())
+        .def("greet"，&World::greet)
+        .def_pickle(World_picklers())
+    ;
+}
+
+现在让我们创建一个World对象并把它放到磁盘上:
+
+>>> import hello
+>>> import pickle
+>>> a_world = hello.World("howdy")
+>>> pickle.dump(a_world，open("my_world"，"w"))
+
+在可能不同的计算机的可能不同的操作系统的可能不同的脚本中:
+
+>>> import pickle
+>>> resurrected_world = pickle.load(open("my_world"，"r"))
+>>> resurrected_world.greet()
+'howdy'
+
+当然也可以用cPickle来获得更快的处理速度。
+
+Boost.Python的pickle_suite完全支持标准 Python文档定义的pickle协议。类似Python里的__getinitargs__函数，pickle_suite的getinitargs ()负责创建参数tuple来重建被pickle了的对象。Python pickle协议中的其他元素，__getstate__ 和__setstate__可以通过C++ getstate和setstate函数来可选的提供。C++的静态类型系统允许库在编译时确保没有意义的函数组合(例如：没有setstate 就getstate)不会被使用。
+
+要想序列化更复杂的C++对象需要做比上面的例子稍微多点的工作。幸运的是Object接口(参见下一节)在保持代码便于管理上帮了大忙。
+对象接口(Object interface)
+
+无所不在的PyObject*，手动引用计数，需要记住是哪个API调用返回了"新的"(自身拥有的)引用或是"借来的"(原始的)引用，这些可能有经验的C语言扩展模块的作者都熟悉。这些约束不仅麻烦，更是错误的主要来源，尤其是存在异常的时候。
+
+Boost.Python提供了一个object类，它自动化了引用计数并提供任意类型的C++对象到Python的转换。这极大的减轻了未来的扩展模块作者的学习负担。
+
+从任一类型创建object极度简单:
+
+object s("hello，world");   // s 管理一个Python字符串
+
+object可以和所有其它类型进行模板化的交互，自动的进行到Python的转换。这一切自然得很容易被忽略不计:
+
+object ten_Os = 10 * s[4]; // -> "oooooooooo"
+
+上面的例子中，在索引和乘法操作被调用前，4和10被转换成了Python对象。
+
+extract<T>类模板可以用来把Python对对象转换成C++类型:
+
+double x = extract<double>(o);
+
+如果任一方向的转换不能执行，将在运行时抛出一个适当的异常。
+
+伴随object类型的是一套衍生类型，尽可能的映射Python的内置类型(list，dict，tuple等)。这样就能方便的从C++操作这些高级类型了:
+
+dict d;
+d["some"] = "thing";
+d["lucky_number"] = 13;
+list l = d.keys();
+
+这看起来和工作起来几乎就像是通常的python代码，但它实际上是纯的C++。当然我们能包装接受或返回object实例的函数。
+从混合的思路思考(Thinking hybrid)
+
+因为结合编程语言具有实际的和心理的困难，在进行任何实际开发前决定使用单一的语言是普遍现象。对很多应用来说，性能上的考虑决定了核心算法要用编译语言实现。不幸的是，因为静态类型系统的复杂性，我们为运行时性能要付出开发时间大量增长的代价。经验表明，和开发相应的Python代码比起来，开发可维护的 C++代码通常需要更长的时间和艰难得多才能获得的工作经验。即使开发者觉得只用一门编译语言开发挺好，为了用户，他们也经常用某种类型的特别的脚本层来补充系统，哪怕他们永远不会得到同样的好处。
+
+Boost.Python让我们能 think hybrid 。Python可以用来快速搭建新的应用的原型；在开发能工作的系统时，它的易用性和大量的标准库使我们处于领先。需要的话，可以用能工作的代码来找出限制速度的热点(rate-limiting hotspots)。为了最大化性能，这些热点可以用C++来重新实现，然后用Boost.Python绑定来连进已有的高级过程(译注：指Python 程序)。
+
+当然，如果一开始就清楚很多算法最后不得不用C++来实现，这种 由顶至下(top-down) 的方法就没那么吸引人了。幸运的是，Boost.Python也允许我们使用 由底至上(bottom-up) 的方法。我们非常成功的把这种方法用在了一个用于科学应用的工具箱软件的开发上。这个工具箱开始主要是一个带Boost.Python绑定的C++类库，接下来有一小段时间增长主要集中在C++部分，随着工具箱变得越来越完整，越来越多新添加的功能可以用Python来实现。
+http://static.flickr.com/55/124987534_34375196e6.jpg?v=0
+
+上图是实现新的算法时新添加的C++代码和Python代码的估计比率随时间变化的情况。我们预计这个比率会达到接近70% (Python)。能够主要用Python而不是更困难的静态类型语言来解决新问题，这是我们在Boost.Python上的投入的回报。我们的所有代码都能从Python访问，这使得更广泛的开发者可以用它来快速开发新的应用。
+开发历史
+
+Boost.Python 的第一版是由Dave Abrahams在Dragon Systems开发的。在那里他非常荣幸的请到Tim Peters作为他的"Python之禅"( "The Zen of Python")导师。Dave的工作之一是开发基于Python的自然语言处理系统。因为最终要被用于嵌入式硬件，系统计算密集的内核总是被假设成要用 C++来重写以优化速度和内存需求量(memory footprint) [1] 。这个项目也想用Python测试脚本 [2] 来测试所有的C++代码。当时我们知道的绑定C++和Python的唯一工具是 SWIG ，但那时它处理C++的能力比较弱。要说在那时就对Boost.Python所使用方法的可能优越之处有了什么深刻洞见，那是骗人的。Dave对花俏的C ++模板技巧的兴趣和娴熟刚好到了能真正做点什么的时候，Boost.Python就那样出现了，因为它满足了需求，因为它看起来挺酷，值得一试。
+
+早期的版本针对的许多基本目标和在这篇论文中描述的相同。最显著的区别在于早期版本的语法要稍微麻烦一点，缺乏对操作符重载，pickling，基于组件的开发的专门支持。后面三个特性很快就被Ullrich Koethe和Ralf Grosse-Kunstleve [3] 加上了。其他热心的贡献者(contributors)也出来贡献了一些改进，如对嵌套模块和成员函数的支持等。
+
+到2001年早期时开发已经稳定下来了，很少有新的特性添加，然而这时一个烦人的问题暴露出来了：Ralf已经开始在一个使用 EDG 前端的编译器的预发布版上测试Boost.Python，这时Boost.Python内核中负责处理Python和C++的类型转换的机制 (mechanism)编译失败了。结果证明我们一直在利用一个bug，这个bug在所有我们测试过的C++编译器实现中都非常普遍。我们知道随着C++ 编译器很快变得更加标准兼容，库将开始在更多的平台上失败。很不幸，因为这套机制是库的功能的中枢，解决问题看起来非常困难。
+
+幸运的是那一年的后期，Lawrence Berkeley和后来的Lawrence Livermore National labs和 Boost Consulting 签订了支持Boost.Python的开发的合同。这样就有了新的机会来处理库的基本问题，从而确保将来的发展。重新设计开始于低级类型转换架构，内置的标准兼容和对基于组件的开发的支持(和不得不显式的跨越模块边界导入或导出转换的第一版形成对比)。对Python和C++对象的关系进行了分析，从而能更直观的处理C++ lvalues和rvalues。
+
+Python 2.2里出现的强大的新类型系统使得选择是否维护对Python 1.5.2的兼容性变得容易了：这个丢弃大量精心制作的仅仅用来模拟classic Python类的代码的机会，好的令人无法拒绝。另外，Python iterators 和 descriptors提供了重要且优雅的工具来描述类似的C++结构。一般化了的对象接口的开发允许我们进一步把C++程序员和使用Python C API带来的危险性和语法负担隔离开。大量的其他特性在这个阶段被加了进来，包括C++异常翻译，改进的重载函数支持，还有最重要的用来处理指针和引用的 CallPolicies。
+
+于2002年十月，第二版的Boost.Python发布了。那以后的开发集中在改进对C++运行时多态和智能指针的支持上。特别是Peter Dimov的巧妙的boost::shared_ptr设计使我们能给混和系统开发者提供一致的接口，用于跨越语言藩篱来回移动对象而不丢失信息。
+
+刚开始，我们担心Boost.Python v2的复杂性会阻碍贡献者，但 Pyste 和几个其他重要特性的贡献(contribution)的出现使这些担心显得多余了。每天出现在Python C++-sig上的问题和希望得到的改进的积压(backlog)表明了库正在被使用。对我们来说，未来看起来很光明。
+结论
+
+Boost.Python 实现了两种功能丰富的优秀的语言环境间的无缝协作。因为它利用模板元编程技术来对类型和函数进行内省，用户永远用不着再学第三种语言:接口定义是用简洁而可维护的C++写的。同样，包装系统不用再解析C++头文件或是描述类型系统：编译器都给我们做了。
+
+计算密集的任务适合强大的C++，它一般不可能用纯Python来实现。然而像序列化这样的工作，可能用Python很简单，用C++就非常困难。假如有从底层开始构建混合系统的奢侈，我们有新的信心和动力来进行设计。

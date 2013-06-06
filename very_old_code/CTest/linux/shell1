@@ -1,0 +1,7 @@
+#!/bin/bash
+echo input a string
+read string
+echo $string number is: 
+grep -c $string ./string.txt
+echo details
+grep -n $string ./string.txt

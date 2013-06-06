@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block js %}
+<script type="text/javascript" src="/site_media/js/myjs.js"></script>
+{% endblock %}
+
+{% block title %}
+查询序列
+{% endblock %}
+
+{% block main %}
+<div class="ui-dialog ui-dialog-content">
+<form id="query_form_year" action="/main/query/" method="post" >
+<fieldset>
+        按照
+        {% ifequal query_type "year" %}
+        <input id="query_year" name="query_type" type="radio" value="year" checked="true" />
+        {% else %}
+        <input id="query_year" name="query_type" type="radio" value="year"/>
+        {% endifequal %}年代
+        {% ifequal query_type "code" %}
+        <input id="query_code" name="query_type" type="radio" value="code" checked="true" />
+        {% else %}
+        <input id="query_code" name="query_type" type="radio" value="code"/>
+        {% endifequal %}代号
+        {% ifequal query_type "segment" %}
+        <input id="query_segment" name="query_type" type="radio" value="segment" checked="true"/>
+        {% else %}
+        <input id="query_segment" name="query_type" type="radio" value="segment"/>
+        {% endifequal %}片段名
+        {% ifequal query_type "place" %}
+        <input id="query_place" name="query_type" type="radio" value="place" checked="true"/>
+        {% else %}
+        <input id="query_place" name="query_type" type="radio" value="place"/>
+        {% endifequal %}分离地 &nbsp;查询
+        <input name="keyword" type="text" class="text ui-corner-all" value="{{keyword}}"/>
+</fieldset>
+<div class="ui-dialog-buttonpane ui-widget-content clearfix">
+    <button type="submit" class="ui-state-default ui-corner-all">确定</button>
+</div>
+</form>
+</div>
+{% if result %}
+<div id="queryresult" class="ui-dialog ui-dialog-content">
+{% for one in result %}
+    <div class="items">
+        <h4>{{ one.0 }}</h4>
+        <div class="dnacontent">{{ one.1 }}</div>
+    </div>
+{% endfor %}
+<div class="ui-dialog-buttonpane ui-widget-content clearfix">
+    <a id="download" class="ui-state-default ui-corner-all" href="/main/files/{{filename}}">下载查询结果</a>
+</div>
+</div>
+{% endif %}
+{% endblock %}

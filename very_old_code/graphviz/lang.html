@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html version="2.0"><head><!--
+    This is a generated document.  Do not edit.
+--><title>The DOT Language</title></head><body bgcolor="white">
+<a name="top"></a>
+<h1 align="center">The DOT Language</h1>
+<hr>
+The following is an abstract grammar defining the DOT language.
+Terminals are shown in bold font and nonterminals in italics.
+Literal characters are given in single quotes.
+Parentheses ( and ) indicate grouping when needed.
+Square brackets [ and ] enclose optional items.
+Vertical bars | separate alternatives.
+<table>
+<tbody><tr>
+  <td align="right"><i>graph</i></td>
+  <td align="left">:</td>
+  <td align="left">[ <b>strict</b> ] (<b>graph</b> | <b>digraph</b>) [ <i>ID</i> ] <b>'{'</b> <i>stmt_list</i> <b>'}'</b></td>
+</tr>
+<tr>
+  <td align="right"><i>stmt_list</i></td>
+  <td align="left">:</td>
+  <td align="left">[ <i>stmt</i> [ <b>';'</b> ] [ <i>stmt_list</i> ] ]</td>
+</tr>
+<tr>
+  <td align="right"><i>stmt</i></td>
+  <td align="left">:</td>
+  <td align="left"><i>node_stmt</i></td>
+</tr>
+<tr>
+  <td align="right"></td>
+  <td align="left">|</td>
+  <td align="left"><i>edge_stmt</i></td>
+</tr>
+<tr>
+  <td align="right"></td>
+  <td align="left">|</td>
+  <td align="left"><i>attr_stmt</i></td>
+</tr>
+<tr>
+  <td align="right"></td>
+  <td align="left">|</td>
+  <td align="left"><i>ID</i> <b>'='</b> <i>ID</i></td>
+</tr>
+<tr>
+  <td align="right"></td>
+  <td align="left">|</td>
+  <td align="left"><i>subgraph</i></td>
+</tr>
+<tr>
+  <td align="right"><i>attr_stmt</i></td>
+  <td align="left">:</td>
+  <td align="left">(<b>graph</b> | <b>node</b> | <b>edge</b>) <i>attr_list</i></td>
+</tr>
+<tr>
+  <td align="right"><i>attr_list</i></td>
+  <td align="left">:</td>
+  <td align="left"><b>'['</b> [ <i>a_list</i> ] <b>']'</b> [ <i>attr_list</i> ]</td>
+</tr>
+<tr>
+  <td align="right"><i>a_list</i></td>
+  <td align="left">:</td>
+  <td align="left"><i>ID</i> [ <b>'='</b> <i>ID</i> ] [ <b>','</b> ] [ <i>a_list</i> ]</td>
+</tr>
+<tr>
+  <td align="right"><i>edge_stmt</i></td>
+  <td align="left">:</td>
+  <td align="left">(<i>node_id</i> | <i>subgraph</i>) <i>edgeRHS</i> [ <i>attr_list</i> ]</td>
+</tr>
+<tr>
+  <td align="right"><i>edgeRHS</i></td>
+  <td align="left">:</td>
+  <td align="left"><i>edgeop</i> (<i>node_id</i> | <i>subgraph</i>) [ <i>edgeRHS</i> ]</td>
+</tr>
+<tr>
+  <td align="right"><i>node_stmt</i></td>
+  <td align="left">:</td>
+  <td align="left"><i>node_id</i> [ <i>attr_list</i> ]</td>
+</tr>
+<tr>
+  <td align="right"><i>node_id</i></td>
+  <td align="left">:</td>
+  <td align="left"><i>ID</i> [ <i>port</i> ]</td>
+</tr>
+<tr>
+  <td align="right"><i>port</i></td>
+  <td align="left">:</td>
+  <td align="left"><b>':'</b> <i>ID</i> [ <b>':'</b> <i>compass_pt</i> ]</td>
+</tr>
+<tr>
+  <td align="right"></td>
+  <td align="left">|</td>
+  <td align="left"><b>':'</b> <i>compass_pt</i></td>
+</tr>
+<tr>
+  <td align="right"><i>subgraph</i></td>
+  <td align="left">:</td>
+  <td align="left">[ <b>subgraph</b> [ <i>ID</i> ] ] <b>'{'</b> <i>stmt_list</i> <b>'}'</b></td>
+</tr>
+<tr>
+  <td align="right"><i>compass_pt</i></td>
+  <td align="left">:</td>
+  <td align="left">(<b>n</b> | <b>ne</b> | <b>e</b> | <b>se</b> | <b>s</b> | <b>sw</b> | <b>w</b> | <b>nw</b>)</td>
+</tr>
+</tbody></table>
+<p>
+The keywords <b>node</b>, <b>edge</b>, <b>graph</b>, <b>digraph</b>,
+<b>subgraph</b>, and <b>strict</b> are case-independent.
+Note also that the allowed compass point values are not keywords, so
+these strings can be used elsewhere as ordinary identifiers.
+</p><p>
+An <i>ID</i> is one of the following: 
+</p><menu>
+<li> Any string of alphabetic characters, underscores or
+digits, not beginning with a digit;
+</li><li> a number [<tt>-</tt>]<sup>?</sup>(<tt>.</tt>[<tt>0</tt>-<tt>9</tt>]<sup>+</sup>  | [<tt>0</tt>-<tt>9</tt>]<sup>+</sup>(<tt>.</tt>[<tt>0</tt>-<tt>9</tt>]<sup>*</sup>)<sup>?</sup> ); 
+</li><li> any double-quoted string ("...") possibly containing escaped 
+quotes (\");
+</li><li> an <a name="html">HTML string</a> (&lt;...&gt;).
+</li></menu>
+Note that in HTML strings, angle
+brackets must occur in matched pairs, and unescaped newlines are allowed.
+In addition, the content must be legal XML, so that the special XML
+escape sequences for ", &amp;, &lt;, and &gt; may be necessary
+in order to embed these characters in attribute values or raw text.
+<p>
+Both quoted strings and HTML strings are scanned as a unit, so
+any embedded comments will be treated as part of the strings.
+</p><p>
+An <i>edgeop</i> is <tt>-&gt;</tt> in directed graphs and <tt>--</tt> in
+undirected graphs.
+</p><p>
+An <i>a_list</i> clause of the form <i>ID</i> is equivalent to
+<i>ID</i><tt>=true</tt>.
+</p><p>
+The language supports C++-style comments: <tt>/* */</tt> and <tt>//</tt>.
+In addition, a line beginning with a '#' character is considered a line
+output from a C preprocessor (e.g., #  34 to indicate line 34 ) and discarded.
+</p><p>
+Semicolons aid readability but are not required except in the rare case
+that a named subgraph with no body immediately preceeds an anonymous
+subgraph, since the precedence rules cause this sequence to be parsed as
+a subgraph with a heading and a body.
+</p><p>
+As another aid for readability, dot allows single logical lines to
+span multiple physical lines using the standard C convention of a
+backslash immediately preceding a newline character. In addition, 
+double-quoted strings can be concatenated using a '+' operator.
+As HTML strings can contain newline characters, they do not support the
+concatenation operator.
+</p><h2>Semantic Notes</h2>
+If a default attribute is
+defined using a <b>node</b>,  <b>edge</b>, or  <b>graph</b> statement,
+or by an attribute assignment not attached to a node or edge, any object of the
+appropriate type defined afterwards will inherit this attribute value.
+This holds until the default attribute is set to a new value, from which
+point the new value is used. Objects defined before a default attribute
+is set will have an empty string value attached to the attribute once
+the default attribute definition is made.
+<p>
+Note, in particular, that a subgraph receives the attribute settings of
+its parent graph at the time of its definition. This can be useful; for
+example, one can assign a font to the root graph and all subgraphs will
+also use the font. For some attributes, however, this property is
+undesirable. If one attaches a label to the root graph, it is probably
+not the desired effect to have the label used by all subgraphs. Rather
+than listing the graph attribute at the top of the graph, and the
+resetting the attribute as needed in the subgraphs, one can simple defer
+the attribute definition if the graph until the appropriate subgraphs
+have been defined.
+</p><h2>Character encodings</h2>
+The DOT language assumes at least the ascii character set.
+Quoted strings, both ordinary and HTML-like, may contain non-ascii characters.
+In most cases, these strings are uninterpreted: they simply serve as
+unique identifiers or values passed through untouched. Labels, however,
+are meant to be displayed, which requires that the software be able to
+compute the size of the text and determine the appropriate glyphs. 
+For this, it needs to know what character encoding is used.
+<p>
+By default, DOT assumes the UTF-8 character encoding. It also accepts
+the Latin1 (ISO-8859-1) character set, assuming the input graph uses
+the <b><a href="http://www.graphviz.org/doc/info/attrs.html#a:charset">charset</a></b> attribute to 
+specify this. For graphs using other
+character sets, there are usually programs, such as <tt>iconv</tt>, which
+will translate from one character set to another.
+</p><p>
+Another way to avoid non-ascii characters in labels is to use HTML entities
+for special characters. During label evaluation, these entities are
+translated into the underlying character. This
+<a href="http://www.graphviz.org/doc/char.html">
+table</a> shows the supported entities, with their Unicode value, a typical
+glyph, and the HTML entity name. Thus, to include a lower-case Greek beta
+into a string, one can use the ascii sequence <tt>&amp;beta;</tt>. 
+In general, one should only use entities that are allowed in the output
+character set, and for which there is a glyph in the font.
+
+</p></body></html>

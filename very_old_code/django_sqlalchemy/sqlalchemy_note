@@ -1,0 +1,487 @@
+Python 2.5.2 (r252:60911, Oct  5 2008, 19:24:49) 
+[GCC 4.3.2] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from sqlalchemy import create_engine
+>>> engine = create_engine('sqlite:///test.db')
+>>> engine = create_engine('sqlite:///test.db', echo=True)
+>>> from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey
+>>> metadata = MetaData()
+>>> users_table = Table('users', metadata,
+...               Column('id', Integer, primary_key=True),
+...               Column('name', String),
+...               Column('fullname', String),
+...               Column('password', String)
+... )
+>>> metadata.create_all(engine)
+2009-03-06 09:43:53,098 INFO sqlalchemy.engine.base.Engine.0x...a6ec PRAGMA table_info("users")
+2009-03-06 09:43:53,098 INFO sqlalchemy.engine.base.Engine.0x...a6ec ()
+2009-03-06 09:43:53,107 INFO sqlalchemy.engine.base.Engine.0x...a6ec 
+CREATE TABLE users (
+	id INTEGER NOT NULL, 
+	name VARCHAR, 
+	fullname VARCHAR, 
+	password VARCHAR, 
+	PRIMARY KEY (id)
+)
+
+
+2009-03-06 09:43:53,108 INFO sqlalchemy.engine.base.Engine.0x...a6ec ()
+2009-03-06 09:43:53,149 INFO sqlalchemy.engine.base.Engine.0x...a6ec COMMIT
+>>> class User(object):
+...     def __init__(self, name, fullname, password):
+...         self.name = name
+...         self.fullname = fullname
+...         self.password = password
+...     def __repr__(self):
+...         return "<User('%s', '%s', '%s')>" % (self.name, self.fullname, self.password)
+... 
+>>> from sqlalchemy.orm import mapper
+>>> mapper(User, users_table)
+<Mapper at 0xa1af08c; User>
+>>> ed_user = User('ed', 'Ed Jones', 'edspassword')
+>>> ed_user.name
+'ed'
+>>> str(ed_user.id)
+'None'
+
+之上方法是把Table, 用户定义的类, mapper()三部分组成
+
+
+下面可以使用:
+>>> from sqlalchemy.ext.declarative import declarative_base
+>>> Base = declarative_base()
+>>> class User(Base):
+...     __tablename__ = 'users'
+...     id = Column(Integer, primary_key=True)
+...     name = Column(String)
+...     fullname = Column(String)
+...     password = Column(String)
+... 
+...     def __init__(self, name, fullname, password):
+...         self.name = name
+...         self.fullname = fullname
+...         self.password = password
+...
+...     def __repr__(self):
+...        return "<User('%s','%s', '%s')>" % (self.name, self.fullname, self.password)
+>>> users_table = User.__table__
+>>> metadata = Base.metadata
+>>> from sqlalchemy.orm import sessionmaker
+>>> Session = sessionmaker(bind=engine)  ## or
+>>> Session = sessionmaker()
+>>> Session.configure(bind=engine)  # once engine is available
+>>> session = Session()   ## session实例化
+
+>>> ed_user = User('ed', 'Ed Jones', 'edspassword')
+>>> session.add(ed_user)
+>>> our_user = session.query(User).filter_by(name='ed').first() 
+BEGIN INSERT INTO users (name, fullname, password) VALUES (?, ?, ?) ['ed', 'Ed Jones', 'edspassword'] SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users WHERE users.name = ? LIMIT 1 OFFSET 0 ['ed']
+>>> our_user
+<User('ed','Ed Jones', 'edspassword')>
+>>> ed_user is our_user
+True
+>>> session.add_all([
+...     User('wendy', 'Wendy Williams', 'foobar'),
+...     User('mary', 'Mary Contrary', 'xxg527'),
+...     User('fred', 'Fred Flinstone', 'blah')])
+>>> ed_user.password = 'f8s7ccs'
+>>> session.dirty
+IdentitySet([<User('ed','Ed Jones', 'f8s7ccs')>])
+>>> session.new  
+IdentitySet([<User('wendy','Wendy Williams', 'foobar')>,
+<User('mary','Mary Contrary', 'xxg527')>,
+<User('fred','Fred Flinstone', 'blah')>])
+>>> session.commit()
+>>> ed_user.id 
+BEGIN SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users WHERE users.id = ? [1]
+1
+Rolling Back
+>>> ed_user.name = 'Edwardo'
+>>> fake_user = User('fakeuser', 'Invalid', '12345')
+>>> session.add(fake_user)
+>>> session.query(User).filter(User.name.in_(['Edwardo', 'fakeuser'])).all()
+UPDATE users SET name=? WHERE users.id = ? ['Edwardo', 1] INSERT INTO users (name, fullname, password) VALUES (?, ?, ?) ['fakeuser', 'Invalid', '12345'] SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users WHERE users.name IN (?, ?) ['Edwardo', 'fakeuser']
+[<User('Edwardo','Ed Jones', 'f8s7ccs')>, <User('fakeuser','Invalid', '12345')>]
+>>> session.rollback()
+ROLLBACK
+sql>>> ed_user.name
+BEGIN SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users WHERE users.id = ? [1]
+u'ed'
+>>> fake_user in session
+False
+>>> session.query(User).filter(User.name.in_(['ed', 'fakeuser'])).all()
+SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users WHERE users.name IN (?, ?) ['ed', 'fakeuser']
+[<User('ed','Ed Jones', 'f8s7ccs')>]
+
+>>> for instance in session.query(User).order_by(User.id): 
+...     print instance.name, instance.fullname
+SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users ORDER BY users.id []
+ed Ed Jones
+wendy Wendy Williams
+mary Mary Contrary
+fred Fred Flinstone
+
+>>> for name, fullname in session.query(User.name, User.fullname): 
+...     print name, fullname
+SELECT users.name AS users_name, users.fullname AS users_fullname FROM users []
+ed Ed Jones
+wendy Wendy Williams
+mary Mary Contrary
+fred Fred Flinstone
+
+>>> for row in session.query(User, User.name).all():
+...    print row.User, row.name
+SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users []
+<User('ed','Ed Jones', 'f8s7ccs')> ed
+<User('wendy','Wendy Williams', 'foobar')> wendy
+<User('mary','Mary Contrary', 'xxg527')> mary
+<User('fred','Fred Flinstone', 'blah')> fred
+
+>>> from sqlalchemy.orm import aliased
+>>> user_alias = aliased(User, name='user_alias')
+>>> for row in session.query(user_alias, user_alias.name.label('name_label')).all():
+...    print row.user_alias, row.name_label  ## name alias为name_label
+>>> for u in session.query(User).order_by(User.id)[1:3]: 
+...    print u
+SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users ORDER BY users.id LIMIT 2 OFFSET 1 []
+<User('wendy','Wendy Williams', 'foobar')>
+<User('mary','Mary Contrary', 'xxg527')>
+>>> for name, in session.query(User.name).filter_by(fullname='Ed Jones'): 
+...    print name
+SELECT users.name AS users_name FROM users WHERE users.fullname = ? ['Ed Jones']
+ed
+>>> for name, in session.query(User.name).filter(User.fullname=='Ed Jones'): 
+...    print name
+SELECT users.name AS users_name FROM users WHERE users.fullname = ? ['Ed Jones']
+ed
+>>> for user in session.query(User).filter(User.name=='ed').filter(User.fullname=='Ed Jones'): 
+...    print user
+SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users WHERE users.name = ? AND users.fullname = ? ['ed', 'Ed Jones']
+<User('ed','Ed Jones', 'f8s7ccs')>
+
+
+Common Filter Operators
+    *      equals:
+      query.filter(User.name == 'ed')
+    *      not equals:
+      query.filter(User.name != 'ed')
+
+    *      LIKE:
+      query.filter(User.name.like('%ed%'))
+    *      IN:
+      query.filter(User.name.in_(['ed', 'wendy', 'jack']))
+    *      IS NULL:
+      filter(User.name == None)
+    *      AND:
+      from sqlalchemy import and_
+      filter(and_(User.name == 'ed', User.fullname == 'Ed Jones'))
+
+      # or call filter()/filter_by() multiple times
+      filter(User.name == 'ed').filter(User.fullname == 'Ed Jones')
+    *      OR:
+      from sqlalchemy import or_
+      filter(or_(User.name == 'ed', User.name == 'wendy'))
+    *      match:
+      query.filter(User.name.match('wendy'))   ## The contents of the match parameter are database backend specific.
+
+>>> query = session.query(User).filter(User.name.like('%ed')).order_by(User.id)
+>>> query.all()
+SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users WHERE users.name LIKE ? ORDER BY users.id ['%ed']
+[<User('ed','Ed Jones', 'f8s7ccs')>, <User('fred','Fred Flinstone', 'blah')>]
+>>> query.first()
+SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users WHERE users.name LIKE ? ORDER BY users.id LIMIT 1 OFFSET 0 ['%ed']
+<User('ed','Ed Jones', 'f8s7ccs')>
+one() 一行,LIMIT 2
+>>> try:
+...     user = query.one()
+... except Exception, e:
+...     print e
+SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users WHERE users.name LIKE ? ORDER BY users.id LIMIT 2 OFFSET 0 ['%ed']
+Multiple rows were found for one()
+>>> try:
+...     user = query.filter(User.id == 99).one()
+... except Exception, e:
+...     print e
+SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users WHERE users.name LIKE ? AND users.id = ? ORDER BY users.id LIMIT 2 OFFSET 0 ['%ed', 99]
+No row was found for one()
+
+for user in session.query(User).filter("id<224").order_by("id").all():
+...     print user.name
+SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users WHERE id<224 ORDER BY id []
+ed
+wendy
+mary
+fred
+
+>>> session.query(User).filter("id<:value and name=:name").\
+...     params(value=224, name='fred').order_by(User.id).one()
+
+>>> session.query(User).from_statement("SELECT * FROM users where name=:name").params(name='ed').all()
+SELECT * FROM users where name=? ['ed']
+[<User('ed','Ed Jones', 'f8s7ccs')>]
+
+>>> from sqlalchemy import ForeignKey
+>>> from sqlalchemy.orm import relation, backref
+>>> class Address(Base):
+...     __tablename__ = 'addresses'
+...     id = Column(Integer, primary_key=True)
+...     email_address = Column(String, nullable=False)
+...     user_id = Column(Integer, ForeignKey('users.id'))
+...
+...     user = relation(User, backref=backref('addresses', order_by=id))
+...
+...     def __init__(self, email_address):
+...         self.email_address = email_address
+...
+...     def __repr__(self):
+...         return "<Address('%s')>" % self.email_address
+
+class User(Base):
+    # ....
+    addresses = relation(Address, order_by=Address.id, backref="user")
+
+class User(Base):
+    .... # declarative
+    addresses = relation("Address", order_by="Address.id", backref="user")
+
+>>> metadata.create_all(engine) 
+PRAGMA table_info("users") {} PRAGMA table_info("addresses") {} CREATE TABLE addresses ( id INTEGER NOT NULL, email_address VARCHAR NOT NULL, user_id INTEGER, PRIMARY KEY (id), FOREIGN KEY(user_id) REFERENCES users (id) ) {} COMMIT
+
+>>> jack = User('jack', 'Jack Bean', 'gjffdd')
+>>> jack.addresses
+[]
+>>> jack.addresses = [Address(email_address='jack@google.com'), Address(email_address='j25@yahoo.com')]
+>>> jack.addresses[1]
+<Address('j25@yahoo.com')>
+
+>>> jack.addresses[1].user
+<User('jack','Jack Bean', 'gjffdd')>
+
+>>> session.add(jack)
+>>> session.commit()
+INSERT INTO users (name, fullname, password) VALUES (?, ?, ?)
+['jack', 'Jack Bean', 'gjffdd']
+INSERT INTO addresses (email_address, user_id) VALUES (?, ?)
+['jack@google.com', 5]
+INSERT INTO addresses (email_address, user_id) VALUES (?, ?)
+['j25@yahoo.com', 5]
+COMMIT
+>>> jack = session.query(User).filter_by(name='jack').one()
+BEGIN SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users WHERE users.name = ? LIMIT 2 OFFSET 0 ['jack'] >>> jack 
+
+>>> jack.addresses
+SELECT addresses.id AS addresses_id, addresses.email_address AS addresses_email_address, addresses.user_id AS addresses_user_id FROM addresses WHERE ? = addresses.user_id ORDER BY addresses.id [5]
+[<Address('jack@google.com')>, <Address('j25@yahoo.com')>]
+>>> from sqlalchemy.orm import eagerload
+
+>>> jack = session.query(User).options(eagerload('addresses')).filter_by(name='jack').one() 
+SELECT anon_1.users_id AS anon_1_users_id, anon_1.users_name AS anon_1_users_name, anon_1.users_fullname AS anon_1_users_fullname, anon_1.users_password AS anon_1_users_password, addresses_1.id AS addresses_1_id, addresses_1.email_address AS addresses_1_email_address, addresses_1.user_id AS addresses_1_user_id FROM (SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users WHERE users.name = ? LIMIT 2 OFFSET 0) AS anon_1 LEFT OUTER JOIN addresses AS addresses_1 ON anon_1.users_id = addresses_1.user_id ORDER BY addresses_1.id ['jack'] >>> jack >>> jack.addresses [, ]
+
+>>> for u, a in session.query(User, Address).filter(User.id==Address.user_id).\
+...         filter(Address.email_address=='jack@google.com').all():   
+...     print u, a
+SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password, addresses.id AS addresses_id, addresses.email_address AS addresses_email_address, addresses.user_id AS addresses_user_id FROM users, addresses WHERE users.id = addresses.user_id AND addresses.email_address = ? ['jack@google.com']
+<User('jack','Jack Bean', 'gjffdd')> <Address('jack@google.com')>
+
+>>> from sqlalchemy.orm import join
+sql>>> session.query(User).select_from(join(User, Address)).\
+...         filter(Address.email_address=='jack@google.com').all()
+SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users JOIN addresses ON users.id = addresses.user_id WHERE addresses.email_address = ? ['jack@google.com']
+[<User('jack','Jack Bean', 'gjffdd')>]
+
+join(User, Address, User.id==Address.user_id)  # explicit condition表间根据指定属性进行连接
+join(User, Address, User.addresses)            # specify relation from left to right
+join(User, Address, 'addresses')               # same, using a string
+
+>>> session.query(User).join(User.addresses).\
+...     filter(Address.email_address=='jack@google.com').all()
+SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users JOIN addresses ON users.id = addresses.user_id WHERE addresses.email_address = ? ['jack@google.com']
+[<User('jack','Jack Bean', 'gjffdd')>]
+session.query(User).join((Address, User.addresses))
+session.query(Foo).join(Foo.bars, Bar.bats, (Bat, 'widgets'))  # The above would produce SQL something like foo JOIN bars ON <onclause> JOIN bats ON <onclause> JOIN widgets ON <onclause>.
+
+Using Aliases
+>>> from sqlalchemy.orm import aliased
+>>> adalias1 = aliased(Address)
+>>> adalias2 = aliased(Address)
+>>> for username, email1, email2 in \
+...     session.query(User.name, adalias1.email_address, adalias2.email_address).\
+...     join((adalias1, User.addresses), (adalias2, User.addresses)).\
+...     filter(adalias1.email_address=='jack@google.com').\
+...     filter(adalias2.email_address=='j25@yahoo.com'):
+...     print username, email1, email2      
+SELECT users.name AS users_name, addresses_1.email_address AS addresses_1_email_address, addresses_2.email_address AS addresses_2_email_address FROM users JOIN addresses AS addresses_1 ON users.id = addresses_1.user_id JOIN addresses AS addresses_2 ON users.id = addresses_2.user_id WHERE addresses_1.email_address = ? AND addresses_2.email_address = ? ['jack@google.com', 'j25@yahoo.com']
+jack jack@google.com j25@yahoo.com
+
+Using Subqueries
+>>> from sqlalchemy.sql import func
+>>> stmt = session.query(Address.user_id, func.count('*').label('address_count')).group_by(Address.user_id).subquery()
+>>> for u, count in session.query(User, stmt.c.address_count).\
+...     outerjoin((stmt, User.id==stmt.c.user_id)).order_by(User.id): 
+...     print u, count
+SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password, anon_1.address_count AS anon_1_address_count FROM users LEFT OUTER JOIN (SELECT addresses.user_id AS user_id, count(?) AS address_count FROM addresses GROUP BY addresses.user_id) AS anon_1 ON users.id = anon_1.user_id ORDER BY users.id ['*']
+<User('ed','Ed Jones', 'f8s7ccs')> None
+<User('wendy','Wendy Williams', 'foobar')> None
+<User('mary','Mary Contrary', 'xxg527')> None
+<User('fred','Fred Flinstone', 'blah')> None
+<User('jack','Jack Bean', 'gjffdd')> 2
+
+Using EXISTS
+>>> from sqlalchemy.sql import exists
+>>> stmt = exists().where(Address.user_id==User.id)
+>>> for name, in session.query(User.name).filter(stmt):   
+...     print name
+SELECT users.name AS users_name FROM users WHERE EXISTS (SELECT * FROM addresses WHERE addresses.user_id = users.id) []
+jack
+
+>>> for name, in session.query(User.name).filter(User.addresses.any()):   
+...     print name
+SELECT users.name AS users_name FROM users WHERE EXISTS (SELECT 1 FROM addresses WHERE users.id = addresses.user_id) []
+jack
+
+>>> for name, in session.query(User.name).\
+...     filter(User.addresses.any(Address.email_address.like('%google%'))):   
+...     print name
+SELECT users.name AS users_name FROM users WHERE EXISTS (SELECT 1 FROM addresses WHERE users.id = addresses.user_id AND addresses.email_address LIKE ?) ['%google%']
+jack
+
+>>> session.query(Address).filter(~Address.user.has(User.name=='jack')).all()   ## ~表示NOT
+SELECT addresses.id AS addresses_id, addresses.email_address AS addresses_email_address, addresses.user_id AS addresses_user_id FROM addresses WHERE NOT (EXISTS (SELECT 1 FROM users WHERE users.id = addresses.user_id AND users.name = ?)) ['jack']
+[]
+
+Common Relation Operators
+    *      equals (used for many-to-one):
+      query.filter(Address.user == someuser)
+    *      not equals (used for many-to-one):
+      query.filter(Address.user != someuser)
+    *      IS NULL (used for many-to-one):
+      query.filter(Address.user == None)
+    *
+      contains (used for one-to-many and many-to-many collections):
+      query.filter(User.addresses.contains(someaddress))
+    *
+      any (used for one-to-many and many-to-many collections):
+      query.filter(User.addresses.any(Address.email_address == 'bar'))
+      # also takes keyword arguments:
+      query.filter(User.addresses.any(email_address='bar'))
+    *
+      has (used for many-to-one):
+      query.filter(Address.user.has(name='ed'))
+    *
+      with_parent (used for any relation):
+      session.query(Address).with_parent(someuser, 'addresses')
+
+
+Deleting
+>>> session.delete(jack)
+>>> session.query(User).filter_by(name='jack').count() 
+UPDATE addresses SET user_id=? WHERE addresses.id = ? [None, 1] UPDATE addresses SET user_id=? WHERE addresses.id = ? [None, 2] DELETE FROM users WHERE users.id = ? [5] SELECT count(1) AS count_1 FROM users WHERE users.name = ? ['jack']
+0
+>>> session.query(Address).filter(
+...     Address.email_address.in_(['jack@google.com', 'j25@yahoo.com'])
+...  ).count() 
+SELECT count(1) AS count_1 FROM addresses WHERE addresses.email_address IN (?, ?) ['jack@google.com', 'j25@yahoo.com']
+2
+
+Configuring delete/delete-orphan Cascade
+>>> session.close()  # roll back and close the transaction
+>>> from sqlalchemy.orm import clear_mappers
+>>> clear_mappers() # clear mappers
+>>> mapper(User, users_table, properties={    
+...     'addresses':relation(Address, backref='user', cascade="all, delete, delete-orphan")
+... })
+<Mapper at 0x...; User>
+
+>>> addresses_table = Address.__table__
+>>> mapper(Address, addresses_table) 
+<Mapper at 0x...; Address>
+
+# load Jack by primary key
+sql>>> jack = session.query(User).get(5)    
+BEGIN SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users WHERE users.id = ? [5]
+# remove one Address (lazy load fires off)
+sql>>> del jack.addresses[1]
+SELECT addresses.id AS addresses_id, addresses.email_address AS addresses_email_address, addresses.user_id AS addresses_user_id FROM addresses WHERE ? = addresses.user_id [5]
+# only one address remains
+sql>>> session.query(Address).filter(
+...     Address.email_address.in_(['jack@google.com', 'j25@yahoo.com'])
+... ).count() 
+DELETE FROM addresses WHERE addresses.id = ? [2] SELECT count(1) AS count_1 FROM addresses WHERE addresses.email_address IN (?, ?) ['jack@google.com', 'j25@yahoo.com']
+1
+>>> session.delete(jack)
+>>> session.query(User).filter_by(name='jack').count() 
+DELETE FROM addresses WHERE addresses.id = ? [1] DELETE FROM users WHERE users.id = ? [5] SELECT count(1) AS count_1 FROM users WHERE users.name = ? ['jack']
+0
+
+sql>>> session.query(Address).filter(
+...    Address.email_address.in_(['jack@google.com', 'j25@yahoo.com'])
+... ).count() 
+SELECT count(1) AS count_1 FROM addresses WHERE addresses.email_address IN (?, ?) ['jack@google.com', 'j25@yahoo.com']
+0
+
+Building a Many To Many Relation
+>>> from sqlalchemy import Text
+
+>>> # association table
+>>> post_keywords = Table('post_keywords', metadata,
+...     Column('post_id', Integer, ForeignKey('posts.id')),
+...     Column('keyword_id', Integer, ForeignKey('keywords.id'))
+... )
+
+>>> class BlogPost(Base):
+...     __tablename__ = 'posts'
+...
+...     id = Column(Integer, primary_key=True)
+...     user_id = Column(Integer, ForeignKey('users.id'))
+...     headline = Column(String(255), nullable=False)
+...     body = Column(Text)
+...
+...     # many to many BlogPost<->Keyword
+...     keywords = relation('Keyword', secondary=post_keywords, backref='posts')
+...
+...     def __init__(self, headline, body, author):
+...         self.author = author
+...         self.headline = headline
+...         self.body = body
+...
+...     def __repr__(self):
+...         return "BlogPost(%r, %r, %r)" % (self.headline, self.body, self.author)
+
+>>> class Keyword(Base):
+...     __tablename__ = 'keywords'
+...
+...     id = Column(Integer, primary_key=True)
+...     keyword = Column(String(50), nullable=False, unique=True)
+...
+...     def __init__(self, keyword):
+...         self.keyword = keyword
+
+>>> from sqlalchemy.orm import backref
+>>> # "dynamic" loading relation to User
+>>> BlogPost.author = relation(User, backref=backref('posts', lazy='dynamic'))
+
+>>> metadata.create_all(engine) 
+PRAGMA table_info("users") {} PRAGMA table_info("addresses") {} PRAGMA table_info("posts") {} PRAGMA table_info("keywords") {} PRAGMA table_info("post_keywords") {} CREATE TABLE posts ( id INTEGER NOT NULL, user_id INTEGER, headline VARCHAR(255) NOT NULL, body TEXT, PRIMARY KEY (id), FOREIGN KEY(user_id) REFERENCES users (id) ) {} COMMIT CREATE TABLE keywords ( id INTEGER NOT NULL, keyword VARCHAR(50) NOT NULL, PRIMARY KEY (id), UNIQUE (keyword) ) {} COMMIT CREATE TABLE post_keywords ( post_id INTEGER, keyword_id INTEGER, FOREIGN KEY(post_id) REFERENCES posts (id), FOREIGN KEY(keyword_id) REFERENCES keywords (id) ) {} COMMIT
+
+>>> wendy = session.query(User).filter_by(name='wendy').one()
+SELECT users.id AS users_id, users.name AS users_name, users.fullname AS users_fullname, users.password AS users_password FROM users WHERE users.name = ? LIMIT 2 OFFSET 0 ['wendy'] >>> post = BlogPost("Wendy's Blog Post", "This is a test", wendy) >>> session.add(post)
+
+>>> post.keywords.append(Keyword('wendy'))
+>>> post.keywords.append(Keyword('firstpost'))
+
+>>> session.query(BlogPost).filter(BlogPost.keywords.any(keyword='firstpost')).all()
+INSERT INTO posts (user_id, headline, body) VALUES (?, ?, ?) [2, "Wendy's Blog Post", 'This is a test'] INSERT INTO keywords (keyword) VALUES (?) ['wendy'] INSERT INTO keywords (keyword) VALUES (?) ['firstpost'] INSERT INTO post_keywords (post_id, keyword_id) VALUES (?, ?) [[1, 1], [1, 2]] SELECT posts.id AS posts_id, posts.user_id AS posts_user_id, posts.headline AS posts_headline, posts.body AS posts_body FROM posts WHERE EXISTS (SELECT 1 FROM post_keywords, keywords WHERE posts.id = post_keywords.post_id AND keywords.id = post_keywords.keyword_id AND keywords.keyword = ?) ['firstpost']
+[BlogPost("Wendy's Blog Post", 'This is a test', <User('wendy','Wendy Williams', 'foobar')>)]
+
+>>> session.query(BlogPost).filter(BlogPost.author==wendy).\
+... filter(BlogPost.keywords.any(keyword='firstpost')).all()
+SELECT posts.id AS posts_id, posts.user_id AS posts_user_id, posts.headline AS posts_headline, posts.body AS posts_body FROM posts WHERE ? = posts.user_id AND (EXISTS (SELECT 1 FROM post_keywords, keywords WHERE posts.id = post_keywords.post_id AND keywords.id = post_keywords.keyword_id AND keywords.keyword = ?)) [2, 'firstpost']
+[BlogPost("Wendy's Blog Post", 'This is a test', <User('wendy','Wendy Williams', 'foobar')>)]
+
+>>> wendy.posts.filter(BlogPost.keywords.any(keyword='firstpost')).all()
+SELECT posts.id AS posts_id, posts.user_id AS posts_user_id, posts.headline AS posts_headline, posts.body AS posts_body FROM posts WHERE ? = posts.user_id AND (EXISTS (SELECT 1 FROM post_keywords, keywords WHERE posts.id = post_keywords.post_id AND keywords.id = post_keywords.keyword_id AND keywords.keyword = ?)) [2, 'firstpost']
+[BlogPost("Wendy's Blog Post", 'This is a test', <User('wendy','Wendy Williams', 'foobar')>)]
+
+
+
+

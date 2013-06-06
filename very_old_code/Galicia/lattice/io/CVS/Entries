@@ -1,0 +1,25 @@
+/AbstractReader.java/1.1/Tue Mar 21 07:32:01 2006//
+/AbstractWriter.java/1.1/Tue Mar 21 07:32:01 2006//
+/BinWriter.java/1.1/Tue Mar 21 07:32:01 2006//
+/BinaryRelationReader.java/1.1/Tue Mar 21 07:32:01 2006//
+/BinaryRelationWriter.java/1.1/Tue Mar 21 07:32:01 2006//
+/ConsoleWriter.java/1.1/Tue Mar 21 07:32:01 2006//
+/IbmReader.java/1.1/Tue Mar 21 07:32:01 2006//
+/IbmWriter.java/1.1/Tue Mar 21 07:32:01 2006//
+/LatticeReader.java/1.1/Tue Mar 21 07:32:01 2006//
+/LatticeWriter.java/1.1/Tue Mar 21 07:32:01 2006//
+/MultiValuedRelationReader.java/1.1/Tue Mar 21 07:32:01 2006//
+/MultiValuedRelationWriter.java/1.1/Tue Mar 21 07:32:01 2006//
+/MvcReader.java/1.1/Tue Mar 21 07:32:01 2006//
+/MvcWriter.java/1.1/Tue Mar 21 07:32:01 2006//
+/RcfReader.java/1.1/Tue Mar 21 07:32:01 2006//
+/RcfWriter.java/1.1/Tue Mar 21 07:32:01 2006//
+/ReadingFormatException.java/1.1/Tue Mar 21 07:32:01 2006//
+/RelationalContextReader.java/1.1/Tue Mar 21 07:32:01 2006//
+/RelationalContextWriter.java/1.1/Tue Mar 21 07:32:01 2006//
+/SlfReader.java/1.1/Tue Mar 21 07:32:01 2006//
+/SlfWriter.java/1.1/Tue Mar 21 07:32:01 2006//
+/XmlReader.java/1.1/Tue Mar 21 07:32:01 2006//
+/XmlWriter.java/1.1/Tue Mar 21 07:32:01 2006//
+D/task////
+/testXml.java/1.1/Tue Mar 21 07:32:01 2006//

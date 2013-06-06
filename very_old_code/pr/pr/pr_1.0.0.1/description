@@ -1,0 +1,145 @@
+先看下我们最终做的前端检索提供的查询功能，五种检索，脚本、机器、目录、程序、配置文件
+(1)查询类型与输出结果的对应关系
+    script
+        |-------script(被调用)
+        |            |-------script(被调用)
+        |            |            |-------......(递归)
+        |            |-------program((被调用))
+        |            |-------conf(被调用)
+        |            |-------path(该脚本涉及到的目录)
+        |            |-------machine(该脚本涉及到的机器)
+        |-------program(被调用)
+        |-------conf(被调用)
+        |-------path(该脚本涉及到的目录)
+        |-------machine(该脚本涉及到的机器)
+       
+   
+    machine
+        |-------path(该machine上有哪些目录)
+        |-------machine(该machine与哪些机器有关系，这个需要从script中提取，另外读取xferlog[已完成])
+       
+       
+    dir[path]
+        |-------script(该目录下有哪些脚本)
+        |-------machine(该目录在哪些机器上有)
+
+       
+    program
+        |-------machine(哪些机器存在)
+        |-------conf(使用的配置文件)
+        |-------path(程序所在目录)
+        |-------md5
+
+       
+    conf
+        |-------script(调用脚本)/program(被调用程序)
+        |-------machine(哪些机器存在)
+        |-------path(配置文件所在目录)
+
+完整的就出来了，里面涉及到一些复杂点的，比如共享内存实现多数据分析任务并发执行，socket通信实现多台服务器的并行处理，memcache实现多服务器之间的数据缓冲。索引缓冲解决查询效率的提高等等，这些都是基于这几个主要步骤来做的优化 
+def generate_dot_file(self):
+	node_string = ''
+	edge_string = ''
+	for cpt in self.conceptSet:
+		node_string += 'c%d[label = "%d: ' % (cpt.conceptID, cpt.conceptID)
+		for obj in cpt.extent:
+		    node_string += '%s ' % self.object_list[obj]
+		for i in cpt.intent:
+		    node_string += '%s ' % self.attribute_list[i]
+		node_string = node_string[:-1] + '"];\n'
+
+		for one in cpt.child_list:
+			edge_string += 'c%d -- c%d;\n' % (cpt.conceptID, one.conceptID)
+	return node_string + edge_string
+try:
+	to_file = file('/home/shengyan/workspace/godin/new/dot/show', 'wa')
+	to_file.write('BR-----------\n%s\n\n' % BR)
+	to_file.write('Lattice-----------\n%s\n\n' % myLattice)
+	dot_file = file('/home/shengyan/workspace/godin/new/dot/show_godin.dot', 'wa')
+	dot_file.write('graph G {\n%s}' % str)
+except IOError, e:
+	print e
+finally:
+	dot_file.close()
+django模板使用中，我这样写在result.html中{% block resultarea %} {% endblock %}另外一个script.html继承他写{% extends "result.html" %}
+{% block resultarea %}中间一些代码{% endblock %}
+    
+    s = ''
+    if sc:
+        s += '<p>Script files'+'</p><p align=left>'.join(sc)
+        s = s[:-14]
+    if pr:
+        s += '<p>Program files'+'</p><p align="left">'.join(pr)
+        s = s[:-14]
+    if co:
+        s += '<p>Configure files'+'</p><p align="left">'.join(co)
+        s = s[:-14]
+    if ot:
+        s += '<p>Other files'+'</p><p align="left">'.join(ot)
+        s = s[:-14]
+    if pa:
+        s += '<p>Path'+'</p><p align="left">'.join(pa)
+        s = s[:-14]
+    if ma:
+        s += '<p>Machines'+'</p><p align="left">'.join(ma)
+        s = s[:-14]
+    return s
+    
+    
+    <div style="position: absolute; top: 28px; right: 10px;">
+    <form method="get" action="http://kids.yahoo.com/search" name="ykidssearch">
+    <input type="text" style="margin: 3px 0px; padding: 6px 3px 3px; width: 302px; color: rgb(14, 113, 175); font-family: verdana; font-style: normal; font-variant: normal; font-weight: normal; font-size: 11px; line-height: normal; font-size-adjust: none; font-stretch: normal;" name="p" value=""/>
+    <input type="image" align="top" id="searchkids" style="margin: 0px 3px 3px 0px;" alt="Search Button" src="http://l.yimg.com/us.yimg.com/i/ligans/header/header_search_button.gif"/>
+    </form>
+    </div>
+var w=document.f.wd;w.focus();document.getElementById("u").innerHTML='<a href="http://passport.baidu.com/?login&tpl=mn&u='+escape(location.href) +'">登录</a>';function s(o){if(w.value.length>0){var h=o.href;var q=encodeURIComponent(w.value);if(h.indexOf("q=")!=-1){o.href=h.replace(new RegExp("q=[^&$]*"),"q="+q)}else{o.href+="?q="+q}}};(function(){if(new RegExp("q=([^&]+)").test(location.search)){w.value=decodeURIComponent(RegExp.$1)}})()    
+    
+    
+和ws两人从汊河镇走回学校，将近3小时，疯了~
+
+刚回来呢
+元宵节快乐～
+
+10点多吧
+怎么了，
+你开店了没？
+
+
+def generate_dot_file(searchname):#X
+    try:
+        dot_filepath = os.getcwd()+'/dot/'+searchname+'.dot'    #in dic dot/
+    	dot_file = file(dot_filepath, 'wa')
+        
+        node_string = ''
+        edge_string = ''
+        all_files = {}
+        all_list = list(excute.result)
+        while all_list:
+            item = all_list[0]#(id, name, type, info)
+            del all_list[0]
+            all_files[item] = []
+            statment = "select files_table.id, files_table.name, files_table.type, files_table.info, %s_children.info from %s_children, files_table where %s_children.id = files_table.id"
+            paramter = (item[0], item[0], item[0],)
+            try:
+                excute.do_excute(statment, paramter)    #select this bash file's table
+            except:                                     #some shell script'tables does not exist
+                continue
+            for (child_id, child_name, child_type, child_info1, child_info2) in excute.result:
+                all_files[item].append((child_id, child_name, child_type, child_info1))   
+                edge_string += 'f%d -> f%d;\n' % (item[0], child_id)                      ###add new edge
+                if child_type == 'BASH' and 'exist:True;' in child_info1 and 'f%d ->' % child_id not in edge_string and (child_id, child_name, child_type, child_info1) not in all_list:
+                    all_list.append((child_id, child_name, child_type, child_info1))    #recursive
+        for (k, i) in all_files.items():
+            node_string += 'f%d[label = "%d: %s"];\n' % (k[0], k[0], k[1][k[1].rfind('/')+1:])
+            
+            for o in i:
+                if 'f%d[' % o[0] in node_string:
+                    continue
+                node_string += 'f%d[label = "%d: %s"];\n' % (o[0], o[0], o[1][o[1].rfind('/')+1:])
+    	dot_file.write('digraph G {\n%s%s}' % (node_string, edge_string))
+        return dot_filepath
+    except IOError, e:
+    	print e
+        raise
+    finally:
+    	dot_file.close()

@@ -1,0 +1,32 @@
+
+============
+Installation安装
+============
+
+:author: Jan Kneschke
+:Date: $Date: $
+:Revision: $Revision: $
+
+Installation安装
+------------
+
+Get the source from 从这里获得源代码
+
+http://www.lighttpd.net/download/
+
+unpack it by通过以下代码进行解压 ::
+
+  $ gzip -cd lighttpd-1.x.x.tar.gz | tar xf -
+
+compile and install it with然后依次使用如下命令进行编译和安装 ::
+
+  $ cd lighttpd-1.x.x
+  $ ./configure
+  $ make
+  $ su -
+  # make install
+  # exit
+
+take look at the configfile in ./doc/lighttpd.conf, 查看一下其配置文件./doc/lighttpd.conf,
+make your own copy of that file and modify it for your needs拷贝一份之后可以根据你的需要进行修改.
+

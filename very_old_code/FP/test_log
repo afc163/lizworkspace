@@ -1,0 +1,15 @@
+>>> import test
+>>> fa = test.not1(bool)
+>>> fa(13)
+False
+>>> not bool(13)
+False
+>>> test.not1(bool)(123)
+False
+>>> tmp = lambda x: x%10==3
+>>> nottmp = test.not1(tmp)
+>>> nottmp(3)
+False
+>>> nottmp(4)
+True
+

@@ -1,0 +1,297 @@
+算法1 Procedure SFFC(SDB, IWV, θ, φ)
+输入：序列数据库SDB，项目集的权重向量IWV，阈值θ，φ
+输出：序列模糊形式背景K
+1:
+Begin
+2:
+  for k←1 to |SDB| do
+3:
+    max←0
+4:
+    for j←1 to |Item(Sk)| do
+5:
+      
+6:
+      if max<IW[k][j] then
+7:
+        max←IW[k][j]
+8:
+      Endif
+9:
+    Endfor
+10:
+    for j←1 to |Item(Sk)| do
+11:
+      FIW[k][j]←IW[k][j]/max
+12:
+      formal_context[k][j].iw←FIW[k][j]
+13:
+formal_context[k][j].ps←IPosSk(ij)
+14:
+    Endfor
+15:
+  Endfor
+16:
+End
+
+
+
+算法2 Procedure MaxComSS (S1, S2)
+输入：K上的两个序列S1，S2
+输出：最大公共子序列集TMCS
+1:
+Begin
+2:
+  for each α∈Item(S1) do
+3:
+     if IWs1r(α)[θα, φα ] then
+4:
+       Delete α in S1
+5:
+     Endif
+6:
+  Endfor
+7:
+  for each α∈Item(S2) do
+8:
+     if IWs2r(α)[θα, φα ] then
+9:
+       Delete α in S2
+10:
+     Endif
+11:
+  Endfor
+12:
+
+#求S1的子序列
+for each s∈S1 do
+13:
+     if s∈S2 then
+14:
+       ComSS({S1, S2})←s
+15:
+     Endif
+16:
+  Endfor
+17:
+  for each subs∈ComSS({S1, S2}) do
+18:
+     for each rests∈ComSS({S1, S2})\{subs} do
+19:
+        if  or  then
+20:
+          [subs]EC←rests
+21:
+        Endif
+22:
+     Endfor
+23:
+     for each s∈[subs]EC do
+24:
+       for each x∈[subs]EC\{s} do
+25:
+         if  then
+26:
+           [subs]EC←[subs]EC\{s}
+27:
+           Break
+28:
+         Endif
+29:
+       Endfor
+30:
+     Endfor
+31:
+     TMCS←[subs]EC
+32:
+  Endfor
+33:
+End
+
+
+
+
+算法3 Procedure SeqFuzCL(K, IWV, θ, φ)
+输入：序列模糊形式背景K，权重向量IWV，阈值θ，φ
+输出：序列模糊概念格FL(K)
+1:
+Begin
+2:
+  for each object x*∈G do
+3:
+    if FL(K)=Φ then
+4:
+      Add pair (x*,Δ(x*)) to FL(K), and calculate fuzzy parameters,
+5:
+    Else
+6:
+      for each node C=(A, T,,)∈FL(K) do  {ordering according to |A| ascending }
+7:
+        Scount←0, flag←False
+8:
+        for each s∈T do
+9:
+          if  then  scount←scount+1  endif
+10:
+        Endfor
+11:
+        if scount=|T| then  flag←True  endif
+12:
+        if flag then  {modified notion}
+13:
+          A←A∪{x*}
+14:
+          Update fuzzy parameters , in C
+15:
+          Add C to the set newcon    {initialize newcon to be Φ}
+16:
+        Else
+17:
+          for each s∈T do
+18:
+            newint←MaxComSS (s, Δ(x*)) { newint is a sequence set}
+19:
+          Endfor
+20:
+          for each s∈newint do
+21:
+            for each y∈newint\{s} do
+22:
+              If  then
+23:
+                newint←newint\{s}
+24:
+                break
+25:
+              Endif
+26:
+            Endfor
+27:
+          Endfor
+28:
+          ifC1∈newcon satisfying intent(C1)=newint then
+29:
+            Create new pair Cn←(A∪{x*}, newint)
+30:
+            Calculate fuzzy parameters,
+31:
+            Add Cn to newcon
+32:
+            Add edge Cn=(A∪{x*}, newint,,)→C
+33:
+            for each Ca in newcon do
+34:
+              scount←0
+35:
+              for each s∈intent(Ca) do
+36:
+                if exist y∈newint and  then
+37:
+                  scount←scount+1
+38:
+                Endif
+39:
+              Endfor
+40:
+              If scount=|intent(Ca)| then
+41:
+                parent←True
+42:
+                for each Cc child node of Ca do
+43:
+                  if intent(Cc)newint then parent←False; break endif
+44:
+                Endfor
+45:
+                if parent then
+46:
+                  if Ca is a parent node of C then
+47:
+Delete edge Ca→C
+48:
+                  Endif
+49:
+                Endif
+50:
+              Endif
+51:
+            Endfor
+52:
+          Endif
+53:
+        Endif
+54:
+      Endfor
+55:
+    Endif
+56:
+  Endfor
+57:
+  Input sequence fuzzy lattice FL(K)
+58:
+End
+
+
+
+
+算法4 Procedure WSeqP (FL(K), IWV, θ, φ)
+输入：序列模糊格FL(K)，权重向量IWV，支持度minsup，序列重要度阈值β
+输出：满足用户需求的权重序列模式集WSSet
+1:
+Begin
+2:
+  VISITED←Φ
+3:
+  for each node C=(A, T,,)∈FL(K) do
+4:
+for each s∈T and sVISITED do
+5:
+      Calculate weight of sequence s SW(s) by IWV
+6:
+      sup(s)←|A|     {the support sup(s) of sequence s is at least |A|}
+7:
+      for each Cp parent node of C do
+8:
+        if s∈intent(Cp) and extent(Cp)≠Φ then
+9:
+          sup(s)←|extent(Cp)|  endif
+10:
+      Endfor
+11:
+      if SW(s)≥β then
+12:
+        ρ←SW(s)
+13:
+        if sup(s)≥ρminsup then  WSSet←(s, SW(s))  endif
+14:
+      Else
+15:
+        ρ←((minsup-1)/ βminsup)*SW(s)+1/minsup
+16:
+        if sup(s)≥ρminsup then  WSSet←(s, SW(s))  endif
+17:
+      Endif
+18:
+      VISITED←s
+19:
+    Endfor
+20:
+  Endfor
+21:
+End
+
+rs = []
+rs.append(a)
+queue = []
+queue.append(a)
+while queue:
+	one_len = len(queue[0])
+	#print queue[0]
+	for index in range(0, one_len):
+		tmp = list(queue[0])
+		del tmp[index]
+		if tmp and tmp not in rs:
+			rs.append(tmp)
+			queue.append(tmp)
+	del queue[0]
+return rs

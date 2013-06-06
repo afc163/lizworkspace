@@ -1,0 +1,11 @@
+
+|-- amarok: 获得amarok正在播放的歌曲并作为用户状态
+|-- bot: 一个简易的写XMPP机器人的程序
+|-- echo: 最基本的消息回显例子
+|-- xmppstatusbot: 这个是非常完整的利用xmpp和amarok结合的例子
+|-- logger: 登录例子,,,和其他的例子差不多
+|-- README: 主要是presence和iq
+|-- xsend: 单向发送消息例子
+|-- xtalk: 双向发送/接受消息例子
+|-- : 
+|-- : 

@@ -1,0 +1,103 @@
+<html>
+    <head>
+        <meta content="text/html;charset=UTF-8" http-equiv="Content-Type" />
+        <title>Mootools Tests</title>
+        <script src="./mootools-1.2.3-core-nc.js" type="text/javascript" ></script>
+        <script src="./json.js" type="text/javascript" ></script>
+    </head>
+    <body>
+        <p><a id="myAnchor" href="http://google.com/">Visit Google.com</a></p>
+<div id="myElement">
+    太太他<div id="myChild">阿阿阿</div>
+</div>
+
+    </body>
+    <script type="text/javascript">
+    //<![CDATA[
+    window.addEvent('domready', function(){
+    var failure, success;
+    $try(function(){
+        some.made.up.object = 'something';
+        success = true;
+    }, function(){
+        failure = true;
+    });
+    //alert($type(success));
+    //alert(typeof(failure));
+    //alert(JSON.stringify(123));
+    
+    function myFunction(){
+        $A(arguments).each(function(arg, index){
+            alert(arg);
+        });
+    }
+    //myFunction('sf', 'sf', 'fs');
+    
+    //alert('a bc'.contains('bc'));
+    //alert('a bc'.contains('b', ' '));
+    
+    });
+    //]]>
+$("myAnchor").addEvent("click", function(event){
+    event.stop(); // 阻止浏览器
+    this.set("text", "Where do you think you're going?"); // "this" 是触发该事件的元素.
+    (function(){
+        this.set("text", "blog").set("href", "http://blog.mootools.net");
+    }).delay(500, this); //500后设置新的链接
+});
+
+$("myElement").addEvent("click", function(){
+    alert("click");
+    return false; // 等价于stopPropagation.
+});
+$("myChild").addEvent("click", function(event){
+    alert('hi');
+    event.stopPropagation(); // stop之后, 就不会触发父元素的点击事件.
+});
+
+function convertAll() {
+
+  var nameJSON = JSON.stringify($("name").value);
+  convert(nameJSON, $("nameJSON"), $("nameAgain"));
+
+  var age = parseInt($("age").value);
+  var ageJSON = JSON.stringify(parseInt(age));
+  convert(ageJSON, $("ageJSON"), $("ageAgain"));
+
+  var comments = new Array();
+  for (i=1; i<=3; i++) {
+    var comment = $("comment"+i).value;
+    if (!comment.isWhitespace) {
+      comments.push(comment);
+    }
+  }
+  var address = {
+    houseNumber: $("houseNumber").value,
+    street: $("street").value,
+    city: $("city").value,
+    postcode: $("postcode").value,
+    country: $("country").value,
+    comments: comments
+  }
+  var addressJSON = JSON.stringify(address);
+  convert(addressJSON, $("addressJSON"), $("addressAgain"));
+
+}
+
+function convert(json, jsonEl, againEl) {
+  jsonEl.innerHTML = json;
+  var again = evalJSON(json);
+  againEl.innerHTML =
+    util.describe(again) + "<br/><em>(Type: "+typeof(again)+")</em>";
+}
+
+function evalJSON(json) {
+  return eval("(" + json + ")");
+}
+
+function isWhitespace(str) {
+  return ! /\S/.test(str)
+}
+    
+    </script>
+</html>

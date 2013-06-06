@@ -1,0 +1,11 @@
+存在问题：
+1、MyInotify中，文件监测事件不多，重命名无法，无法监测单个文件，只能路径
+2、main中，命令行提示输出，INDEX_FILE解析进一步
+3、BackupServer中，日志是否要删掉或者重新设计记录内容，C标志完善
+
+使用：
+0、修改head.py中全局变量，其中WATCH_FILE一定要存在，程序中没有提示，未作处理
+1、开启服务器端 $python BackupServer.py, Ctrl+C终止
+2、客户端 $python main.py -c，全部拷贝
+3、监控文件更新 $python MyInotify.py, Ctrl+C终止
+4、客户端 $python main.py -u，更新拷贝

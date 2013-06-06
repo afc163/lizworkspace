@@ -1,0 +1,70 @@
+b1=0, b2=0.0 --> conceptnum is 45
+ time: 42.1936349869
+b1=0, b2=0.2 --> conceptnum is 65
+ time: 47.8525390625
+b1=0, b2=0.4 --> conceptnum is 75
+ time: 50.3439569473
+b1=0, b2=0.6 --> conceptnum is 75
+ time: 50.9453802109
+b1=0, b2=0.8 --> conceptnum is 75
+ time: 53.7497580051
+b1=0.0, b2=0 --> conceptnum is 45
+ time: 62.935683012
+b1=0.3, b2=0 --> conceptnum is 50
+ time: 60.1157250404
+b1=0.5, b2=0 --> conceptnum is 51
+ time: 54.1660239697
+b1=0.7, b2=0 --> conceptnum is 51
+ time: 60.386070013
+b1=0.9, b2=0 --> conceptnum is 51
+ time: 55.2041189671
+b1=0.0, b2=0.0 --> conceptnum is 45
+ time: 61.3136408329
+b1=0.0, b2=0.2 --> conceptnum is 65
+ time: 54.8290939331
+b1=0.0, b2=0.4 --> conceptnum is 75
+ time: 57.7446510792
+b1=0.0, b2=0.6 --> conceptnum is 75
+ time: 47.6567778587
+b1=0.0, b2=0.8 --> conceptnum is 75
+ time: 61.0785260201
+b1=0.3, b2=0.0 --> conceptnum is 50
+ time: 56.7949590683
+b1=0.3, b2=0.2 --> conceptnum is 70
+ time: 62.5193190575
+b1=0.3, b2=0.4 --> conceptnum is 80
+ time: 47.4395558834
+b1=0.3, b2=0.6 --> conceptnum is 80
+ time: 41.4596710205
+b1=0.3, b2=0.8 --> conceptnum is 80
+ time: 40.9011619091
+b1=0.5, b2=0.0 --> conceptnum is 51
+ time: 39.9624481201
+b1=0.5, b2=0.2 --> conceptnum is 71
+ time: 40.1248219013
+b1=0.5, b2=0.4 --> conceptnum is 219
+ time: 42.592220068
+b1=0.5, b2=0.6 --> conceptnum is 369
+ time: 58.1262228489
+b1=0.5, b2=0.8 --> conceptnum is 386
+ time: 68.1472308636
+b1=0.7, b2=0.0 --> conceptnum is 51
+ time: 45.8634090424
+b1=0.7, b2=0.2 --> conceptnum is 71
+ time: 52.2214210033
+b1=0.7, b2=0.4 --> conceptnum is 224
+ time: 53.3853340149
+b1=0.7, b2=0.6 --> conceptnum is 478
+ time: 60.0311701298
+b1=0.7, b2=0.8 --> conceptnum is 697
+ time: 105.332154036
+b1=0.9, b2=0.0 --> conceptnum is 51
+ time: 41.3253939152
+b1=0.9, b2=0.2 --> conceptnum is 71
+ time: 41.6241049767
+b1=0.9, b2=0.4 --> conceptnum is 224
+ time: 42.3313801289
+b1=0.9, b2=0.6 --> conceptnum is 415
+ time: 56.6223130226
+b1=0.9, b2=0.8 --> conceptnum is 436
+ time: 101.315112114

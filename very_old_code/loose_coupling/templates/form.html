@@ -1,0 +1,23 @@
+{% if err_message %}
+<h3 id="errmsg">{{ err_message }}</h3>
+{% endif %}
+{% if aform %}
+<form action="accounts/login/" method="POST">
+    <table id="innerdialog">
+    <tbody>
+    {% for field in aform %}
+    <tr>
+    <th>{{ field.label_tag }}: </th>
+    <td>{{ field }}</td>
+    <td>{% if field.errors %}<span class="rederror">*</span>{% endif %}
+    </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    <span>
+    <input class="bbtn" type="submit" value="Confirm"/> 
+    </span>
+</form>
+{% endif %}
+

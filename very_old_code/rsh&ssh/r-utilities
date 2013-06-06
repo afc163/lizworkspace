@@ -1,0 +1,37 @@
+[shengyan@console shengyan]$ ls /etc/xinetd.d
+amanda     chargen      cups-lpd    daytime-udp  echo-udp  gssftp  ipop2   krb5-telnet  ntalk  rlogin  servers   swat    tftp      vsftpd
+amandaidx  chargen-udp  cvspserver  dbskkd-cdb   eklogin   imap    ipop3   kshell       pop3s  rsh     services  talk    time      xvncserver
+amidxtape  comsat       daytime     echo         finger    imaps   klogin  ktalk        rexec  rsync   sgi_fam   telnet  time-udp
+
+[shengyan@console shengyan]$ cat /etc/xinetd.d/rlogin
+# default: on
+# description: rlogind is the server for the rlogin(1) program.  The server \
+#       provides a remote login facility with authentication based on \
+#       privileged port numbers from trusted hosts.
+service login
+{
+        disable = no
+        socket_type             = stream
+        wait                    = no
+        user                    = root
+        log_on_success          += USERID
+        log_on_failure          += USERID
+        server                  = /usr/sbin/in.rlogind
+}
+[shengyan@console shengyan]$ cat /etc/xinetd.d/rsh
+# default: on
+# description: The rshd server is the server for the rcmd(3) routine and, \
+#       consequently, for the rsh(1) program.  The server provides \
+#       remote execution facilities with authentication based on \
+#       privileged port numbers from trusted hosts.
+service shell
+{
+        disable = no
+        socket_type             = stream
+        wait                    = no
+        user                    = root
+        log_on_success          += USERID
+        log_on_failure          += USERID
+        server                  = /usr/sbin/in.rshd
+}
+

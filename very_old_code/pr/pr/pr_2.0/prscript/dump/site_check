@@ -1,0 +1,459 @@
+(dp0
+S'/home/mp3/site_check/make_input_data.sh'
+p1
+(ccopy_reg
+_reconstructor
+p2
+(c__main__
+RelationFiles
+p3
+c__builtin__
+object
+p4
+Ntp5
+Rp6
+(dp7
+S'line_num'
+p8
+I58
+sS'file_content'
+p9
+(lp10
+S'#!/bin/bash\n'
+p11
+aS'#set -x\n'
+p12
+aS'#\xb2\xfa\xc9\xfasite_check\xb5\xc4\xca\xe4\xc8\xeb\xca\xfd\xbe\xdd\n'
+p13
+aS'#usage : ./make_input_data.sh mergestat.txt  topquery.txt\n'
+p14
+aS'\n'
+p15
+aS'usage()\n'
+p16
+aS'{\n'
+p17
+aS'    #usage\n'
+p18
+aS'    echo\n'
+p19
+aS'    echo "Usage :  `basename $0` mergestat.txt topquery.txt"\n'
+p20
+aS'    echo "try again, pls :)"\n'
+p21
+aS'    echo \n'
+p22
+aS'    exit 1\n'
+p23
+aS'}\n'
+p24
+ag15
+aS'# init\n'
+p25
+aS'if [ $# -ne 2 ] \n'
+p26
+aS'then \n'
+p27
+aS'        usage         \n'
+p28
+aS'fi\n'
+p29
+ag15
+aS'MERGESTAT=$1\n'
+p30
+aS'TOPQUERY=$2\n'
+p31
+aS'TEMPMS=./merge_site.$$\n'
+p32
+aS'TEMPML=./merge_link.$$\n'
+p33
+aS'TEMPMI=./merge_ip.$$\n'
+p34
+aS'TEMPMP=./merge_port.$$\n'
+p35
+aS'TEMPFILE=./temp.$$\n'
+p36
+aS'TEMPTQFILE=./temp_tq.$$\n'
+p37
+aS'MS_INPUT=./ms_input.txt\n'
+p38
+aS'TQ_INPUT=./tq_input.txt\n'
+p39
+aS'INPUT_TEMP=./input_site.$$\n'
+p40
+aS'INPUT=./data/input_site\n'
+p41
+ag15
+aS'#\xbb\xf1\xb5\xc3mergestat\xd6\xd0\xc1\xb4\xbd\xd3\xd7\xee\xb6\xe0\xb5\xc41000\xb8\xf6\xd5\xbe\xb5\xe3\n'
+p42
+aS'grep "^AS:" $MERGESTAT | awk -F\'[\' \'{print $3}\' | awk -F\']\' \'{print $1}\' > $TEMPMS\n'
+p43
+aS'grep "^AS:" $MERGESTAT | awk -F\'[\' \'{print $9}\' | awk -F\']\' \'{print $1}\' > $TEMPML\n'
+p44
+aS'grep "^AS:" $MERGESTAT | awk -F\'[\' \'{print $4}\' | awk -F\']\' \'{print $1}\' > $TEMPMI\n'
+p45
+aS'grep "^AS:" $MERGESTAT | awk -F\'[\' \'{print $5}\' | awk -F\']\' \'{print $1}\' > $TEMPMP\n'
+p46
+aS'paste $TEMPML $TEMPMS $TEMPMI $TEMPMP | grep -v "0.0.0.0" | sort -k1nr > $TEMPFILE\n'
+p47
+aS'awk -F"\\t" \'{if($4>0) printf("%s\\t%s\\t%s\\n",$2,$3,$4)}\' $TEMPFILE > $MS_INPUT\n'
+p48
+ag15
+aS'head -1000 $MS_INPUT > $INPUT_TEMP\n'
+p49
+ag15
+aS'#\xbb\xf1\xb5\xc3topquery\xb6\xd4\xd3\xa6\xb5\xc4\xd5\xbe\xb5\xe3\xba\xcd\xb6\xcb\xbf\xda\xba\xc5\n'
+p50
+aS'>$TQ_INPUT\n'
+p51
+aS'sed -n \'2,1002p\' $TOPQUERY | awk -F"\\t" \'{print $1}\'> $TEMPFILE\n'
+p52
+aS'./get_site_online.sh $TEMPFILE $TEMPTQFILE\n'
+p53
+aS'while read LINE\n'
+p54
+aS'do\n'
+p55
+aS'\tgrep "$LINE" $MS_INPUT | grep -v "0.0.0.0"  >> $TQ_INPUT\n'
+p56
+aS'done<$TEMPTQFILE\n'
+p57
+aS'cat $TQ_INPUT >> $INPUT_TEMP\n'
+p58
+ag15
+aS'#\xc8\xa5\xd6\xd8\xca\xe4\xb3\xf6\xd5\xe6\xd5\xfd\xb5\xc4\xca\xfd\xbe\xdd\xce\xc4\xbc\xfe\n'
+p59
+aS'sort -uk2,3 $INPUT_TEMP > $INPUT\n'
+p60
+aS'#\xc9\xbe\xb3\xfd\xc1\xd9\xca\xb1\xce\xc4\xbc\xfe\n'
+p61
+aS'rm $TEMPMS $TEMPML $TEMPMI $TEMPMP $TEMPFILE $INPUT_TEMP $TEMPTQFILE\n'
+p62
+asS'child_files'
+p63
+(dp64
+sS'dir_tag'
+p65
+(lp66
+I1
+asS'type_list'
+p67
+NsS'file'
+p68
+g1
+sS'variable_dic'
+p69
+(dp70
+S'0'
+p71
+S'make_input_data.sh'
+p72
+sS'#'
+p73
+I1
+sS'TQ_INPUT'
+p74
+S'./tq_input.txt'
+p75
+sS'MS_INPUT'
+p76
+S'./ms_input.txt'
+p77
+sS'INPUT'
+p78
+S'./data/input_site'
+p79
+ssS'all_path'
+p80
+(lp81
+S'/home/mp3/site_check/'
+p82
+asS'current_dir'
+p83
+(lp84
+g82
+asbS'd475a08c8eaf835cb0137ed587a57324'
+p85
+tp86
+sS'/home/mp3/site_check/get_site_online.sh'
+p87
+(g2
+(g3
+g4
+Ntp88
+Rp89
+(dp90
+g8
+I27
+sg9
+(lp91
+S'#!/bin/bash\n'
+p92
+aS'# function:\n'
+p93
+aS"# get baidu first 3 search-result pages by the input query word, then put the download links' # site to the file site.txt.\n"
+p94
+aS'# usage:\n'
+p95
+aS'# ./get_site.sh query.txt site.txt\n'
+p96
+ag15
+aS'TEMPFILE=./temp.$$\n'
+p97
+aS'URLFILE=./temp_url.$$\n'
+p98
+aS'>$2  \n'
+p99
+ag15
+aS'while read LINE\n'
+p100
+aS'do\n'
+p101
+aS'\tPN=0\n'
+p102
+aS'\tfor((i=0;i<3;i++))\n'
+p103
+aS'\tdo\n'
+p104
+aS'\t\tPN=`expr ${i} \\* 30`\n'
+p105
+aS'\t\tGET_URL="http://mp3.baidu.com/m?f=ms&rn=&tn=baidump3simple&ct=134217728&word=${LINE}&lm=-1&pn=${PN}"\n'
+p106
+aS'\t\t#get page\n'
+p107
+aS'\t\twget "$GET_URL" -O $TEMPFILE\n'
+p108
+aS'\t\t#get sites\n'
+p109
+aS'\t\tgrep "<td width=\\"370\\" style=\\"font-family" $TEMPFILE | awk -F"\\"" \'{print $6}\' | awk -F"/" \'{print $3}\' >> $2\n'
+p110
+aS'\tdone\n'
+p111
+aS'done < $1\n'
+p112
+ag15
+aS'rm $TEMPFILE\n'
+p113
+ag15
+aS'exit 0\n'
+p114
+asg63
+(dp115
+sg65
+(lp116
+I1
+asg67
+Nsg68
+g87
+sg69
+(dp117
+g71
+S'get_site_online.sh'
+p118
+sg73
+I1
+sS'PN'
+p119
+g71
+ssg80
+(lp120
+S'/home/mp3/site_check/'
+p121
+asg83
+(lp122
+g121
+asbS'bd20c168c1317bb27065294145cd1fa4'
+p123
+tp124
+sS'/home/mp3/site_check/site_check_start.sh'
+p125
+(g2
+(g3
+g4
+Ntp126
+Rp127
+(dp128
+g8
+I54
+sg9
+(lp129
+S'#!/bin/bash\n'
+p130
+aS'#site_check\xd7\xdc\xbf\xd8\xbd\xc5\xb1\xbe\xa3\xackill\xb3\xcc\xd0\xf2\xa3\xac\xd7\xe9\xd6\xaf\xca\xfd\xbe\xdd\xb2\xa2\xd6\xd8\xc6\xf4\n'
+p131
+aS'#\xca\xe4\xc8\xeb\xb2\xce\xca\xfd\xce\xaa\xbf\xd5\n'
+p132
+aS'set -x\n'
+p133
+aS'MAILLIST="liuyang@baidu.com denglu@baidu.com caijunjie@baidu.com zhuhongkai@baidu.com zhangyujuan@baidu.com"\n'
+p134
+aS'#MAILLIST="mp3-op@baidu.com mp3-rd@baidu.com"\n'
+p135
+ag15
+aS'cd /home/mp3/site_check\n'
+p136
+ag15
+aS'#get mp3mergestat.txt\n'
+p137
+aS'cp -f /home/mp3/mp3indexdb/data/dbcur/site.txt ./mergstat.txt\n'
+p138
+ag15
+aS'#wget top query file\n'
+p139
+aS'retry=5\n'
+p140
+aS'AFF=`date  +%Y%m%d -d "2 days ago" `\n'
+p141
+aS'QTar=mp3word.$AFF\n'
+p142
+aS'QNew=./topquery.txt\n'
+p143
+aS'QUrl=ftp://tc-pv-log11.tc.baidu.com/home/pageview/tmp/${QTar}\n'
+p144
+aS'while test $retry -gt 0\n'
+p145
+aS'do\n'
+p146
+aS'        #download dnsdata file\n'
+p147
+aS'        echo "try downloading $QUrl ..."\n'
+p148
+aS'        wget $QUrl\n'
+p149
+aS'        ret=$?\n'
+p150
+aS'        if test $ret -eq 0\n'
+p151
+aS'        then\n'
+p152
+aS'                echo "wget $QUrl return successful!"\n'
+p153
+aS'\t\tbreak\n'
+p154
+aS'        else\n'
+p155
+aS'                retry=$[ $retry - 1 ]\n'
+p156
+aS'                echo "wget $QUrl fail! errno=$ret. retry..."\n'
+p157
+aS'        fi\n'
+p158
+aS'done\n'
+p159
+ag15
+aS'if [ $retry -eq 0 ]\n'
+p160
+aS'then\n'
+p161
+aS'\techo "wget $QUrl fail!" | mail -s "site_check warning report" ${MAILLIST} \t\n'
+p162
+aS'fi\n'
+p163
+aS'mv ./${QTar} $QNew\n'
+p164
+ag15
+aS'#generate new site_check input file\n'
+p165
+aS'echo -e "monitor_sc make_input_data `date +20\'%y%m%d:%H%M%S\'`"\n'
+p166
+aS'./make_input_data.sh ./mergstat.txt ./topquery.txt\n'
+p167
+aS'echo -e "monitor_sc make_input_data `date +20\'%y%m%d:%H%M%S\'`"\n'
+p168
+ag15
+aS'#restart program\n'
+p169
+aS'killall -9 site_check\n'
+p170
+aS'cd ./bin/\n'
+p171
+aS'nohup ./site_check &\n'
+p172
+aS'cd /home/mp3/site_check\n'
+p173
+ag15
+aS'RESULTFILE=`wc ./data/input_site`\n'
+p174
+aS'echo "$RESULTFILE" | mail -s"site_check report" ${MAILLIST}\n'
+p175
+ag15
+asg63
+(dp176
+S'C'
+p177
+(dp178
+S'/home/mp3/site_check/data/input_site'
+p179
+(dp180
+S'md5'
+p181
+S'e0d3d8b6224a02aeb7c571cdc882f7a0'
+p182
+sS'exist'
+p183
+I01
+sS'linenumber'
+p184
+(lp185
+I52
+asssS'BASH'
+p186
+(dp187
+S'/home/mp3/site_check/make_input_data.sh'
+p188
+(dp189
+S'args'
+p190
+(lp191
+(lp192
+S'./mergstat.txt'
+p193
+aS'./topquery.txt'
+p194
+aasg183
+I01
+sg181
+S'd475a08c8eaf835cb0137ed587a57324'
+p195
+sg184
+(lp196
+I43
+assssg65
+(lp197
+I0
+asg67
+Nsg68
+g125
+sg69
+(dp198
+g71
+S'site_check_start.sh'
+p199
+sg73
+I1
+sS'retry'
+p200
+S'5'
+p201
+sS'MAILLIST'
+p202
+S'liuyang@baidu.com denglu@baidu.com caijunjie@baidu.com zhuhongkai@baidu.com zhangyujuan@baidu.com'
+p203
+sS'QNew'
+p204
+S'./topquery.txt'
+p205
+ssg80
+(lp206
+S'/home/mp3/site_check/'
+p207
+aS'/home/mp3/site_check/data/'
+p208
+asg83
+(lp209
+S'/home/mp3/site_check/'
+p210
+asbS'6536c082071053018a4e3122d5121332'
+p211
+tp212
+s.

@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="gbk" />
+    <title>Test</title>
+    <style>
+        div {
+            line-height: 0;
+        }
+        .test1 {
+            border-width: 20px;
+            border-style: solid;
+            border-color: red blue green yellow;
+            width: 0px;
+            height: 0px;
+        }
+        
+        .test2 {
+            border-width: 20px;
+            border-style: dashed dashed dashed solid;
+            border-color: transparent transparent transparent yellow;
+            width: 0px;
+            height: 0px;
+        }
+        
+        .test3 {
+            border-color:transparent transparent transparent yellow;
+            border-style:dashed dashed dashed solid;
+            border-width:20px;
+            height:10px;
+            width:0;
+        }
+        .test5 {
+            border-color:transparent transparent transparent blue;
+            border-style:dashed dashed dashed solid;
+            border-width:0 0 20px 20px;
+            width: 0px;
+            height: 0px;
+        }
+        
+        .org_box{
+            height:80px;
+            line-height:80px; 
+            margin-bottom:30px; 
+            padding-left:2em;
+            background:#F3961C; 
+            position:relative; 
+        }
+        .org_bot_cor{
+            width:0; 
+            height:0; 
+            font-size:0; 
+            border-width:15px; 
+            border-style:solid; 
+            border-color:#f3961c transparent transparent; 
+            _border-color:#f3961c white white; 
+            overflow:hidden; 
+            position:absolute; 
+            left:60px; 
+            bottom:-30px;
+        }
+        
+        .org_bot_cor_2{
+            height:30px;
+            line-height:0; 
+            font-size:36px; 
+            color:#f3961c; 
+            position:absolute; 
+            left:60px; 
+            bottom:-30px;
+        }
+        
+        div, p, b{margin:0;padding:0;}
+        b{display:block;}
+        .rc{display:inline-block;#display:inline;#zoom:1;}
+        /* float 效果相同
+        .rc{float:left;} */
+        .rc1, .rc2, .rc .bd{border-style:solid;border-color:black;background-color:yellow;}
+        .rc1, .rc2{height:1px;overflow:hidden;}
+        .rc2, .rc .bd{border-width:0 1px;}
+        .rc1{margin:0 2px;height:0;border-width:1px 0 0;}
+        .rc2{margin:0 1px;}
+        .rc .bd{padding:0 6px;line-height:1.5;}
+        
+        
+        .div1, .div2, .div3{display:inline-block;#display:inline;#zoom:1;position:relative;border-style:solid;border-color:black;}
+        .div1{border-width:1px;}
+        .div2, .div3{#left:-2px;border-width:0 1px;background-color:yellow;}
+        .div2{margin:0 -2px;}
+        .div3{margin:1px -2px;padding:0 6px;line-height:1.5;}
+        .pointer1, .pointer2{position:absolute;top:7px;width:0;height:0;overflow:hidden;border-top:6px transparent dotted;border-bottom:6px transparent dotted;}
+        .pointer1{left:-9px;border-right:6px black solid;}
+        .pointer2{left:-8px;border-right:6px yellow solid;}
+        
+        
+        .pointer {
+            height:10px;
+            margin:0 0 0 10px;
+            position:relative;
+        }
+        
+        .testb{
+            width:300px;
+            padding:80px 20px;
+            margin-left:100px;
+            background:#beceeb;
+            -webkit-border-top-left-radius:220px 120px;
+            -webkit-border-top-right-radius:220px 120px;
+            -webkit-border-bottom-right-radius:220px 120px;
+            -webkit-border-bottom-left-radius:220px 120px;
+            -moz-border-radius:220px / 120px;
+            border-radius:220px / 120px;
+            position:relative;
+        }
+        .testb span{width:0; height:0; font-size:0; background:#beceeb; overflow:hidden; position:absolute;}
+        .testb span.bot{
+            width:30px;
+            height:30px;
+            -moz-border-radius:30px;
+            -webkit-border-radius:30px;
+            border-radius:30px;
+            left:10px;
+            bottom:-20px;
+        }
+        .testb span.top{
+            width:15px;
+            height:15px;
+            -moz-border-radius:15px;
+            -webkit-border-radius:15px;
+            border-radius:15px;
+            left:0px;
+            bottom:-40px;
+        }
+        
+        .boxR{width:500px;}
+        .topR{border-bottom:3px solid; border-top-color:#cc0000; border-bottom-color:#cc0000; border-left:3px dotted transparent; border-right:3px dotted transparent;}
+        .centerR{padding:10px 20px; color:white; font-size:14px; background:#cc0000;}
+        .botR{border-top:3px solid; border-top-color:#cc0000; border-bottom-color:#cccccc; border-left:3px dotted transparent; border-right:3px dotted transparent;}
+        
+    </style>
+</head>
+<body>
+<h2>border斜线</h2>
+<div class="test1"></div>
+
+<h2>border小三角</h2>
+<div class="test2"></div>
+
+<h2>border小梯形</h2>
+<div class="test3"></div>
+
+<h2>另一种</h2>
+<div class="test5"></div>
+
+<h2>border小三角</h2>
+<div class="org_box">
+    <span class="org_bot_cor"></span>
+    ...
+</div>
+
+<h2>字符法实现等腰直角三角形</h2>
+<div class="org_box">
+    <span class="org_bot_cor_2">◆</span>
+    ...
+</div>
+<h2>有边框线的小三角</h2>
+<div class="pointer">
+    <div class="pointer1"></div>
+    <div class="pointer2"></div>
+</div>
+
+<h2>普通圆角</h2>
+<div class="boxR">
+    <div class="topR"></div>
+    <div class="centerR">...</div>
+    <div class="botR"></div>
+</div>
+
+<h2>自适应圆角way1</h2>
+<div class="rc">
+    <b class="top"><b class="rc1"></b><b class="rc2"></b></b>
+    <div class="bd">
+        <p>...</p>
+    </div>
+    <b class="bottom"><b class="rc2"></b><b class="rc1"></b></b>
+</div>
+
+<h2>自适应圆角way2</h2>
+<div class="div1">
+    <div class="div2">
+        <div class="div3">
+            <p>...</p>
+        </div>
+    </div>
+</div>
+
+
+<h2>圆角气泡</h2>
+<div class="testb">
+    <span class="bot"></span>
+    <span class="top"></span>
+    CSS3 border-radius实现气泡对话框效果
+</div>
+
+</body>
+</html>

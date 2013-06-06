@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Search Result</title>
+    <link href="/site_media/css/main.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/site_media/js/jquery-1.2.2.js"></script>
+    <script type="text/javascript" src="/site_media/js/myjs.js"></script>
+</head>
+
+<body>
+    <center>
+        <!-- <form id="searchform" action="/start/" method="post">
+            <input id="searchname" type="text" name="searchname" value=""/>
+            <input id="searchsubmit" type="submit" value=""/>
+        </form>  -->
+        {% ifequal result "no" %}
+            <div id="noresult">
+                <br/>
+                <br/>
+                <h1>There is no result about keyword "<span id="keyword">{{ searchname }}</span>" </h1>
+                <h3>Please input another keyword</h3>
+                <br/>
+                <h3><a href="/{{ filetype }}">Return</a></h3>
+            </div>
+        {% else %}
+            <div id="result">
+                <br/>
+                <br/>
+                <h1>The <span class="searchtype">{{ filetype }}-search</span> result of keyword "<span id="keyword">{{ searchname }}</span>"</h1>
+                <br/>
+                <a href="/{{ filetype }}">Another Search</a>
+                <hr>
+                {% load my_filter %}
+                {% for key_item in result.items %}
+                    <div class="{% cycle onefile,anotherfile %}">
+                        <h3>Find related path:  {{ key_item.0|show_key:searchname }}</h3>
+                        {% for s_m in  key_item.1.items %}
+                            <div class="filecontent">
+                            <p class="ftype">{{ s_m.0 }}</p>
+                            {% if s_m.1 %}
+                                <div class="oneline">
+                                    {% for oneline in s_m.1 %}
+                                        <p>{{ oneline|get_name }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="oneline">
+                                    <p>No information</p>
+                                </div>
+                            {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                <br/>
+                <br/>
+                <div class="foot">
+                    <a href="/">Return</a>
+                </div>
+            </div>
+        {% endifequal %}
+    </center>
+</body>
+</html>

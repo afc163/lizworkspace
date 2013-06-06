@@ -1,0 +1,29 @@
+graph G {
+c1[label = "1: 1 /a c f h"];
+c2[label = "2: 1 2 3 4 "];
+c3[label = "3: /a b c d f g h"];
+c4[label = "4: 1 2 /a c"];
+c5[label = "5: 2 /a c g"];
+c6[label = "6: 1 2 3 /a"];
+c7[label = "7: 2 3 /a g"];
+c8[label = "8: 3 /a d g"];
+c9[label = "9: 1 2 4 /c"];
+c10[label = "10: 1 4 /c f h"];
+c11[label = "11: 4 /b c f h"];
+c1 -- c3;
+c2 -- c6;
+c2 -- c9;
+c4 -- c1;
+c4 -- c5;
+c5 -- c3;
+c6 -- c4;
+c6 -- c7;
+c7 -- c5;
+c7 -- c8;
+c8 -- c3;
+c9 -- c4;
+c9 -- c10;
+c10 -- c1;
+c10 -- c11;
+c11 -- c3;
+}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block js %}
+<script type="text/javascript" src="/site_media/js/myjs.js"></script>
+{% endblock %}
+
+{% block title %}
+所有工具
+{% endblock %}
+
+{% block main %}
+         <div class="onefile">
+             <span id="file0">+</span><h2><a href="http://127.0.0.1/blast/">BLAST</a></h2>
+             <div class="filecontent" id="content0">The Basic Local Alignment Search Tool (BLAST) finds regions of local similarity between sequences. The program compares nucleotide or protein sequences to sequence databases and calculates the statistical significance of matches. BLAST can be used to infer functional and evolutionary relationships between sequences as well as help identify members of gene families. 
+             </div>
+         </div>
+         <div class="anotherfile">
+             <span id="file1">+</span><h2 id="file1"><a href="http://127.0.0.1/sms2/">SMS2</a></h2>
+             <div class="filecontent" id="content1">The Sequence Manipulation Suite 2 is a collection of JavaScript programs for generating, formatting, and analyzing short DNA and protein sequences. It is commonly used by molecular biologists, for teaching, and for program and algorithm testing.
+             </div>
+         </div>
+         <div class="onefile">
+             <span id="file2">+</span><h2><a href="/clustalx/">Clustalx-2.0.10</a></h2>
+             <div class="filecontent" id="content2">ClustalX is A general purpose multiple sequence alignment program for DNA or proteins. It produces biologically meaningful multiple sequence alignments of divergent sequences. ClustalX calculates the best match for the selected sequences, and lines them up so that the similarities, identities, and differences can be seen. Evolutionary relationships can be seen via viewing Cladograms or Phylograms.
+             </div>
+         </div>
+         <div class="anotherfile">
+             <span id="file3">+</span><h2><a href="/main/query/">查询工具</a></h2>
+             <div class="filecontent" id="content3">查询工具, 包括按找代号, 年代, 片段名查询等.
+             </div>
+         </div>
+         <div class="onefile">
+             <span id="file4">+</span><h2><a href="/main/add/">序列上传</a></h2>
+             <div class="filecontent" id="content4">添加新的序列到数据库中.
+             </div>
+         </div>
+{% endblock %}

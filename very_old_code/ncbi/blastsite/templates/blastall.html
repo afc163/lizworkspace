@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}
+Blastall Tools
+{% endblock %}
+
+{% block main %}
+         <form action="query/" method="post" enctype="multipart/form-data">
+         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+         <tbody>
+         <tr>
+         <td width="40%" class="onefile">
+             <h3 id="file0">Program:
+             <select name = "program">
+             <option> blastn 
+             <option> blastp 
+             <option> blastx 
+             <option> tblastn 
+             <option> tblastx 
+             </select></h3>
+         </td>
+         <td width="60%" class="onefile">
+             <h3 id="file1">Database:
+             <select name = "database">
+             <option value = "nt"> nt
+             <option value = "test_na_db"> test_na_db
+             </select></h3>
+         </td>
+         </tr>
+         <tr>
+         <td class="anotherfile">
+             <h3 id="file2">Enter sequence in FASTA format</h3>
+         </td>
+         <td class="anotherfile">
+             <textarea name="sequence" rows=6 cols=60></textarea>
+         </td>
+         </tr>
+         <tr>
+         <td class="onefile">
+             <h3 id="file3">Or load it from disk</h3>
+         </td>
+         <td class="onefile">
+             <input type="file" name="seqfile" size="50"/>
+         </td>
+         </tr>
+         <tr>
+         <td colspan="2" class="anotherfile submitbar">
+             <input id="searchsubmit" type="submit" value="查询"/>&nbsp;
+             <input type="reset" value="重置"/>
+         </td>
+         <tr>
+         </tbody>
+         </table>
+         </form>
+{% endblock %}

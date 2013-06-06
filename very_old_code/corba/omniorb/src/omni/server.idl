@@ -1,0 +1,10 @@
+
+
+module Server {
+  interface ServerIF {
+
+    void recieveLargeString(in string data);
+    string sendLargeString();
+    void recieveInt(in short data);
+  };
+};

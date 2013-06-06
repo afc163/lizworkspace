@@ -1,0 +1,264 @@
+简介
+
+    ssh提供了一个加密的信道,在建立信任关系后,通信双方都采用加密的方式传输信息.本文整理了用ssh建立信任关系的方法
+
+ssh程序的一些约定
+
+ssh程序默认在每个用户的主目录下建立目录.ssh,用来存放密钥以及其他文件.如果启动了ssh服务器,处理ssh请求,会建立这个文件夹,并生成一些东西,常见的有
+
+    * authorization 一个记录一行,形式为 Key /home/secur/xx.pub ,表示和本机器建立信任关系的机器的公钥
+    * identification 一个记录一行,形式为 IdKey /home/secur/xx ,表示一个私钥文件
+    * hostkeys 一个文件夹,保存的是临时和本机建立信任关系的机器的公钥
+    * random_seed 
+
+当第一次处理ssh请求时,在.ssh目录找不到目标主机的公钥,则会向目标主机取得一个公钥作为加密的工具,然后获取/etc/passwd和/etc/shadow数据库中的用户名和密码作为验证方法
+建立信任关系的方法
+
+现在要建立乙机器到甲机器的信任关系,建立后,在甲机器上执行ssh 乙机器 命令,将不用输入密码
+
+   1. 在甲机器上执行 命令ssh-keygen,任意输入什么,会在主目录下的.ssh获得两个文件,id_dsa_2048_a和id_dsa_2048_a.pub
+   2. 将两个文件分别改名为任意一个名字a和a.pub,在.ssh目录下执行 echo IdKey a >> identification;甲机器的设定完成
+   3. 将a.pub复制到乙机器的用户目录的.ssh下,,在.ssh目录下执行 echo Key a.pub >> authorization 
+
+常见问题根源
+
+    * ssh服务器配置,启动
+    * 秘钥文件的权限,设置成644,不同环境可能要求不同
+
+一个expect 自动建立两台机器信任关系的脚本
+
+#!/usr/bin/expect -f
+set timeout 60
+set ip "172.1.1.1"
+set user dom
+set port 4321
+set host ${user}@${ip}#$port
+set destpath /home/${user}/.ssh2/
+set localpath ./
+set passwd abcd
+
+set pri ${localpath}${ip}.id_dsa_2048_a
+set pub ${localpath}${ip}.id_dsa_2048_a.pub
+
+spawn ssh $host
+expect "*>*"    {close;exit 0} \
+       "password*"     {close;wait}
+
+spawn ssh-keygen
+expect "*Passphrase* "    {send "\n"}
+expect "Again*"         {send "\n"}
+expect eof           {wait}
+
+exec        mv      ${localpath}id_dsa_2048_a  $pri
+exec        mv      ${localpath}id_dsa_2048_a.pub   $pub
+exec echo  IdKey $pri >> ${localpath}identification
+spawn scp ${pub}  ${host}:${destpath}
+expect  "Are you*"  {send "yes\n"}   \
+     "*password*"    {send "${passwd}\n"}    
+expect   "*password*"    {send "${passwd}\n"}     \
+         eof  {wait}
+
+spawn ssh $host
+expect  "*password*"    {send   "${passwd}\n"}
+send "echo   Key     $pub    >>     ${destpath}authorization\n"
+send "exit \n " 
+expect eof      wait
+spawn ssh $host
+expect "*Authentication successful*"    {send "exit \n";wait;exit 0} \
+       "*password*"            {close;exit 2}
+
+
+
+
+ssh登陆可以通过信任关系：
+
+　　在A机器上用root运行ssh-keygen，将生成/root/.ssh/identity和/root/.ssh/identity.pub两个文件；
+
+　　在A机器上运行scp /root/.ssh/identity.pub test@192.168.1.10:/upload/.ssh/authorized_keys （假设B机器的IP地址为192.168.1.10，B机器上开了用户test，要上传到的目录是/upload，需输入密码）。目的是将本地的 identity.pub放到远程机器上并改名为authorized_keys，这样就建立了新任主机，以后就不需要每次ssh都需要输入密码了。
+
+　　ftp可以通过在个人登陆目录下添加.netrc文件：
+
+　　FTP中有几十个命令,在.netrc中应该设置的大致有如下几条:
+
+　　1.default loginpassword
+
+　　在Internet中,存在大量的匿名ftp帐户,用户在不同的主机间频繁登录anonymous帐户,输入自
+
+　　己的电子邮件地址作为口令,这种输入极其繁琐,完全有必要利用.netrc文件,在进入ftp时自动
+
+　　完成该过程。
+
+　　2.binary
+
+　　许多用户在下载大量文件之后才意识到下载的文件是二进制文件,而自己却是使用ascii方式传
+
+　　输,使下载文件无法使用,做了许多无用功。在.netrc文件中提前将传输方式设置为binary,完全
+
+　　可避免出现上述情况。
+
+　　3.runique
+
+　　使用Internet的用户都知道,在浩如烟海的文件中,有大量同名文件,如readme、index等,如果
+
+　　将同名文件下载到同一目录,则新传的文件会覆盖原同名文件。为了使具有潜在重要性的文件不
+
+　　至于被意外覆盖,也需要在.netrc文件中,设置runique参数防止上述错误。
+
+　　4.prompt off
+
+　　使用ftp时,经常会用到mget或其它需要确认的ftp命令,将此确认过程取消,可大大方便使用者。
+
+　　5.hash on
+
+　　ftp中的hash命令,使得在进行文件传输时,每传输1千字节,在屏幕上显示一个"#"号,用户通过观
+
+　　看屏幕上的"#"号,可以很直观地看到传输速度的快慢,以及文件的传输完成情况,以决定进一步的
+
+　　操作。
+
+　　6.idle 7200
+
+　　目前国内的Internet专线速率普遍偏低,用户数却在急剧膨胀,所以用ftp传输销大一些的文件
+
+　　时,经常会因为线路拥塞而断线,致使ftp进程中断,为了减少因断线而反复登录的次数,需将idle
+
+　　命令的参数设置为最大(一般为7200秒)。
+
+　　7.macdef
+
+　　macdef定义一个宏,macro_name为宏定义的名称。在macdef行下,可输入任何有效的ftp命令,并
+
+　　以空行结束宏定义,执行时只需在宏名前加"$"号即可。如果宏名定义为init,则该宏命令在启动
+
+　　ftp后自动加以执行,无需用户输入$ macro_name。
+
+　　·netrc的使用举例
+
+　　1.用vi编辑器先编辑一个如下的文件:
+
+　　default login anonymous password user@my.site
+
+　　macdef init
+
+　　binary .
+
+　　runique .
+
+　　hash on .
+
+　　prompt off
+
+　　idle 7200
+
+　　(空行)
+
+　　第1行意为缺省情况下,进入anonymous帐户,并以自己的电子邮件地址为口令;第2行至第8行定义
+
+　　了宏init,该宏中的所有5条命令将在进入ftp环境后立刻执行,第8行(空行)不可省略,否则为无效宏定义。
+
+　　先用anonmous账户，在/var/ftp下新建.netrc文件
+
+　　写入default login anonmous passwd anonmous
+
+　　然后 #chmod 700 .netrc
+
+　　访问 #ftp 192.168.0.1
+
+　　还是要我输入用户名和密码.
+
+　　我用系统用户aaa测试。在/home/aaa下新建.netrc文件
+
+　　写入default login aaa passwd aaa
+
+　　然后 #chmod 700 .netrc
+
+　　访问 #ftp 192.168.0.1
+
+　　还是要我输入用户名和密码.
+
+　　你说的ssh 建立密钥之间的信任关系。他在建立公要时要给公钥添加一个密码。每次登陆时要用这个密码，所以还是有点麻烦。
+
+
+我想肯定有不少朋友在使用SecureCRT做为SSH的客户端软件，但都很少使用他的RSA/DSA加密功能吧，怎么你还不知道RSA是什么？
+
+　　SSH，特别是 OpenSSH，是一个类似于 telnet 或 rsh，ssh 客户程序也可以用于登录到远程机器。所要求的只是该远程机器正在运行 sshd，即 ssh 服务器进程。但是，与 telnet 不同的是，ssh 协议非常安全。加密数据流，确保数据流的完整性，甚至安全可靠的进行认证它都使用了专门的算法。
+
+　　然而，虽然 ssh 的确很棒，但还是有一个 ssh 功能组件常常被忽略、这个组件就是 OpenSSH 的 RSA/DSA 密钥认证系统，它可以代替 OpenSSH 缺省使用的标准安全密码认证系统。
+
+　　OpenSSH 的 RSA 和 DSA 认证协议的基础是一对专门生成的密钥，分别叫做专用密钥和公用密钥。使用这些基于密钥的认证系统的优势在于：在许多情况下，有可能不必手工输入密码就能建立起安全的连接。
+
+　　好了知道RSA和DSA是怎么回事了吧，至于里面的原理我就不讲了，有兴趣的朋友去看看公匙密匙的原理就行。其实不止SecureCRT支持 RSA/DSA，其他ssh的客户端软件都支持类似的RSA/DSA，只不过好像不同软件产生的公匙密匙好像不通用。我这里只是拿最典型的 SecureCRT来说明RSA怎么使用来配合linux下的ssh服务
+
+　　我的环境：Redhat9.0 openssh-3.5p1-6 SecureCRT 4.0
+
+　　服务端openssh我们先不可以设置，等客户端设置好后，我们再回过头来设置ssh。
+
+　　我们创建一个新链接，点击属性：
+
+　　默认验证方式是password，把他改成RSA，系统会弹出一个弹出框
+
+　　让你确认是否使用RSA公匙密匙创建向导，当然选“是”
+
+　　接着下一步：
+
+　　这一步填入你的保护密匙的密码，这个密码要记住哦，以后都要这个密码，Comment就随便填了
+
+　　下一步：
+
+　　让你选择加密的位数，默认1024就行
+
+　　下一步：
+
+　　这一步你动一下鼠标，系统就会根据你鼠标动的频率自动产生公匙和密匙
+
+　　下一步：
+
+　　RSA公匙密匙创建好后，会让你保存，名字默认或者改名都行，后面大家只要注意SecureCRT只寻找密匙的路径，你保证SecureCRT能找到你的密匙就行。
+
+　　好了客户端的工作完成。下面是linux服务端的配置了
+
+　　把我们刚才建立的RSA公匙传到你的服务器，默认名为identity.pub
+
+　　然后在linux下操作，如果你的密匙是给linux用户frank创建的，那么我们先在frank的宿主目录创建一个.ssh的目录
+
+　　mkdir /home/frank/.ssh
+
+　　chmod o+x /home/frank
+
+　　chmod 700 /home/frank/.ssh
+
+　　然后把公匙导到authorized_keys这个文件，因为我们是使用ssh1，如果是ssh2的那就是authorized_keys2
+
+　　cat identity.pub > /home/frank/.ssh/authorized_keys
+
+　　chmod 644 /home/frank/.ssh/authorized_keys
+
+　　权限的设置非常重要，因为不安全的设置安全设置，会让你不能使用RSA功能，大家如果调试的过程中，发现有找不到公匙的错误提示，先看看权限是否设置正确哦！
+
+　　ok，现在服务器端也设置完毕了，你现在可以用SecureCRT的RSA验证方式连接ssh服务器端了，如果连接正常的话应该会弹出一个对话框，让你输入密码
+
+　　这里只要输入我们保护密匙的密码就行了。完了就能顺利进入
+
+　　还有一步设置，既然大家都已经成功使用了ssh的RSA功能，那么就必须让openssh只支持RSA验证，否则既支持普通密码又支持RSA就没什么意思了，根本没把安全提高，所以我们有必要让openssh只支持RSA验证，如果还没有成功使用RSA功能的朋友就不用看，还是先把上面的的先实现再说。
+
+　　要实现openssh只支持RSA验证方式，我们只要修改
+
+　　vi /etc/ssh/sshd_config
+
+　　设置
+
+　　PasswordAuthentication no
+
+　　好了，你现在再试试以前普通密码验证方式，应该是会弹出下面错误信息
+
+　　大致意思服务器只支持RSA的验证方式，ok了
+
+　　以后就可以用RSA的公匙密匙访问ssh服务器了，不过你的密匙可要保存好，反正我是保存在我的U盘，随身携带，一旦你的用户丢了密匙，一定在服务器端把它的公匙删除，这样即使那人获得了密匙也上不去：）
+
+　　参考文档
+
+　　OpenSSH 密钥管理 http://www-900.ibm.com/developerWorks/cn/linux/security/openssh/part1/index.shtml
+
+　　张微波
+
+　　2003年11月21日于北京
